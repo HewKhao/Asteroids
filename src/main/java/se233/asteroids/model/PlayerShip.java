@@ -3,7 +3,7 @@ package se233.asteroids.model;
 import javafx.scene.shape.Polygon;
 
 public class PlayerShip extends Character {
-    private Polygon shipPolygon;
+    private final Polygon shipPolygon;
 
     private double velocityX;
     private double velocityY;
