@@ -47,16 +47,6 @@ public abstract class Character {
         return imageView;
     }
 
-//    public void setTranslateX(double x) {
-//        this.x = x;
-//        this.imageView.setX(x - imageView.getFitWidth() / 2.0);
-//    }
-//
-//    public void setTranslateY(double y) {
-//        this.y = y;
-//        this.imageView.setY(y - imageView.getFitHeight() / 2.0);
-//    }
-//
     public void updatePosition() {
         this.imageView.setX(x - imageView.getFitWidth() / 2.0); // Center image horizontally
         this.imageView.setY(y - imageView.getFitHeight() / 2.0); // Center image vertically

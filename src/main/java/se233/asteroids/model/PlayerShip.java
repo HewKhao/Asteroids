@@ -16,6 +16,8 @@ public class PlayerShip extends Character {
     private final int GAME_WIDTH;
     private final int GAME_HEIGHT;
 
+    private boolean isMovingForward = false;
+
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
         super("/se233/asteroids/assets/playerShip/Idle.png",100 ,100, x, y, speed, health);
         logger.info("PlayerShip created at X: {}, Y: {}", x, y);
@@ -42,7 +44,7 @@ public class PlayerShip extends Character {
     }
 
     public double getRotationSpeed() {
-        return this.ROTATION_SPEED;
+        return ROTATION_SPEED;
     }
 
     public void moveForward() {
@@ -50,6 +52,11 @@ public class PlayerShip extends Character {
         velocityX += Math.cos(angle) * ACCELERATION;
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
+        isMovingForward = true;
+    }
+
+    public void stopMoveForward() {
+        isMovingForward = false;
     }
 
     public void moveBackward() {
@@ -103,6 +110,6 @@ public class PlayerShip extends Character {
         applyFriction();
         checkWallCollisions();
 
-        logger.info("PlayerShip Position - X: {}, Y: {}", getX(), this.getY());
+        logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
     }
 }

@@ -23,6 +23,10 @@ public class PlayerShipController {
 
     public void handleKeyReleased(KeyEvent event) {
         pressedKeys.remove(event.getCode());
+
+        if (event.getCode() == KeyCode.W) {
+            playerShip.stopMoveForward();
+        }
     }
 
     public void updateShipMovement() {
