@@ -26,14 +26,23 @@ public class PlayerShipController {
     }
 
     public void updateShipMovement() {
-        if (pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W)) {
+        if (pressedKeys.contains(KeyCode.W)) {
             playerShip.moveForward();
         }
-        if (pressedKeys.contains(KeyCode.LEFT) || pressedKeys.contains(KeyCode.A)) {
-            playerShip.rotate(-5);
+        if (pressedKeys.contains(KeyCode.S)) {
+            playerShip.moveBackward();
         }
-        if (pressedKeys.contains(KeyCode.RIGHT) || pressedKeys.contains(KeyCode.D)) {
-            playerShip.rotate(5);
+        if (pressedKeys.contains(KeyCode.A)) {
+            playerShip.moveLeft();
+        }
+        if (pressedKeys.contains(KeyCode.D)) {
+            playerShip.moveRight();
+        }
+        if (pressedKeys.contains(KeyCode.Q)) {
+            playerShip.rotate(-playerShip.getRotationSpeed());
+        }
+        if (pressedKeys.contains(KeyCode.E)) {
+            playerShip.rotate(playerShip.getRotationSpeed());
         }
     }
 

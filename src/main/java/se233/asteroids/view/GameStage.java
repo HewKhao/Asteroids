@@ -13,7 +13,7 @@ public class GameStage extends Pane {
 
     public GameStage() {
         setPrefSize(WIDTH, HEIGHT);
-        playerShip = new PlayerShip(300, 200, 1, 1);
+        playerShip = new PlayerShip(300, 200, 1, 1, WIDTH, HEIGHT);
         controller = new PlayerShipController(playerShip);
 
         getChildren().add(playerShip.getNode());
