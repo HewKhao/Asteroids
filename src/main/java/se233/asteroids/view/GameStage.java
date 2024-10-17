@@ -2,6 +2,8 @@ package se233.asteroids.view;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import se233.asteroids.controller.PlayerShipController;
 import se233.asteroids.model.PlayerShip;
 
@@ -13,10 +15,13 @@ public class GameStage extends Pane {
 
     public GameStage() {
         setPrefSize(WIDTH, HEIGHT);
-        playerShip = new PlayerShip(300, 200, 1, 1, WIDTH, HEIGHT);
+        double centerX = (double) WIDTH / 2;
+        double centerY = (double) HEIGHT / 2;
+
+        playerShip = new PlayerShip(centerX, centerY, 1, 1, WIDTH, HEIGHT);
         controller = new PlayerShipController(playerShip);
 
-        getChildren().add(playerShip.getNode());
+        getChildren().add(playerShip.getImageView());
 
         setOnKeyPressed(event -> {
             controller.handleKeyPressed(event);

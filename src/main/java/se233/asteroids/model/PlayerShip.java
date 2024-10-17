@@ -1,57 +1,36 @@
 package se233.asteroids.model;
 
-import javafx.scene.shape.Polygon;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PlayerShip extends Character {
-    private final Polygon shipPolygon;
+    private static final Logger logger = LogManager.getLogger(PlayerShip.class);
 
     private double velocityX;
     private double velocityY;
     private static final double ACCELERATION = 0.1;
-    private static final double FRICTION = 0.98;
+    private static final double FRICTION = 0.99;
     private static final double ROTATION_SPEED = 3.0;
-    private static final double MAX_SPEED = 5.0;
+    private static final double MAX_SPEED = 3.0;
 
-    private int width;
-    private int height;
+    private final int GAME_WIDTH;
+    private final int GAME_HEIGHT;
 
-    public PlayerShip(int x, int y, int speed, int health, int width, int height) {
-        super(x, y, speed, health);
-        this.shipPolygon = new Polygon(-5, -5, 10, 0, -5, 5);
-        this.shipPolygon.setTranslateX(x);
-        this.shipPolygon.setTranslateY(y);
+    public PlayerShip(double x, double y, int speed, int health, int width, int height) {
+        super("/se233/asteroids/assets/playerShip/Idle.png",100 ,100, x, y, speed, health);
+        logger.info("PlayerShip created at X: {}, Y: {}", x, y);
         this.velocityX = 0;
         this.velocityY = 0;
-        this.width = width;
-        this.height = height;
-    }
-
-    public Polygon getNode() {
-        return shipPolygon;
-    }
-
-    public void setTranslateX(double x) {
-        this.shipPolygon.setTranslateX(x);
-    }
-
-    public double getTranslateX() {
-        return this.shipPolygon.getTranslateX();
-    }
-
-    public void setTranslateY(double y) {
-        this.shipPolygon.setTranslateY(y);
-    }
-
-    public double getTranslateY() {
-        return this.shipPolygon.getTranslateY();
+        this.GAME_WIDTH = width;
+        this.GAME_HEIGHT = height;
     }
 
     public void setRotate(double angle) {
-        this.shipPolygon.setRotate(angle);
+        this.imageView.setRotate(angle);
     }
 
     public double getRotate() {
-        return this.shipPolygon.getRotate();
+        return this.imageView.getRotate();
     }
 
     public void setSpeed(double speed) {
@@ -112,16 +91,18 @@ public class PlayerShip extends Character {
     }
 
     private void checkWallCollisions() {
-        if (getTranslateX() < 0) setTranslateX(width);
-        if (getTranslateX() > width) setTranslateX(0);
-        if (getTranslateY() < 0) setTranslateY(height);
-        if (getTranslateY() > height) setTranslateY(0);
+        if (getX() < 0) setX(GAME_WIDTH);
+        if (getX() > GAME_WIDTH) setX(0);
+        if (getY() < 0) setY(GAME_HEIGHT);
+        if (getY() > GAME_HEIGHT) setY(0);
     }
 
     public void updateShipPosition() {
-        setTranslateX(getTranslateX() + velocityX);
-        setTranslateY(getTranslateY() + velocityY);
+        setX(getX() + velocityX);
+        setY(this.getY() + velocityY);
         applyFriction();
         checkWallCollisions();
+
+        logger.info("PlayerShip Position - X: {}, Y: {}", getX(), this.getY());
     }
 }
