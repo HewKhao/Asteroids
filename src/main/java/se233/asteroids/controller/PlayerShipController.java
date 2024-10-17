@@ -27,6 +27,10 @@ public class PlayerShipController {
         if (event.getCode() == KeyCode.W) {
             playerShip.stopMoveForward();
         }
+
+        if (event.getCode() == KeyCode.A) {
+            playerShip.stopMoveLeft();
+        }
     }
 
     public void updateShipMovement() {
@@ -48,6 +52,10 @@ public class PlayerShipController {
         if (pressedKeys.contains(KeyCode.E)) {
             playerShip.rotate(playerShip.getRotationSpeed());
         }
+    }
+
+    public String getCurrentAnimation(){
+        return playerShip.getCurrentAnimation();
     }
 
     public void update() {

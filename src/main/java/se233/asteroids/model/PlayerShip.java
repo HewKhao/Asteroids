@@ -1,6 +1,5 @@
 package se233.asteroids.model;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,23 +8,29 @@ import se233.asteroids.Launcher;
 public class PlayerShip extends Character {
     private static final Logger logger = LogManager.getLogger(PlayerShip.class);
 
-    private double velocityX;
-    private double velocityY;
     private static final double ACCELERATION = 0.1;
     private static final double FRICTION = 0.99;
     private static final double ROTATION_SPEED = 3.0;
     private static final double MAX_SPEED = 3.0;
 
-    private final int GAME_WIDTH;
-    private final int GAME_HEIGHT;
-
     private static final String IDLE_SPRITE = "/se233/asteroids/assets/playerShip/Idle.png";
     private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
+    private static final String MOVE_LEFT_SPRITE = "/se233/asteroids/assets/playerShip/Turn_1.png";
 
-    private boolean isMovingForward = false;
+    private final int GAME_WIDTH;
+    private final int GAME_HEIGHT;
+    private double velocityX;
+    private double velocityY;
+
 
     private Image idleImage;
     private AnimatedSprite boostAnimation;
+    private AnimatedSprite moveLeftAnimation;
+
+    private boolean isMovingForward = false;
+    private boolean isMovingLeft = false;
+
+    private String currentAnimation = "idle";
 
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
         super(IDLE_SPRITE,100 ,100, x, y, speed, health);
@@ -39,6 +44,11 @@ public class PlayerShip extends Character {
         boostAnimation = new AnimatedSprite(boostSprites, 5, 5, 1, 0, 0, 192, 192);
         boostAnimation.setFitWidth(100);
         boostAnimation.setFitHeight(100);
+
+        Image turnLeftSprites = new Image(Launcher.class.getResourceAsStream(MOVE_LEFT_SPRITE));
+        moveLeftAnimation = new AnimatedSprite(turnLeftSprites, 3, 3, 1, 0, 0, 192, 192);
+        moveLeftAnimation.setFitWidth(100);
+        moveLeftAnimation.setFitHeight(100);
 
         idleImage = new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE));
         this.imageView.setImage(idleImage);
@@ -70,6 +80,7 @@ public class PlayerShip extends Character {
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
         isMovingForward = true;
+        currentAnimation = "boost";
     }
 
     public void stopMoveForward() {
@@ -88,6 +99,12 @@ public class PlayerShip extends Character {
         velocityX += Math.cos(angle) * ACCELERATION;
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
+        isMovingLeft = true;
+        currentAnimation = "moveLeft";
+    }
+
+    public void stopMoveLeft() {
+        isMovingLeft = false;
     }
 
     public void moveRight() {
@@ -121,15 +138,28 @@ public class PlayerShip extends Character {
         if (getY() > GAME_HEIGHT) setY(0);
     }
 
+    public String getCurrentAnimation() {
+        return currentAnimation;
+    }
+
+//    private void updateAnimation() {
+//        if (isMovingForward) {
+//            boostAnimation.tick();
+//            this.imageView.setImage(boostAnimation.getImage());
+//            this.imageView.setViewport(boostAnimation.getViewport());
+//        } else {
+//            this.imageView.setImage(new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE)));
+//            this.imageView.setViewport(new Rectangle2D(0, 0, idleImage.getWidth(), idleImage.getHeight()));
+//        }
+//    }
 
     private void updateAnimation() {
         if (isMovingForward) {
-            boostAnimation.tick();
-            this.imageView.setImage(boostAnimation.getImage());
-            this.imageView.setViewport(boostAnimation.getViewport());
+            currentAnimation = "boost";
+        } else if (isMovingLeft) {
+            currentAnimation = "moveLeft";
         } else {
-            this.imageView.setImage(new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE)));
-            this.imageView.setViewport(new Rectangle2D(0, 0, idleImage.getWidth(), idleImage.getHeight()));
+            currentAnimation = "idle";
         }
     }
 
@@ -142,5 +172,6 @@ public class PlayerShip extends Character {
         updateAnimation();
 
         logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
+        logger.info(currentAnimation);
     }
 }
