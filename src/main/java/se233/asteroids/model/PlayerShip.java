@@ -1,7 +1,10 @@
 package se233.asteroids.model;
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import se233.asteroids.Launcher;
 
 public class PlayerShip extends Character {
     private static final Logger logger = LogManager.getLogger(PlayerShip.class);
@@ -16,15 +19,29 @@ public class PlayerShip extends Character {
     private final int GAME_WIDTH;
     private final int GAME_HEIGHT;
 
+    private static final String IDLE_SPRITE = "/se233/asteroids/assets/playerShip/Idle.png";
+    private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
+
     private boolean isMovingForward = false;
 
+    private Image idleImage;
+    private AnimatedSprite boostAnimation;
+
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
-        super("/se233/asteroids/assets/playerShip/Idle.png",100 ,100, x, y, speed, health);
+        super(IDLE_SPRITE,100 ,100, x, y, speed, health);
         logger.info("PlayerShip created at X: {}, Y: {}", x, y);
         this.velocityX = 0;
         this.velocityY = 0;
         this.GAME_WIDTH = width;
         this.GAME_HEIGHT = height;
+
+        Image boostSprites = new Image(Launcher.class.getResourceAsStream(BOOST_SPRITE));
+        boostAnimation = new AnimatedSprite(boostSprites, 5, 5, 1, 0, 0, 192, 192);
+        boostAnimation.setFitWidth(100);
+        boostAnimation.setFitHeight(100);
+
+        idleImage = new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE));
+        this.imageView.setImage(idleImage);
     }
 
     public void setRotate(double angle) {
@@ -104,11 +121,25 @@ public class PlayerShip extends Character {
         if (getY() > GAME_HEIGHT) setY(0);
     }
 
+
+    private void updateAnimation() {
+        if (isMovingForward) {
+            boostAnimation.tick();
+            this.imageView.setImage(boostAnimation.getImage());
+            this.imageView.setViewport(boostAnimation.getViewport());
+        } else {
+            this.imageView.setImage(new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE)));
+            this.imageView.setViewport(new Rectangle2D(0, 0, idleImage.getWidth(), idleImage.getHeight()));
+        }
+    }
+
     public void updateShipPosition() {
         setX(getX() + velocityX);
         setY(this.getY() + velocityY);
         applyFriction();
         checkWallCollisions();
+
+        updateAnimation();
 
         logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
     }
