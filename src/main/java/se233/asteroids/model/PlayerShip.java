@@ -135,17 +135,6 @@ public class PlayerShip extends Character {
         return currentAnimation;
     }
 
-//    private void updateAnimation() {
-//        if (isMovingForward) {
-//            boostAnimation.tick();
-//            this.imageView.setImage(boostAnimation.getImage());
-//            this.imageView.setViewport(boostAnimation.getViewport());
-//        } else {
-//            this.imageView.setImage(new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE)));
-//            this.imageView.setViewport(new Rectangle2D(0, 0, idleImage.getWidth(), idleImage.getHeight()));
-//        }
-//    }
-
     private void updateAnimation() {
         if (isMovingForward) {
             currentAnimation = "boost";
