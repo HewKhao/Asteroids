@@ -25,7 +25,6 @@ public class PlayerShip extends Character {
 
     private Image idleImage;
     private AnimatedSprite boostAnimation;
-    private AnimatedSprite moveLeftAnimation;
 
     private boolean isMovingForward = false;
     private boolean isMovingLeft = false;
@@ -44,11 +43,6 @@ public class PlayerShip extends Character {
         boostAnimation = new AnimatedSprite(boostSprites, 5, 5, 1, 0, 0, 192, 192);
         boostAnimation.setFitWidth(100);
         boostAnimation.setFitHeight(100);
-
-        Image turnLeftSprites = new Image(Launcher.class.getResourceAsStream(MOVE_LEFT_SPRITE));
-        moveLeftAnimation = new AnimatedSprite(turnLeftSprites, 3, 3, 1, 0, 0, 192, 192);
-        moveLeftAnimation.setFitWidth(100);
-        moveLeftAnimation.setFitHeight(100);
 
         idleImage = new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE));
         this.imageView.setImage(idleImage);
@@ -100,7 +94,6 @@ public class PlayerShip extends Character {
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
         isMovingLeft = true;
-        currentAnimation = "moveLeft";
     }
 
     public void stopMoveLeft() {
@@ -156,8 +149,6 @@ public class PlayerShip extends Character {
     private void updateAnimation() {
         if (isMovingForward) {
             currentAnimation = "boost";
-        } else if (isMovingLeft) {
-            currentAnimation = "moveLeft";
         } else {
             currentAnimation = "idle";
         }

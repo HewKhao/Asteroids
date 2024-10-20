@@ -16,7 +16,6 @@ public class GameStage extends Pane {
 
     private AnimatedSprite idleSprite;
     private AnimatedSprite boostSprite;
-    private AnimatedSprite moveLeftSprite;
 
     public GameStage() {
         setPrefSize(WIDTH, HEIGHT);
@@ -41,9 +40,8 @@ public class GameStage extends Pane {
 
         idleSprite = createAnimatedSprite("/se233/asteroids/assets/playerShip/Idle.png", 1, 1);
         boostSprite = createAnimatedSprite("/se233/asteroids/assets/playerShip/Boost.png", 5, 5);
-        moveLeftSprite = createAnimatedSprite("/se233/asteroids/assets/playerShip/Turn_1.png", 3, 3);
 
-        getChildren().addAll(idleSprite, boostSprite, moveLeftSprite);
+        getChildren().addAll(idleSprite, boostSprite);
 
         showAnimation("idle");
 
@@ -80,7 +78,7 @@ public class GameStage extends Pane {
         double y = playerShip.getY() - 50;
         double rotation = playerShip.getRotate();
 
-        for (AnimatedSprite sprite : new AnimatedSprite[]{idleSprite, boostSprite, moveLeftSprite}) {
+        for (AnimatedSprite sprite : new AnimatedSprite[]{idleSprite, boostSprite}) {
             sprite.setX(x);
             sprite.setY(y);
             sprite.setRotate(rotation);
@@ -93,14 +91,11 @@ public class GameStage extends Pane {
 
         if (currentAnimation.equals("boost")) {
             boostSprite.tick();
-        } else if (currentAnimation.equals("moveLeft")) {
-            moveLeftSprite.tick();
         }
     }
 
     private void showAnimation(String animationType) {
         idleSprite.setVisible(animationType.equals("idle"));
         boostSprite.setVisible(animationType.equals("boost"));
-        moveLeftSprite.setVisible(animationType.equals("moveLeft"));
     }
 }
