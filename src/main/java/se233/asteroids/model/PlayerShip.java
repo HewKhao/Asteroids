@@ -131,6 +131,7 @@ public class PlayerShip extends Character {
         if (getY() > GAME_HEIGHT) setY(0);
     }
 
+    @Override
     public String getCurrentAnimation() {
         return currentAnimation;
     }

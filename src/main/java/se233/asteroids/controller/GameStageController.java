@@ -17,9 +17,9 @@ public class GameStageController {
         double centerX = (double) gameStage.getWidthValue() / 2;
         double centerY = (double) gameStage.getHeightValue() / 2;
 
-        playerShip = new PlayerShip(centerX, centerY, 1, 1, gameStage.getWidthValue(), gameStage.getHeightValue());
-        playerShip.setRotate(-90);
-        playerShipController = new PlayerShipController(playerShip);
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 1, gameStage.getWidthValue(), gameStage.getHeightValue());
+        this.playerShip.setRotate(-90);
+        this.playerShipController = new PlayerShipController(playerShip);
 
         idleSprite = createAnimatedSprite("/se233/asteroids/assets/playerShip/Idle.png", 1, 1);
         boostSprite = createAnimatedSprite("/se233/asteroids/assets/playerShip/Boost.png", 5, 5);

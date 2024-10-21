@@ -43,13 +43,11 @@ public abstract class Character {
 
     }
 
-    public ImageView getImageView() {
-        return imageView;
-    }
+    public abstract String getCurrentAnimation();
 
     public void updatePosition() {
-        this.imageView.setX(x - imageView.getFitWidth() / 2.0); // Center image horizontally
-        this.imageView.setY(y - imageView.getFitHeight() / 2.0); // Center image vertically
+        this.imageView.setX(x - imageView.getFitWidth() / 2.0);
+        this.imageView.setY(y - imageView.getFitHeight() / 2.0);
     }
 
     public void setX(double x) {
