@@ -43,8 +43,6 @@ public abstract class Character {
 
     }
 
-    public abstract String getCurrentAnimation();
-
     public void updatePosition() {
         this.imageView.setX(x - imageView.getFitWidth() / 2.0);
         this.imageView.setY(y - imageView.getFitHeight() / 2.0);

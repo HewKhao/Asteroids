@@ -15,7 +15,6 @@ public class PlayerShip extends Character {
 
     private static final String IDLE_SPRITE = "/se233/asteroids/assets/playerShip/Idle.png";
     private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
-    private static final String MOVE_LEFT_SPRITE = "/se233/asteroids/assets/playerShip/Turn_1.png";
 
     private final int GAME_WIDTH;
     private final int GAME_HEIGHT;
@@ -131,7 +130,6 @@ public class PlayerShip extends Character {
         if (getY() > GAME_HEIGHT) setY(0);
     }
 
-    @Override
     public String getCurrentAnimation() {
         return currentAnimation;
     }
