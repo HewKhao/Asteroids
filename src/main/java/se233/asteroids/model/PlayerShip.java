@@ -27,11 +27,9 @@ public class PlayerShip extends Character {
     private double velocityX;
     private double velocityY;
 
-    private Image idleImage;
-    private AnimatedSprite boostAnimation;
-
-    private Map<String, AnimatedSprite> animations;
     private List<String> currentAnimations;
+    private Map<String, AnimatedSprite> animations;
+    private Map<String, double[]> animationOffsets;
 
     private boolean isMovingForward = false;
     private boolean isShooting = false;
@@ -45,6 +43,7 @@ public class PlayerShip extends Character {
         this.GAME_HEIGHT = height;
 
         animations = new HashMap<>();
+        animationOffsets = new HashMap<>();
         loadAnimations();
 
         currentAnimations = new ArrayList<>();
@@ -76,6 +75,8 @@ public class PlayerShip extends Character {
         animations.put("idle", createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192));
         animations.put("boost", createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192));
         animations.put("shoot", createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192));
+
+        animationOffsets.put("shoot", new double[]{-2.6, 0});
     }
 
     private AnimatedSprite createAnimatedSprite(String imagePath, int count, int columns, int rows, int width, int height) {
@@ -167,6 +168,10 @@ public class PlayerShip extends Character {
 
     public Map<String, AnimatedSprite> getAnimations() {
         return animations;
+    }
+
+    public Map<String, double[]> getAnimationOffsets() {
+        return animationOffsets;
     }
 
     public void updateShipPosition() {

@@ -73,10 +73,6 @@ public class PlayerShipController {
         }
     }
 
-//    public String getCurrentAnimation(){
-//        return playerShip.getCurrentAnimations();
-//    }
-
     public void update() {
         updateShipMovement();
         playerShip.updateShipPosition();
