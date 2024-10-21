@@ -14,6 +14,7 @@ public class Launcher extends Application {
         Scene scene = new Scene(mainView);
         stage.setTitle("Asteroids");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         mainView.requestFocus();
