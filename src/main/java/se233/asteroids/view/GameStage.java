@@ -7,8 +7,8 @@ import se233.asteroids.Launcher;
 import se233.asteroids.controller.GameStageController;
 
 public class GameStage extends Pane {
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 400;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
     private GameStageController controller;
 
     public GameStage() {
