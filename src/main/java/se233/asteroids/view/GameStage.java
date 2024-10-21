@@ -26,7 +26,6 @@ public class GameStage extends Pane {
         setBackground(new Background(bgImage));
 
         controller = new GameStageController(this);
-        getChildren().addAll(controller.getIdleSprite(), controller.getBoostSprite());
 
         setOnKeyPressed(event -> {
             controller.handleKeyPressed(event);

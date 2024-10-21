@@ -5,6 +5,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import se233.asteroids.Launcher;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class PlayerShip extends Character {
     private static final Logger logger = LogManager.getLogger(PlayerShip.class);
 
@@ -15,20 +20,21 @@ public class PlayerShip extends Character {
 
     private static final String IDLE_SPRITE = "/se233/asteroids/assets/playerShip/Idle.png";
     private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
+    private static final String SHOOT_SPRITE = "/se233/asteroids/assets/playerShip/Attack_1.png";
 
     private final int GAME_WIDTH;
     private final int GAME_HEIGHT;
     private double velocityX;
     private double velocityY;
 
-
     private Image idleImage;
     private AnimatedSprite boostAnimation;
 
-    private boolean isMovingForward = false;
-    private boolean isMovingLeft = false;
+    private Map<String, AnimatedSprite> animations;
+    private List<String> currentAnimations;
 
-    private String currentAnimation = "idle";
+    private boolean isMovingForward = false;
+    private boolean isShooting = false;
 
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
         super(IDLE_SPRITE,100 ,100, x, y, speed, health);
@@ -38,13 +44,12 @@ public class PlayerShip extends Character {
         this.GAME_WIDTH = width;
         this.GAME_HEIGHT = height;
 
-        Image boostSprites = new Image(Launcher.class.getResourceAsStream(BOOST_SPRITE));
-        boostAnimation = new AnimatedSprite(boostSprites, 5, 5, 1, 0, 0, 192, 192);
-        boostAnimation.setFitWidth(100);
-        boostAnimation.setFitHeight(100);
+        animations = new HashMap<>();
+        loadAnimations();
 
-        idleImage = new Image(Launcher.class.getResourceAsStream(IDLE_SPRITE));
-        this.imageView.setImage(idleImage);
+        currentAnimations = new ArrayList<>();
+        currentAnimations.add("idle");
+        this.imageView.setImage(animations.get("idle").getImage());
     }
 
     public void setRotate(double angle) {
@@ -67,17 +72,35 @@ public class PlayerShip extends Character {
         return ROTATION_SPEED;
     }
 
+    private void loadAnimations() {
+        animations.put("idle", createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192));
+        animations.put("boost", createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192));
+        animations.put("shoot", createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192));
+    }
+
+    private AnimatedSprite createAnimatedSprite(String imagePath, int count, int columns, int rows, int width, int height) {
+        Image spriteSheet = new Image(Launcher.class.getResourceAsStream(imagePath));
+        AnimatedSprite sprite = new AnimatedSprite(spriteSheet, count, columns, rows, 0, 0, width, height);
+        sprite.setFitWidth(100);
+        sprite.setFitHeight(100);
+        return sprite;
+    }
+
     public void moveForward() {
         double angle = Math.toRadians(this.getRotate());
         velocityX += Math.cos(angle) * ACCELERATION;
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
         isMovingForward = true;
-        currentAnimation = "boost";
+
+        if (!currentAnimations.contains("boost")) {
+            currentAnimations.add("boost");
+        }
     }
 
     public void stopMoveForward() {
         isMovingForward = false;
+        currentAnimations.remove("boost");
     }
 
     public void moveBackward() {
@@ -92,11 +115,6 @@ public class PlayerShip extends Character {
         velocityX += Math.cos(angle) * ACCELERATION;
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
-        isMovingLeft = true;
-    }
-
-    public void stopMoveLeft() {
-        isMovingLeft = false;
     }
 
     public void moveRight() {
@@ -118,6 +136,19 @@ public class PlayerShip extends Character {
         setRotate(this.getRotate() + angle);
     }
 
+    public void shoot() {
+        isShooting = true;
+
+        if (!currentAnimations.contains("shoot")) {
+            currentAnimations.add("shoot");
+        }
+    }
+
+    public void stopShooting() {
+        isShooting = false;
+        currentAnimations.remove("shoot");
+    }
+
     private void applyFriction() {
         velocityX *= FRICTION;
         velocityY *= FRICTION;
@@ -130,16 +161,12 @@ public class PlayerShip extends Character {
         if (getY() > GAME_HEIGHT) setY(0);
     }
 
-    public String getCurrentAnimation() {
-        return currentAnimation;
+    public List<String> getCurrentAnimations() {
+        return currentAnimations;
     }
 
-    private void updateAnimation() {
-        if (isMovingForward) {
-            currentAnimation = "boost";
-        } else {
-            currentAnimation = "idle";
-        }
+    public Map<String, AnimatedSprite> getAnimations() {
+        return animations;
     }
 
     public void updateShipPosition() {
@@ -147,8 +174,6 @@ public class PlayerShip extends Character {
         setY(this.getY() + velocityY);
         applyFriction();
         checkWallCollisions();
-
-        updateAnimation();
 
         logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
     }
