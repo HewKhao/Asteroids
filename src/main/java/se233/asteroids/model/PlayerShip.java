@@ -152,6 +152,5 @@ public class PlayerShip extends Character {
         updateAnimation();
 
         logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
-        logger.info(currentAnimation);
     }
 }
