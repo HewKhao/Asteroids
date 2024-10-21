@@ -30,7 +30,7 @@ public class GameStageController {
     public void update() {
         playerShipController.update();
         updateSpritePositions();
-        updateVisibleAnimation();
+        updateAnimationVisibility();
     }
 
     private AnimatedSprite createAnimatedSprite(String imagePath, int columns, int rows) {
@@ -53,7 +53,7 @@ public class GameStageController {
         }
     }
 
-    private void updateVisibleAnimation() {
+    private void updateAnimationVisibility() {
         String currentAnimation = playerShipController.getCurrentAnimation();
         showAnimation(currentAnimation);
 
