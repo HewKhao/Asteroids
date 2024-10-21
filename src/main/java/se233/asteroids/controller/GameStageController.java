@@ -1,8 +1,6 @@
 package se233.asteroids.controller;
 
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import se233.asteroids.Launcher;
 import se233.asteroids.model.AnimatedSprite;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;

@@ -50,8 +50,6 @@ public class PlayerShipController {
         }
         if (pressedKeys.contains(KeyCode.SPACE)) {
             playerShip.shoot();
-        } else {
-            playerShip.stopShooting();
         }
     }
 
@@ -63,19 +61,16 @@ public class PlayerShipController {
             String animationKey = entry.getKey();
             AnimatedSprite animation = entry.getValue();
             animation.setVisible(currentAnimations.contains(animationKey));
-        }
 
-        if (currentAnimations.contains("boost")) {
-            animations.get("boost").tick();
-        }
-        if (currentAnimations.contains("shoot")) {
-            animations.get("shoot").tick();
+            if (animation.isVisible()) {
+                animation.tick();
+            }
         }
     }
 
     public void update() {
         updateShipMovement();
-        playerShip.updateShipPosition();
+        playerShip.updateShip();
         updateAnimationVisibility();
     }
 }

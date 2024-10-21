@@ -31,8 +31,8 @@ public class PlayerShip extends Character {
     private Map<String, AnimatedSprite> animations;
     private Map<String, double[]> animationOffsets;
 
-    private boolean isMovingForward = false;
-    private boolean isShooting = false;
+    private double shootCooldown = 1.0;
+    private double timeSinceLastShot = 1.0;
 
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
         super(IDLE_SPRITE,100 ,100, x, y, speed, health);
@@ -92,7 +92,6 @@ public class PlayerShip extends Character {
         velocityX += Math.cos(angle) * ACCELERATION;
         velocityY += Math.sin(angle) * ACCELERATION;
         limitSpeed();
-        isMovingForward = true;
 
         if (!currentAnimations.contains("boost")) {
             currentAnimations.add("boost");
@@ -100,7 +99,6 @@ public class PlayerShip extends Character {
     }
 
     public void stopMoveForward() {
-        isMovingForward = false;
         currentAnimations.remove("boost");
     }
 
@@ -138,16 +136,15 @@ public class PlayerShip extends Character {
     }
 
     public void shoot() {
-        isShooting = true;
-
-        if (!currentAnimations.contains("shoot")) {
+        if (timeSinceLastShot >= shootCooldown) {
             currentAnimations.add("shoot");
-        }
-    }
+            AnimatedSprite shootSprite = animations.get("shoot");
+            shootSprite.reset();
 
-    public void stopShooting() {
-        isShooting = false;
-        currentAnimations.remove("shoot");
+            logger.info("PlayerShip is shooting!");
+
+            timeSinceLastShot = 0;
+        }
     }
 
     private void applyFriction() {
@@ -174,12 +171,25 @@ public class PlayerShip extends Character {
         return animationOffsets;
     }
 
-    public void updateShipPosition() {
+    public void updateShip() {
         setX(getX() + velocityX);
         setY(this.getY() + velocityY);
         applyFriction();
         checkWallCollisions();
 
-        logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
+        if (timeSinceLastShot < shootCooldown) {
+            timeSinceLastShot += 0.016;
+        }
+
+        if (currentAnimations.contains("shoot")) {
+            AnimatedSprite shootSprite = animations.get("shoot");
+            if (shootSprite.getCurrentFrame() == shootSprite.getTotalFrames() - 1) {
+                currentAnimations.remove("shoot");
+            }
+        }
+
+        if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01) {
+            logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
+        }
     }
 }
