@@ -27,11 +27,11 @@ public class PlayerShip extends Character {
     private double velocityX;
     private double velocityY;
 
-    private List<String> currentAnimations;
-    private Map<String, AnimatedSprite> animations;
-    private Map<String, double[]> animationOffsets;
+    private final List<String> currentAnimations;
+    private final Map<String, AnimatedSprite> animations;
+    private final Map<String, double[]> animationOffsets;
 
-    private double shootCooldown = 0.5;
+    private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
 
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
