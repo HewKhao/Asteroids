@@ -102,10 +102,7 @@ public abstract class Projectile {
     }
 
     public boolean checkWallCollisions() {
-        if (getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight) {
-            return true;
-        }
-        return false;
+        return getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight;
     }
 
     public void update() {
