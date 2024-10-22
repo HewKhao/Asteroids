@@ -35,12 +35,7 @@ public class GameStage extends Pane {
             controller.handleKeyReleased(event);
         });
 
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                controller.update();
-            }
-        }.start();
+        controller.startGameLoop();
     }
 
     public int getWidthValue() {

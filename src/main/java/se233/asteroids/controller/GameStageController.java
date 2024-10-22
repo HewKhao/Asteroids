@@ -1,5 +1,6 @@
 package se233.asteroids.controller;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import se233.asteroids.model.AnimatedSprite;
 import se233.asteroids.model.PlayerShip;
@@ -68,5 +69,16 @@ public class GameStageController {
 
     public void handleKeyReleased(KeyEvent event) {
         playerShipController.handleKeyReleased(event);
+    }
+
+    public void startGameLoop() {
+        AnimationTimer gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                update();
+            }
+        };
+
+        gameLoop.start();
     }
 }
