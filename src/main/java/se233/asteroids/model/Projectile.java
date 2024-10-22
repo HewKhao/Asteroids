@@ -12,13 +12,27 @@ public abstract class Projectile {
     protected double x;
     protected double y;
     protected double speed;
+    protected double maxSpeed;
+    protected double acceleration;
+    protected double friction;
+    protected double velocityX;
+    protected double velocityY;
+    protected double gameWidth;
+    protected double gameHeight;
 
     protected ImageView imageView;
 
-    public Projectile(String imagePath, double width, double height, double x, double y, double MAX_SPEED, double ACCELERATION, double FRICTION, double GAME_WIDTH, double GAME_HEIGHT) {
+    public Projectile(String imagePath, double width, double height, double x, double y, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
-        this.speed = speed;
+        this.maxSpeed = maxSpeed;
+        this.acceleration = acceleration;
+        this.friction = friction;
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
+        this.speed = 0;
+        this.velocityX = 0;
+        this.velocityY = 0;
 
         Image image = ImageUtil.loadImage(imagePath);
         if (image != null) {
