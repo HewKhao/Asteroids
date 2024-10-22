@@ -19,7 +19,7 @@ public abstract class Character {
     protected int health;
     protected ImageView imageView;
 
-    public Character(String imagePath, int width, int height, double x, double y, double speed, int health) {
+    public Character(String imagePath, double width, double height, double x, double y, double speed, int health) {
         this.x = x;
         this.y = y;
         this.speed = speed;
