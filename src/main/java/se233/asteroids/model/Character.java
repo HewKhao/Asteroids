@@ -4,11 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import se233.asteroids.Launcher;
 import se233.asteroids.util.ImageUtil;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public abstract class Character {
     private static final Logger logger = LogManager.getLogger(Character.class);
@@ -16,14 +12,22 @@ public abstract class Character {
     protected double x;
     protected double y;
     protected double speed;
+    protected double MAX_SPEED;
+    protected double ACCELERATION;
+    protected double ROTATION_SPEED;
+    protected double FRICTION;
     protected int health;
     protected ImageView imageView;
 
-    public Character(String imagePath, double width, double height, double x, double y, double speed, int health) {
+    public Character(String imagePath, double width, double height, double x, double y, double MAX_SPEED, double ACCELERATION, double ROTATION_SPEED, double FRICTION, int health) {
         this.x = x;
         this.y = y;
-        this.speed = speed;
+        this.MAX_SPEED = MAX_SPEED;
+        this.ACCELERATION = ACCELERATION;
+        this.ROTATION_SPEED = ROTATION_SPEED;
+        this.FRICTION = FRICTION;
         this.health = health;
+        this.speed = 0;
 
         Image image = ImageUtil.loadImage(imagePath);
         if (image != null) {

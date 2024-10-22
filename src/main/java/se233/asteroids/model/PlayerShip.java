@@ -1,9 +1,7 @@
 package se233.asteroids.model;
 
-import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import se233.asteroids.Launcher;
 import se233.asteroids.util.SpriteUtil;
 
 import java.util.ArrayList;
@@ -14,10 +12,7 @@ import java.util.Map;
 public class PlayerShip extends Character {
     private static final Logger logger = LogManager.getLogger(PlayerShip.class);
 
-    private static final double ACCELERATION = 0.1;
     private static final double FRICTION = 0.99;
-    private static final double ROTATION_SPEED = 3.0;
-    private static final double MAX_SPEED = 3.0;
 
     private static final String IDLE_SPRITE = "/se233/asteroids/assets/playerShip/Idle.png";
     private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
@@ -35,8 +30,8 @@ public class PlayerShip extends Character {
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
 
-    public PlayerShip(double x, double y, int speed, int health, int width, int height) {
-        super(IDLE_SPRITE,100 ,100, x, y, speed, health);
+    public PlayerShip(double x, double y, double MAX_SPEED, double ACCELERATION, double ROTATION_SPEED, double FRICTION, int health, int width, int height) {
+        super(IDLE_SPRITE,100 ,100, x, y, MAX_SPEED, ACCELERATION, ROTATION_SPEED, FRICTION, health);
         logger.info("PlayerShip created at X: {}, Y: {}", x, y);
         this.velocityX = 0;
         this.velocityY = 0;
