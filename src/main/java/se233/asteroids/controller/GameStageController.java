@@ -39,13 +39,6 @@ public class GameStageController {
 
     }
 
-    public void update() {
-        playerShipController.update();
-        normalAttackController.update();
-        updateSpritePositions();
-        removeOutOfBoundsNormalAttack();
-    }
-
     private void updateSpritePositions() {
         double x = playerShip.getX() - 50;
         double y = playerShip.getY() - 50;
@@ -82,12 +75,26 @@ public class GameStageController {
         gameStage.getChildren().add(attack.getImageView());
     }
 
-    public void removeOutOfBoundsNormalAttack() {
+//    public void removeOutOfBoundsNormalAttack() {
+//        Iterator<NormalAttack> iterator = normalAttackController.getNormalAttackList().iterator();
+//
+//        while (iterator.hasNext()) {
+//            NormalAttack attack = iterator.next();
+//            if (attack.checkWallCollisions()) {
+//                iterator.remove();
+//                gameStage.getChildren().remove(attack.getImageView());
+//            }
+//        }
+//    }
+
+    public void removeMarkedNormalAttack() {
         Iterator<NormalAttack> iterator = normalAttackController.getNormalAttackList().iterator();
 
         while (iterator.hasNext()) {
             NormalAttack attack = iterator.next();
-            if (attack.checkWallCollisions()) {
+            attack.update();
+
+            if (attack.isMarkForRemove()) {
                 iterator.remove();
                 gameStage.getChildren().remove(attack.getImageView());
             }
@@ -100,6 +107,15 @@ public class GameStageController {
 
     public void handleKeyReleased(KeyEvent event) {
         playerShipController.handleKeyReleased(event);
+    }
+
+
+    public void update() {
+        playerShipController.update();
+        normalAttackController.update();
+        updateSpritePositions();
+//        removeOutOfBoundsNormalAttack();
+        removeMarkedNormalAttack();
     }
 
     public void startGameLoop() {

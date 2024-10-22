@@ -98,8 +98,15 @@ public abstract class Projectile {
         limitSpeed();
     }
 
-    public boolean checkWallCollisions() {
-        return getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight;
+//    public boolean checkWallCollisions() {
+//        return getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight;
+//    }
+
+    public void checkWallCollisions() {
+        if (getX() < 0) setX(gameWidth);
+        if (getX() > gameWidth) setX(0);
+        if (getY() < 0) setY(gameHeight);
+        if (getY() > gameHeight) setY(0);
     }
 
     private void limitSpeed() {
@@ -110,7 +117,7 @@ public abstract class Projectile {
         }
     }
 
-    private void applyFriction() {
+    public void applyFriction() {
         velocityX *= friction;
         velocityY *= friction;
     }
