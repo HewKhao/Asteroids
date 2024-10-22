@@ -14,13 +14,13 @@ public class PlayerShip extends Character {
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
 
-    public PlayerShip(double x, double y, double MAX_SPEED, double ACCELERATION, double ROTATION_SPEED, double FRICTION, int health, int width, int height) {
+    public PlayerShip(double x, double y, double MAX_SPEED, double ACCELERATION, double ROTATION_SPEED, double FRICTION, int health, double width, double height) {
         super(IDLE_SPRITE,100 ,100, x, y, MAX_SPEED, ACCELERATION, ROTATION_SPEED, FRICTION, health, width, height);
         logger.info("PlayerShip created at X: {}, Y: {}", x, y);
         this.velocityX = 0;
         this.velocityY = 0;
-        this.GAME_WIDTH = width;
-        this.GAME_HEIGHT = height;
+        this.gameWidth = width;
+        this.gameHeight = height;
 
 
         loadAnimations();
