@@ -17,14 +17,14 @@ public abstract class Character {
     protected double x;
     protected double y;
     protected double speed;
-    protected double MAX_SPEED;
-    protected double ACCELERATION;
-    protected double ROTATION_SPEED;
-    protected double FRICTION;
+    protected double maxSpeed;
+    protected double acceleration;
+    protected double rotationSpeed;
+    protected double friction;
     protected double velocityX;
     protected double velocityY;
-    protected double GAME_WIDTH;
-    protected double GAME_HEIGHT;
+    protected double gameWidth;
+    protected double gameHeight;
 
     protected int health;
     protected ImageView imageView;
@@ -33,16 +33,16 @@ public abstract class Character {
     protected final Map<String, AnimatedSprite> animations;
     protected final Map<String, double[]> animationOffsets;
 
-    public Character(String imagePath, double width, double height, double x, double y, double MAX_SPEED, double ACCELERATION, double ROTATION_SPEED, double FRICTION, int health, double GAME_WIDTH, double GAME_HEIGHT) {
+    public Character(String imagePath, double width, double height, double x, double y, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
-        this.MAX_SPEED = MAX_SPEED;
-        this.ACCELERATION = ACCELERATION;
-        this.ROTATION_SPEED = ROTATION_SPEED;
-        this.FRICTION = FRICTION;
+        this.maxSpeed = maxSpeed;
+        this.acceleration = acceleration;
+        this.rotationSpeed = rotationSpeed;
+        this.friction = friction;
         this.health = health;
-        this.GAME_WIDTH = GAME_WIDTH;
-        this.GAME_HEIGHT = GAME_HEIGHT;
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
         this.speed = 0;
         this.velocityX = 0;
         this.velocityY = 0;
@@ -96,7 +96,7 @@ public abstract class Character {
     }
 
     public double getRotationSpeed() {
-        return ROTATION_SPEED;
+        return rotationSpeed;
     }
 
     public void setRotate(double angle) {
@@ -121,8 +121,8 @@ public abstract class Character {
 
     public void moveForward() {
         double angle = Math.toRadians(this.getRotate());
-        velocityX += Math.cos(angle) * ACCELERATION;
-        velocityY += Math.sin(angle) * ACCELERATION;
+        velocityX += Math.cos(angle) * acceleration;
+        velocityY += Math.sin(angle) * acceleration;
         limitSpeed();
 
         if (!currentAnimations.contains("boost")) {
@@ -136,22 +136,22 @@ public abstract class Character {
 
     public void moveBackward() {
         double angle = Math.toRadians(this.getRotate());
-        velocityX -= Math.cos(angle) * ACCELERATION;
-        velocityY -= Math.sin(angle) * ACCELERATION;
+        velocityX -= Math.cos(angle) * acceleration;
+        velocityY -= Math.sin(angle) * acceleration;
         limitSpeed();
     }
 
     public void moveLeft() {
         double angle = Math.toRadians(this.getRotate() - 90);
-        velocityX += Math.cos(angle) * ACCELERATION;
-        velocityY += Math.sin(angle) * ACCELERATION;
+        velocityX += Math.cos(angle) * acceleration;
+        velocityY += Math.sin(angle) * acceleration;
         limitSpeed();
     }
 
     public void moveRight() {
         double angle = Math.toRadians(this.getRotate() + 90);
-        velocityX += Math.cos(angle) * ACCELERATION;
-        velocityY += Math.sin(angle) * ACCELERATION;
+        velocityX += Math.cos(angle) * acceleration;
+        velocityY += Math.sin(angle) * acceleration;
         limitSpeed();
     }
 
@@ -161,22 +161,22 @@ public abstract class Character {
 
     private void limitSpeed() {
         this.setSpeed(Math.sqrt((velocityX * velocityX) + (velocityY * velocityY)));
-        if (this.getSpeed() > MAX_SPEED) {
-            velocityX = (velocityX / speed) * MAX_SPEED;
-            velocityY = (velocityY / speed) * MAX_SPEED;
+        if (this.getSpeed() > maxSpeed) {
+            velocityX = (velocityX / speed) * maxSpeed;
+            velocityY = (velocityY / speed) * maxSpeed;
         }
     }
 
     private void applyFriction() {
-        velocityX *= FRICTION;
-        velocityY *= FRICTION;
+        velocityX *= friction;
+        velocityY *= friction;
     }
 
     public void checkWallCollisions() {
-        if (getX() < 0) setX(GAME_WIDTH);
-        if (getX() > GAME_WIDTH) setX(0);
-        if (getY() < 0) setY(GAME_HEIGHT);
-        if (getY() > GAME_HEIGHT) setY(0);
+        if (getX() < 0) setX(gameWidth);
+        if (getX() > gameWidth) setX(0);
+        if (getY() < 0) setY(gameHeight);
+        if (getY() > gameHeight) setY(0);
     }
 
     public void update() {
