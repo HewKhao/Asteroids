@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import se233.asteroids.Launcher;
+import se233.asteroids.util.SpriteUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,19 +73,11 @@ public class PlayerShip extends Character {
     }
 
     private void loadAnimations() {
-        animations.put("idle", createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192));
-        animations.put("boost", createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192));
-        animations.put("shoot", createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192));
+        animations.put("idle", SpriteUtil.createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192));
+        animations.put("boost", SpriteUtil.createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192));
+        animations.put("shoot", SpriteUtil.createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192));
 
         animationOffsets.put("shoot", new double[]{-2.6, 0});
-    }
-
-    private AnimatedSprite createAnimatedSprite(String imagePath, int count, int columns, int rows, int width, int height) {
-        Image spriteSheet = new Image(Launcher.class.getResourceAsStream(imagePath));
-        AnimatedSprite sprite = new AnimatedSprite(spriteSheet, count, columns, rows, 0, 0, width, height);
-        sprite.setFitWidth(100);
-        sprite.setFitHeight(100);
-        return sprite;
     }
 
     public void moveForward() {
