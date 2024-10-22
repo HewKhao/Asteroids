@@ -24,7 +24,7 @@ public class GameStageController {
         this.playerShip.setRotate(-90);
         this.playerShipController = new PlayerShipController(playerShip);
 
-        this.normalAttack = new NormalAttack(playerShip.getX(), playerShip.getY() - 50, 3);
+        this.normalAttack = new NormalAttack(playerShip.getX(), playerShip.getY() - 50, 5, 0.3, 0.99, gameStage.getWidthValue(), gameStage.getHeightValue());
         this.normalAttack.setRotate(-90);
 
         gameStage.getChildren().addAll(

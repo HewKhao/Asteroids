@@ -12,9 +12,10 @@ public abstract class Projectile {
     protected double x;
     protected double y;
     protected double speed;
+
     protected ImageView imageView;
 
-    public Projectile(String imagePath, double width, double height, double x, double y, double speed) {
+    public Projectile(String imagePath, double width, double height, double x, double y, double MAX_SPEED, double ACCELERATION, double FRICTION, double GAME_WIDTH, double GAME_HEIGHT) {
         this.x = x;
         this.y = y;
         this.speed = speed;
