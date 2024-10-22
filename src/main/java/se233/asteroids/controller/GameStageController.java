@@ -1,7 +1,10 @@
 package se233.asteroids.controller;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 import se233.asteroids.model.AnimatedSprite;
 import se233.asteroids.model.NormalLaser;
 import se233.asteroids.model.PlayerShip;
@@ -82,19 +85,31 @@ public class GameStageController {
 
     public void startGameLoop() {
         final double frameRate = 60.0;
-        final long interval = (long) (1_000_000_000 / frameRate);
+        final double interval = 1000 / frameRate;
 
-        AnimationTimer gameLoop = new AnimationTimer() {
-            private long lastUpdate = 0;
-
-            @Override
-            public void handle(long now) {
-                if (now - lastUpdate >= interval) {
-                    update();
-                }
-            }
-        };
-
-        gameLoop.start();
+        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(interval), event -> {
+            update();
+        }));
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
     }
+
+//    public void startGameLoop() {
+//        final double frameRate = 60.0;
+//        final long interval = (long) (1_000_000_000 / frameRate);
+//
+//        AnimationTimer gameLoop = new AnimationTimer() {
+//            private long lastUpdate = 0;
+//
+//            @Override
+//            public void handle(long now) {
+//                if (now - lastUpdate >= interval) {
+//                    update();
+//                    lastUpdate = now;
+//                }
+//            }
+//        };
+//
+//        gameLoop.start();
+//    }
 }
