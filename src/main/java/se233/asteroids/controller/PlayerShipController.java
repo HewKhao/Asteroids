@@ -70,7 +70,7 @@ public class PlayerShipController {
 
     public void update() {
         updateShipMovement();
-        playerShip.updateShip();
+        playerShip.update();
         updateAnimationVisibility();
     }
 }
