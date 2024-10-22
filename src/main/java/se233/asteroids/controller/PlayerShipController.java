@@ -13,9 +13,11 @@ import java.util.Set;
 public class PlayerShipController {
     private PlayerShip playerShip;
     private Set<KeyCode> pressedKeys;
+    private GameStageController gameStageController;
 
-    public PlayerShipController(PlayerShip playerShip) {
+    public PlayerShipController(PlayerShip playerShip, GameStageController gameStageController) {
         this.playerShip = playerShip;
+        this.gameStageController = gameStageController;
         this.pressedKeys = new HashSet<>();
     }
 
@@ -49,7 +51,7 @@ public class PlayerShipController {
             playerShip.rotate(playerShip.getRotationSpeed());
         }
         if (pressedKeys.contains(KeyCode.SPACE)) {
-            playerShip.shoot();
+            playerShip.shoot(gameStageController);
         }
     }
 

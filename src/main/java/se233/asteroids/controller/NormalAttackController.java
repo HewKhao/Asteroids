@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NormalAttackController {
-    private NormalAttack normalAttack;
     private List<NormalAttack> normalAttackList;
 
-    public NormalAttackController(NormalAttack normalAttack) {
-        this.normalAttack = normalAttack;
+    public NormalAttackController(double gameWidth, double gameHeight) {
         this.normalAttackList = new ArrayList<NormalAttack>();
     }
 
@@ -19,6 +17,8 @@ public class NormalAttackController {
     }
 
     public void update() {
-
+        for (NormalAttack attack : normalAttackList) {
+            attack.update();
+        }
     }
 }

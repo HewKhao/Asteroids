@@ -2,6 +2,7 @@ package se233.asteroids.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import se233.asteroids.controller.GameStageController;
 import se233.asteroids.util.SpriteUtil;
 
 public class PlayerShip extends Character {
@@ -37,7 +38,7 @@ public class PlayerShip extends Character {
         animationOffsets.put("shoot", new double[]{-2.6, 0});
     }
 
-    public void shoot() {
+    public void shoot(GameStageController gameStageController) {
         if (timeSinceLastShot >= shootCooldown) {
             currentAnimations.add("shoot");
             AnimatedSprite shootSprite = animations.get("shoot");
@@ -46,6 +47,21 @@ public class PlayerShip extends Character {
             logger.info("PlayerShip is shooting!");
 
             timeSinceLastShot = 0;
+
+            double playerX = this.getX();
+            double playerY = this.getY();
+            double rotation = this.getRotate();
+
+            double offsetX = 50;
+            double offsetY = -9.5;
+
+            double radians = Math.toRadians(rotation);
+            double spawnX = playerX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
+            double spawnY = playerY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
+
+            NormalAttack normalAttack = new NormalAttack(spawnX, spawnY, rotation, 10, 0, 1, gameWidth, gameHeight);
+
+            gameStageController.addNormalAttack(normalAttack);
         }
     }
 

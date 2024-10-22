@@ -22,7 +22,7 @@ public abstract class Projectile {
 
     protected ImageView imageView;
 
-    public Projectile(String imagePath, double width, double height, double x, double y, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
+    public Projectile(String imagePath, double width, double height, double x, double y, double angle, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
         this.maxSpeed = maxSpeed;
@@ -39,6 +39,7 @@ public abstract class Projectile {
             this.imageView = new ImageView(image);
             this.imageView.setFitWidth(width);
             this.imageView.setFitHeight(height);
+            this.imageView.setRotate(angle);
             setX(x);
             setY(y);
             logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
@@ -80,5 +81,35 @@ public abstract class Projectile {
 
     public double getRotate() {
         return imageView.getRotate();
+    }
+
+    public void move() {
+        speed += acceleration;
+        if (speed > maxSpeed) {
+            speed = maxSpeed;
+        }
+
+        velocityX = speed * Math.cos(Math.toRadians(getRotate()));
+        velocityY = speed * Math.sin(Math.toRadians(getRotate()));
+
+        x += velocityX;
+        y += velocityY;
+
+        speed *= friction;
+
+        imageView.setX(x);
+        imageView.setY(y);
+    }
+
+    public boolean checkWallCollisions() {
+        if (getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight) {
+            return true;
+        }
+        return false;
+    }
+
+    public void update() {
+        move();
+        checkWallCollisions();
     }
 }

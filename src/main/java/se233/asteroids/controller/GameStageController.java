@@ -2,6 +2,7 @@ package se233.asteroids.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import se233.asteroids.model.AnimatedSprite;
@@ -9,23 +10,26 @@ import se233.asteroids.model.NormalAttack;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;
 
+import java.util.Iterator;
 import java.util.Map;
 
 public class GameStageController {
+    private GameStage gameStage;
     private PlayerShip playerShip;
     private PlayerShipController playerShipController;
     private NormalAttack normalAttack;
+    private NormalAttackController normalAttackController;
 
     public GameStageController(GameStage gameStage) {
+        this.gameStage = gameStage;
         double centerX = (double) gameStage.getWidthValue() / 2;
         double centerY = (double) gameStage.getHeightValue() / 2;
 
         this.playerShip = new PlayerShip(centerX, centerY, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue());
         this.playerShip.setRotate(-90);
-        this.playerShipController = new PlayerShipController(playerShip);
+        this.playerShipController = new PlayerShipController(playerShip, this);
 
-        this.normalAttack = new NormalAttack(playerShip.getX(), playerShip.getY() - 50, 5, 0.3, 0.99, gameStage.getWidthValue(), gameStage.getHeightValue());
-        this.normalAttack.setRotate(-90);
+        this.normalAttackController = new NormalAttackController(gameStage.getWidth(), gameStage.getHeight());
 
         gameStage.getChildren().addAll(
                 playerShip.getAnimations().get("idle"),
@@ -33,14 +37,13 @@ public class GameStageController {
                 playerShip.getAnimations().get("shoot")
         );
 
-        gameStage.getChildren().add(
-                normalAttack.getImageView()
-        );
     }
 
     public void update() {
         playerShipController.update();
+        normalAttackController.update();
         updateSpritePositions();
+        removeOutOfBoundsNormalAttack();
     }
 
     private void updateSpritePositions() {
@@ -74,6 +77,23 @@ public class GameStageController {
         }
     }
 
+    public void addNormalAttack(NormalAttack attack) {
+        normalAttackController.getNormalAttackList().add(attack);
+        gameStage.getChildren().add(attack.getImageView());
+    }
+
+    public void removeOutOfBoundsNormalAttack() {
+        Iterator<NormalAttack> iterator = normalAttackController.getNormalAttackList().iterator();
+
+        while (iterator.hasNext()) {
+            NormalAttack attack = iterator.next();
+            if (attack.checkWallCollisions()) {
+                iterator.remove();
+                gameStage.getChildren().remove(attack.getImageView());
+            }
+        }
+    }
+
     public void handleKeyPressed(KeyEvent event) {
         playerShipController.handleKeyPressed(event);
     }
@@ -92,23 +112,4 @@ public class GameStageController {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
     }
-
-//    public void startGameLoop() {
-//        final double frameRate = 60.0;
-//        final long interval = (long) (1_000_000_000 / frameRate);
-//
-//        AnimationTimer gameLoop = new AnimationTimer() {
-//            private long lastUpdate = 0;
-//
-//            @Override
-//            public void handle(long now) {
-//                if (now - lastUpdate >= interval) {
-//                    update();
-//                    lastUpdate = now;
-//                }
-//            }
-//        };
-//
-//        gameLoop.start();
-//    }
 }
