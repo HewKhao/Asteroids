@@ -31,8 +31,8 @@ public class PlayerShip extends Character {
     private Map<String, AnimatedSprite> animations;
     private Map<String, double[]> animationOffsets;
 
-    private double shootCooldown = 1.0;
-    private double timeSinceLastShot = 1.0;
+    private double shootCooldown = 0.5;
+    private double timeSinceLastShot = 0.5;
 
     public PlayerShip(double x, double y, int speed, int health, int width, int height) {
         super(IDLE_SPRITE,100 ,100, x, y, speed, health);
@@ -188,7 +188,7 @@ public class PlayerShip extends Character {
             }
         }
 
-        if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01) {
+        if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
             logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
         }
     }
