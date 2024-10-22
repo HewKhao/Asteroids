@@ -22,7 +22,8 @@ public class GameStageController {
         this.playerShip.setRotate(-90);
         this.playerShipController = new PlayerShipController(playerShip);
 
-        this.normalLaser = new NormalLaser(centerX+100, centerY+100, 3);
+        this.normalLaser = new NormalLaser(playerShip.getX(), playerShip.getY() - 50, 3);
+        this.normalLaser.setRotate(-90);
 
         gameStage.getChildren().addAll(
                 playerShip.getAnimations().get("idle"),
@@ -80,10 +81,17 @@ public class GameStageController {
     }
 
     public void startGameLoop() {
+        final double frameRate = 60.0;
+        final long interval = (long) (1_000_000_000 / frameRate);
+
         AnimationTimer gameLoop = new AnimationTimer() {
+            private long lastUpdate = 0;
+
             @Override
             public void handle(long now) {
-                update();
+                if (now - lastUpdate >= interval) {
+                    update();
+                }
             }
         };
 

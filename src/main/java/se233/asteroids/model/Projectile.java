@@ -58,4 +58,12 @@ public abstract class Projectile {
     public double getY() {
         return y;
     }
+
+    public void setRotate(double angle) {
+        this.imageView.setRotate(angle);
+    }
+
+    public double getRotate() {
+        return imageView.getRotate();
+    }
 }
