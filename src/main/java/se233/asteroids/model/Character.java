@@ -33,9 +33,10 @@ public abstract class Character {
     protected final Map<String, AnimatedSprite> animations;
     protected final Map<String, double[]> animationOffsets;
 
-    public Character(String imagePath, double width, double height, double x, double y, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight) {
+    public Character(String imagePath, double width, double height, double x, double y, double speed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
+        this.speed = speed;
         this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
         this.rotationSpeed = rotationSpeed;
@@ -43,7 +44,6 @@ public abstract class Character {
         this.health = health;
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.speed = 0;
         this.velocityX = 0;
         this.velocityY = 0;
 

@@ -25,7 +25,7 @@ public class GameStageController {
         double centerX = (double) gameStage.getWidthValue() / 2;
         double centerY = (double) gameStage.getHeightValue() / 2;
 
-        this.playerShip = new PlayerShip(centerX, centerY, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue());
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue());
         this.playerShip.setRotate(-90);
         this.playerShipController = new PlayerShipController(playerShip, this);
 
