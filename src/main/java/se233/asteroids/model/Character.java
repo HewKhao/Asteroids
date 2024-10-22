@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import se233.asteroids.Launcher;
+import se233.asteroids.util.ImageUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,23 +25,17 @@ public abstract class Character {
         this.speed = speed;
         this.health = health;
 
-        try (InputStream inputStream = Launcher.class.getResourceAsStream(imagePath)) {
-            if (inputStream == null) {
-                logger.error("Image resource not found: {}", imagePath);
-                throw new RuntimeException("Image resource not found");
-            }
-            Image image = new Image(inputStream);
+        Image image = ImageUtil.loadImage(imagePath);
+        if (image != null) {
             this.imageView = new ImageView(image);
             this.imageView.setFitWidth(width);
             this.imageView.setFitHeight(height);
-
             setX(x);
             setY(y);
-            logger.info("Image loaded: Width = {}, Height = {}", image.getWidth(), image.getHeight());
-        } catch (IOException e) {
-            logger.error("Error loading image: {}", e.getMessage());
+            logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
+        } else {
+            logger.error("Failed to load image: {}", imagePath);
         }
-
     }
 
     public void updatePosition() {
