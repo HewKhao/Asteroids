@@ -3,6 +3,7 @@ package se233.asteroids.controller;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import se233.asteroids.model.AnimatedSprite;
+import se233.asteroids.model.NormalLaser;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 public class GameStageController {
     private PlayerShip playerShip;
     private PlayerShipController playerShipController;
+    private NormalLaser normalLaser;
 
     public GameStageController(GameStage gameStage) {
         double centerX = (double) gameStage.getWidthValue() / 2;
@@ -20,10 +22,16 @@ public class GameStageController {
         this.playerShip.setRotate(-90);
         this.playerShipController = new PlayerShipController(playerShip);
 
+        this.normalLaser = new NormalLaser(centerX+100, centerY+100, 3);
+
         gameStage.getChildren().addAll(
                 playerShip.getAnimations().get("idle"),
                 playerShip.getAnimations().get("boost"),
                 playerShip.getAnimations().get("shoot")
+        );
+
+        gameStage.getChildren().add(
+                normalLaser.getImageView()
         );
     }
 
