@@ -15,8 +15,8 @@ public class PlayerShip extends Character {
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
 
-    public PlayerShip(double x, double y, double speed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double width, double height) {
-        super(IDLE_SPRITE,100 ,100, x, y, speed, maxSpeed, acceleration, rotationSpeed, friction, health, width, height);
+    public PlayerShip(double x, double y, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double width, double height) {
+        super(IDLE_SPRITE,100 ,100, x, y, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, width, height);
         logger.info("PlayerShip created at X: {}, Y: {}", x, y);
         this.velocityX = 0;
         this.velocityY = 0;
@@ -59,7 +59,7 @@ public class PlayerShip extends Character {
             double spawnX = playerX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
             double spawnY = playerY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
 
-            NormalAttack normalAttack = new NormalAttack(spawnX, spawnY, rotation, 10, 10, 0.5, 1, gameWidth, gameHeight);
+            NormalAttack normalAttack = new NormalAttack(spawnX, spawnY, rotation, 10, 10, 1, 1, gameWidth, gameHeight);
 
             gameStageController.addNormalAttack(normalAttack);
         }

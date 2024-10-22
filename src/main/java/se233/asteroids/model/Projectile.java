@@ -22,10 +22,10 @@ public abstract class Projectile {
 
     protected ImageView imageView;
 
-    public Projectile(String imagePath, double width, double height, double x, double y, double angle, double speed, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
+    public Projectile(String imagePath, double width, double height, double x, double y, double angle, double initialSpeed, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
-        this.speed = speed;
+        this.speed = initialSpeed;
         this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
         this.friction = friction;
