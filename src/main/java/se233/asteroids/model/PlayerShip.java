@@ -53,13 +53,13 @@ public class PlayerShip extends Character {
             double rotation = this.getRotate();
 
             double offsetX = 50;
-            double offsetY = -9.5;
+            double offsetY = 0;
 
             double radians = Math.toRadians(rotation);
             double spawnX = playerX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
             double spawnY = playerY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
 
-            NormalAttack normalAttack = new NormalAttack(spawnX, spawnY, rotation, 10, 0, 1, gameWidth, gameHeight);
+            NormalAttack normalAttack = new NormalAttack(spawnX, spawnY, rotation, 10, 10, 0.5, 1, gameWidth, gameHeight);
 
             gameStageController.addNormalAttack(normalAttack);
         }

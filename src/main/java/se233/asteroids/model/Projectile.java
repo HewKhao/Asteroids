@@ -22,15 +22,15 @@ public abstract class Projectile {
 
     protected ImageView imageView;
 
-    public Projectile(String imagePath, double width, double height, double x, double y, double angle, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
+    public Projectile(String imagePath, double width, double height, double x, double y, double angle, double speed, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
+        this.speed = speed;
         this.maxSpeed = maxSpeed;
         this.acceleration = acceleration;
         this.friction = friction;
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.speed = 0;
         this.velocityX = 0;
         this.velocityY = 0;
 
@@ -75,6 +75,14 @@ public abstract class Projectile {
         return y;
     }
 
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getSpeed() {
+        return this.speed;
+    }
+
     public void setRotate(double angle) {
         this.imageView.setRotate(angle);
     }
@@ -84,29 +92,34 @@ public abstract class Projectile {
     }
 
     public void move() {
-        speed += acceleration;
-        if (speed > maxSpeed) {
-            speed = maxSpeed;
-        }
-
-        velocityX = speed * Math.cos(Math.toRadians(getRotate()));
-        velocityY = speed * Math.sin(Math.toRadians(getRotate()));
-
-        x += velocityX;
-        y += velocityY;
-
-        speed *= friction;
-
-        imageView.setX(x);
-        imageView.setY(y);
+        double angle = Math.toRadians(this.getRotate());
+        velocityX += Math.cos(angle) * acceleration;
+        velocityY += Math.sin(angle) * acceleration;
+        limitSpeed();
     }
 
     public boolean checkWallCollisions() {
         return getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight;
     }
 
+    private void limitSpeed() {
+        this.setSpeed(Math.sqrt((velocityX * velocityX) + (velocityY * velocityY)));
+        if (this.getSpeed() > maxSpeed) {
+            velocityX = (velocityX / speed) * maxSpeed;
+            velocityY = (velocityY / speed) * maxSpeed;
+        }
+    }
+
+    private void applyFriction() {
+        velocityX *= friction;
+        velocityY *= friction;
+    }
+
     public void update() {
         move();
+        setX(this.getX() + velocityX);
+        setY(this.getY() + velocityY);
+        applyFriction();
         checkWallCollisions();
     }
 }
