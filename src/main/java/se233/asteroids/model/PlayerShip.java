@@ -11,6 +11,7 @@ public class PlayerShip extends Character {
     private static final String IDLE_SPRITE = "/se233/asteroids/assets/playerShip/Idle.png";
     private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
     private static final String SHOOT_SPRITE = "/se233/asteroids/assets/playerShip/Attack_1.png";
+    private static final String FIRE_SPRITE = "/se233/asteroids/assets/playerShip/Burn.png";
 
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
@@ -34,15 +35,21 @@ public class PlayerShip extends Character {
         animations.put("idle", SpriteUtil.createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192));
         animations.put("boost", SpriteUtil.createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192));
         animations.put("shoot", SpriteUtil.createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192));
+        animations.put("fire", SpriteUtil.createAnimatedSprite(FIRE_SPRITE, 10, 1, 10, 128, 128));
 
         animationOffsets.put("shoot", new double[]{-2.6, 0});
+
+        animationRotates.put("fire", 90.0);
     }
 
     public void shoot(GameStageController gameStageController) {
         if (timeSinceLastShot >= shootCooldown) {
             currentAnimations.add("shoot");
+            currentAnimations.add("fire");
             AnimatedSprite shootSprite = animations.get("shoot");
+            AnimatedSprite fireSprite = animations.get("fire");
             shootSprite.reset();
+            fireSprite.reset();
 
             logger.info("PlayerShip is shooting!");
 
@@ -77,6 +84,13 @@ public class PlayerShip extends Character {
             AnimatedSprite shootSprite = animations.get("shoot");
             if (shootSprite.getCurrentFrame() == shootSprite.getTotalFrames() - 1) {
                 currentAnimations.remove("shoot");
+            }
+        }
+
+        if (currentAnimations.contains("fire")) {
+            AnimatedSprite fireSprite = animations.get("fire");
+            if (fireSprite.getCurrentFrame() == fireSprite.getTotalFrames() - 1) {
+                currentAnimations.remove("fire");
             }
         }
 

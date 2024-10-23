@@ -32,6 +32,7 @@ public abstract class Character {
     protected final List<String> currentAnimations;
     protected final Map<String, AnimatedSprite> animations;
     protected final Map<String, double[]> animationOffsets;
+    protected final Map<String, Double> animationRotates;
 
     public Character(String imagePath, double width, double height, double x, double y, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight) {
         this.x = x;
@@ -50,6 +51,7 @@ public abstract class Character {
         this.currentAnimations = new ArrayList<>();
         this.animations = new HashMap<>();
         this.animationOffsets = new HashMap<>();
+        this.animationRotates = new HashMap<>();
 
         Image image = ImageUtil.loadImage(imagePath);
         if (image != null) {
@@ -117,6 +119,10 @@ public abstract class Character {
 
     public Map<String, double[]> getAnimationOffsets() {
         return animationOffsets;
+    }
+
+    public Map<String, Double> getAnimationRotates() {
+        return animationRotates;
     }
 
     public void moveForward() {

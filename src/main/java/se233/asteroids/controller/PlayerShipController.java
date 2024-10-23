@@ -80,6 +80,7 @@ public class PlayerShipController {
 
         Map<String, AnimatedSprite> animations = playerShip.getAnimations();
         Map<String, double[]> offsets = playerShip.getAnimationOffsets();
+        Map<String, Double> rotates = playerShip.getAnimationRotates();
         for (Map.Entry<String, AnimatedSprite> entry : animations.entrySet()) {
             String key = entry.getKey();
             AnimatedSprite sprite = entry.getValue();
@@ -95,9 +96,14 @@ public class PlayerShipController {
                 offsetY = distanceX * Math.sin(radians) + distanceY * Math.cos(radians);
             }
 
+            if (rotates.containsKey(key)) {
+                rotation += rotates.get(key);
+            }
+
             sprite.setX(x + offsetX);
             sprite.setY(y + offsetY);
             sprite.setRotate(rotation);
+            rotation = playerShip.getRotate();
         }
     }
 

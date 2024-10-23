@@ -31,11 +31,15 @@ public class GameStageController {
 
         this.normalAttackController = new NormalAttackController(gameStage.getWidth(), gameStage.getHeight());
 
-        gameStage.getChildren().addAll(
-                playerShip.getAnimations().get("idle"),
-                playerShip.getAnimations().get("boost"),
-                playerShip.getAnimations().get("shoot")
-        );
+        Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
+        gameStage.getChildren().addAll(playerShipAnimations.values());
+
+//        gameStage.getChildren().addAll(
+//                playerShip.getAnimations().get("idle"),
+//                playerShip.getAnimations().get("boost"),
+//                playerShip.getAnimations().get("shoot"),
+//                playerShip.getAnimations().get("fire")
+//        );
 
     }
 
