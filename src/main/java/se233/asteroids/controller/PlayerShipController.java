@@ -70,7 +70,7 @@ public class PlayerShipController {
         }
     }
 
-    private void updateSpritePositions() {
+    private void updateAnimationPositions() {
         double x = playerShip.getX() - 50;
         double y = playerShip.getY() - 50;
         double rotation = playerShip.getRotate();
@@ -105,6 +105,6 @@ public class PlayerShipController {
         updateShipMovement();
         playerShip.update();
         updateAnimationVisibility();
-        updateSpritePositions();
+        updateAnimationPositions();
     }
 }
