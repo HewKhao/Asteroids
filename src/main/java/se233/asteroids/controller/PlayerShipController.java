@@ -91,9 +91,10 @@ public class PlayerShipController {
                 double distanceX = offset[0];
                 double distanceY = offset[1];
 
-                double radians = Math.toRadians(rotation);
-                offsetX = distanceX * Math.cos(radians) - distanceY * Math.sin(radians);
-                offsetY = distanceX * Math.sin(radians) + distanceY * Math.cos(radians);
+                double radians = Math.toRadians(rotation - 90);
+
+                offsetX += distanceX * Math.cos(radians) - distanceY * Math.sin(radians);
+                offsetY += distanceX * Math.sin(radians) + distanceY * Math.cos(radians);
             }
 
             if (rotates.containsKey(key)) {

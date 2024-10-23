@@ -32,13 +32,13 @@ public class PlayerShip extends Character {
     }
 
     private void loadAnimations() {
-        animations.put("idle", SpriteUtil.createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192));
-        animations.put("boost", SpriteUtil.createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192));
-        animations.put("shoot", SpriteUtil.createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192));
-        animations.put("fire", SpriteUtil.createAnimatedSprite(FIRE_SPRITE, 10, 1, 10, 128, 128));
+        animations.put("idle", SpriteUtil.createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192, 100, 100));
+        animations.put("boost", SpriteUtil.createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192, 100, 100));
+        animations.put("shoot", SpriteUtil.createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192, 100, 100));
+        animations.put("fire", SpriteUtil.createAnimatedSprite(FIRE_SPRITE, 10, 1, 10, 128, 128, 100, 100));
 
-        animationOffsets.put("shoot", new double[]{-2.6, 0});
-        animationOffsets.put("fire", new double[]{50, 0});
+        animationOffsets.put("shoot", new double[]{0, -2.6});
+        animationOffsets.put("fire", new double[]{0, 34});
 
         animationRotates.put("fire", -90.0);
     }
