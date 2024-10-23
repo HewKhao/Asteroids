@@ -39,40 +39,10 @@ public class GameStageController {
 
     }
 
-    private void updateSpritePositions() {
-        double x = playerShip.getX() - 50;
-        double y = playerShip.getY() - 50;
-        double rotation = playerShip.getRotate();
-
-        double offsetX = 0;
-        double offsetY = 0;
-
-        Map<String, AnimatedSprite> animations = playerShip.getAnimations();
-        Map<String, double[]> offsets = playerShip.getAnimationOffsets();
-        for (Map.Entry<String, AnimatedSprite> entry : animations.entrySet()) {
-            String key = entry.getKey();
-            AnimatedSprite sprite = entry.getValue();
-
-            // If broken fix it yourself I forgot how trigonometry work
-            if (offsets.containsKey(key)) {
-                double[] offset = offsets.get(key);
-                double distanceX = offset[0];
-                double distanceY = offset[1];
-
-                double radians = Math.toRadians(rotation);
-                offsetX = distanceX * Math.cos(radians) - distanceY * Math.sin(radians);
-                offsetY = distanceX * Math.sin(radians) + distanceY * Math.cos(radians);
-            }
-
-            sprite.setX(x + offsetX);
-            sprite.setY(y + offsetY);
-            sprite.setRotate(rotation);
-        }
-    }
-
     public void addNormalAttack(NormalAttack attack) {
         normalAttackController.getNormalAttackList().add(attack);
         gameStage.getChildren().add(attack.getImageView());
+        gameStage.getChildren().add(attack.getAnimatedSprite());
     }
 
 //    public void removeOutOfBoundsNormalAttack() {
@@ -113,7 +83,6 @@ public class GameStageController {
     public void update() {
         playerShipController.update();
         normalAttackController.update();
-        updateSpritePositions();
 //        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
     }
