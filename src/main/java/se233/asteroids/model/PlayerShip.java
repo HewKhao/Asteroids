@@ -38,8 +38,9 @@ public class PlayerShip extends Character {
         animations.put("fire", SpriteUtil.createAnimatedSprite(FIRE_SPRITE, 10, 1, 10, 128, 128));
 
         animationOffsets.put("shoot", new double[]{-2.6, 0});
+        animationOffsets.put("fire", new double[]{50, 0});
 
-        animationRotates.put("fire", 90.0);
+        animationRotates.put("fire", -90.0);
     }
 
     public void shoot(GameStageController gameStageController) {

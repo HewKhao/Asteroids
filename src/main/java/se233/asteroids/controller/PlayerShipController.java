@@ -103,6 +103,8 @@ public class PlayerShipController {
             sprite.setX(x + offsetX);
             sprite.setY(y + offsetY);
             sprite.setRotate(rotation);
+            offsetX = 0;
+            offsetY = 0;
             rotation = playerShip.getRotate();
         }
     }
