@@ -65,7 +65,17 @@ public class PlayerShipController {
             animation.setVisible(currentAnimations.contains(animationKey));
 
             if (animation.isVisible()) {
-                animation.tick();
+                if (animation.isPlayOnce()) {
+                    if (animation.getPlayFrameCount() < animation.getTotalFrames()) {
+                        animation.tick();
+                        animation.setPlayFrameCount(animation.getPlayFrameCount() + 1);
+                    } else {
+                        animation.setPlayFrameCount(0);
+                        playerShip.getCurrentAnimations().remove(animationKey);
+                    }
+                } else {
+                    animation.tick();
+                }
             }
         }
     }

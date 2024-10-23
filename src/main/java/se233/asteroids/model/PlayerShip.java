@@ -37,6 +37,9 @@ public class PlayerShip extends Character {
         animations.put("shoot", SpriteUtil.createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192, 100, 100));
         animations.put("fire", SpriteUtil.createAnimatedSprite(FIRE_SPRITE, 10, 1, 10, 128, 128, 100, 100));
 
+        animations.get("shoot").setPlayOnce(true);
+        animations.get("fire").setPlayOnce(true);
+
         animationOffsets.put("shoot", new double[]{0, -2.6});
         animationOffsets.put("fire", new double[]{0, 34});
 
@@ -81,19 +84,19 @@ public class PlayerShip extends Character {
             timeSinceLastShot += 0.016;
         }
 
-        if (currentAnimations.contains("shoot")) {
-            AnimatedSprite shootSprite = animations.get("shoot");
-            if (shootSprite.getCurrentFrame() == shootSprite.getTotalFrames() - 1) {
-                currentAnimations.remove("shoot");
-            }
-        }
-
-        if (currentAnimations.contains("fire")) {
-            AnimatedSprite fireSprite = animations.get("fire");
-            if (fireSprite.getCurrentFrame() == fireSprite.getTotalFrames() - 1) {
-                currentAnimations.remove("fire");
-            }
-        }
+//        if (currentAnimations.contains("shoot")) {
+//            AnimatedSprite shootSprite = animations.get("shoot");
+//            if (shootSprite.getCurrentFrame() == shootSprite.getTotalFrames() - 1) {
+//                currentAnimations.remove("shoot");
+//            }
+//        }
+//
+//        if (currentAnimations.contains("fire")) {
+//            AnimatedSprite fireSprite = animations.get("fire");
+//            if (fireSprite.getCurrentFrame() == fireSprite.getTotalFrames() - 1) {
+//                currentAnimations.remove("fire");
+//            }
+//        }
 
         if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
             logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());
