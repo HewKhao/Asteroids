@@ -41,7 +41,7 @@ public class GameStageController {
 
     public void addNormalAttack(NormalAttack attack) {
         normalAttackController.getNormalAttackList().add(attack);
-        gameStage.getChildren().add(attack.getImageView());
+//        gameStage.getChildren().add(attack.getImageView());
         gameStage.getChildren().add(attack.getAnimatedSprite());
     }
 
@@ -66,7 +66,7 @@ public class GameStageController {
 
             if (attack.isMarkForRemove()) {
                 iterator.remove();
-                gameStage.getChildren().remove(attack.getImageView());
+                gameStage.getChildren().remove(attack.getAnimatedSprite());
             }
         }
     }

@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import se233.asteroids.util.ImageUtil;
+import se233.asteroids.util.SpriteUtil;
 
 public abstract class Projectile {
     private static final Logger logger = LogManager.getLogger(Projectile.class);
@@ -21,6 +22,7 @@ public abstract class Projectile {
     protected double gameHeight;
 
     protected ImageView imageView;
+    protected AnimatedSprite animatedSprite;
 
     public Projectile(String imagePath, double width, double height, double x, double y, double angle, double initialSpeed, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
         this.x = x;
@@ -34,27 +36,40 @@ public abstract class Projectile {
         this.velocityX = 0;
         this.velocityY = 0;
 
-        Image image = ImageUtil.loadImage(imagePath);
-        if (image != null) {
-            this.imageView = new ImageView(image);
-            this.imageView.setFitWidth(width);
-            this.imageView.setFitHeight(height);
-            this.imageView.setRotate(angle);
-            setX(x);
-            setY(y);
-            logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
-        } else {
-            logger.error("Failed to load image: {}", imagePath);
-        }
+        this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, 5, 5, 1, 64, 32);
+        this.animatedSprite.setFitWidth(width);
+        this.animatedSprite.setFitHeight(height);
+        this.animatedSprite.setRotate(angle);
+
+//        Image image = ImageUtil.loadImage(imagePath);
+//        if (image != null) {
+//            this.imageView = new ImageView(image);
+//            this.imageView.setFitWidth(width);
+//            this.imageView.setFitHeight(height);
+//            this.imageView.setRotate(angle);
+//            setX(x);
+//            setY(y);
+//            logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
+//        } else {
+//            logger.error("Failed to load image: {}", imagePath);
+//        }
     }
 
     public ImageView getImageView() {
         return this.imageView;
     }
 
+    public void setAnimatedSprite(AnimatedSprite animatedSprite) {
+        this.animatedSprite = animatedSprite;
+    }
+
+    public AnimatedSprite getAnimatedSprite() {
+        return animatedSprite;
+    }
+
     public void updatePosition() {
-        this.imageView.setX(x - imageView.getFitWidth() / 2.0);
-        this.imageView.setY(y - imageView.getFitHeight() / 2.0);
+        this.animatedSprite.setX(x - animatedSprite.getFitWidth() / 2.0);
+        this.animatedSprite.setY(y - animatedSprite.getFitHeight() / 2.0);
     }
 
     public void setX(double x) {
@@ -88,7 +103,7 @@ public abstract class Projectile {
     }
 
     public double getRotate() {
-        return imageView.getRotate();
+        return this.animatedSprite.getRotate();
     }
 
     public void move() {
