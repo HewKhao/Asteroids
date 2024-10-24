@@ -6,19 +6,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import se233.asteroids.model.AnimatedSprite;
+import se233.asteroids.model.Asteroid;
 import se233.asteroids.model.NormalAttack;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class GameStageController {
     private GameStage gameStage;
     private PlayerShip playerShip;
+    private Asteroid asteroid;
     private PlayerShipController playerShipController;
     private NormalAttack normalAttack;
     private NormalAttackController normalAttackController;
+    private List<Asteroid> asteroidList;
+    private Random random = new Random();
 
     public GameStageController(GameStage gameStage) {
         this.gameStage = gameStage;
@@ -30,6 +33,8 @@ public class GameStageController {
         this.playerShipController = new PlayerShipController(playerShip, this);
 
         this.normalAttackController = new NormalAttackController(gameStage.getWidth(), gameStage.getHeight());
+
+        this.asteroidList = new ArrayList<>();
 
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
@@ -43,10 +48,23 @@ public class GameStageController {
 
     }
 
+    public void addAsteroid(Asteroid asteroid) {
+        asteroidList.add(asteroid);
+        gameStage.getChildren().add(asteroid.getImageView());
+    }
+
     public void addNormalAttack(NormalAttack attack) {
         normalAttackController.getNormalAttackList().add(attack);
 //        gameStage.getChildren().add(attack.getImageView());
         gameStage.getChildren().add(attack.getAnimatedSprite());
+    }
+
+    public void updateAsteroids() {
+        Iterator<Asteroid> iterator = asteroidList.iterator();
+        while (iterator.hasNext()) {
+            Asteroid asteroid = iterator.next();
+            asteroid.update();
+        }
     }
 
 //    public void removeOutOfBoundsNormalAttack() {
@@ -87,6 +105,7 @@ public class GameStageController {
     public void update() {
         playerShipController.update();
         normalAttackController.update();
+        updateAsteroids();
 //        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
     }
@@ -97,6 +116,17 @@ public class GameStageController {
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(interval), event -> {
             update();
+
+            //random spawn asteroid
+            if (Math.random() < 0.01){
+                double ranX = random.nextDouble()* gameStage.getWidth();
+                double ranY = random.nextDouble()* gameStage.getHeight();
+                this.asteroid = new Asteroid(96,96,1,3,0.05,2,0.98,100,gameStage.getWidth(),gameStage.getHeight());
+                asteroid.setX(ranX);
+                asteroid.setY(ranY);
+
+                addAsteroid(asteroid);
+            }
         }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
