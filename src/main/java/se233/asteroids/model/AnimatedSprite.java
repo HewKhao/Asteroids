@@ -30,10 +30,16 @@ public class AnimatedSprite extends ImageView {
 
         curIndex = (curIndex + 1) % (columns * rows);
         curIndex = curIndex < count ? curIndex : 0;
+        if (playFrameCount == count) {
+            playFrameCount = 0;
+        } else {
+            playFrameCount++;
+        }
     }
 
     public void reset() {
         curIndex = 0;
+        playFrameCount = 0;
         interpolate();
     }
 
@@ -45,6 +51,7 @@ public class AnimatedSprite extends ImageView {
 
     public void setCurrentFrame(int frame) {
        this.curIndex = frame;
+       this.playFrameCount = frame;
     }
 
     public int getCurrentFrame() {
