@@ -1,7 +1,6 @@
 package se233.asteroids.model;
 
 import javafx.geometry.Bounds;
-import se233.asteroids.util.SpriteUtil;
 
 import java.util.List;
 

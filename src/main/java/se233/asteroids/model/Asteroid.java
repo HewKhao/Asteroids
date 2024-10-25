@@ -1,6 +1,6 @@
 package se233.asteroids.model;
 
-import se233.asteroids.view.GameStage;
+import se233.asteroids.util.SpriteUtil;
 
 import java.util.Random;
 
@@ -12,19 +12,29 @@ public class Asteroid extends Character{
     private Random random;
 
     public Asteroid(double width, double height, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight){
-        super(ASTEROID_IDLE,width,height,0,0, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, gameWidth, gameHeight);
+        super(ASTEROID_IDLE, width, height,0,0, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, gameWidth, gameHeight);
         random = new Random();
+
+        loadAnimations();
+
+        currentAnimations.add("Idle");
+        this.imageView.setImage(animations.get("Idle").getImage());
+    }
+
+    public void loadAnimations(){
+        animations.put("Idle", SpriteUtil.createAnimatedSpriteWithOffset(ASTEROID_IDLE, 1, 1, 1, 29, 34, 38, 38, 38, 38));
+        animations.put("Explode", SpriteUtil.createAnimatedSprite(ASTEROID_EXPLODE, 8, 8, 1, 96, 96, 96, 96));
+
+        animations.get("Explode").setPlayOnce(true);
     }
 
     public void randomSpawn() {
         boolean spawnHorizontally = random.nextBoolean();
 
         if (spawnHorizontally) {
-            // Spawn to the left or right of the screen
             this.x = random.nextBoolean() ? -random.nextDouble() * 100 : gameWidth + random.nextDouble() * 100;
             this.y = random.nextDouble() * gameHeight;
         } else {
-            // Spawn above or below the screen
             this.y = random.nextBoolean() ? -random.nextDouble() * 100 : gameHeight + random.nextDouble() * 100;
             this.x = random.nextDouble() * gameWidth;
         }
@@ -34,7 +44,6 @@ public class Asteroid extends Character{
     }
 
     public void initializeRandomDirection() {
-        // Random velocity in all directions (up, down, left, right)
         velocityX = (random.nextDouble() - 0.5) * 2 * maxSpeed;
         velocityY = (random.nextDouble() - 0.5) * 2 * maxSpeed;
         double randomAngle = random.nextDouble() * 360;
@@ -42,7 +51,6 @@ public class Asteroid extends Character{
     }
 
     public void moveRandomly() {
-        // Adjust velocity slightly in random directions
         velocityX += (random.nextDouble() - 0.5) * 0.1;
         velocityY += (random.nextDouble() - 0.5) * 0.1;
     }
