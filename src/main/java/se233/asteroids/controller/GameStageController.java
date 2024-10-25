@@ -74,10 +74,17 @@ public class GameStageController {
         playerShipController.handleKeyReleased(event);
     }
 
+    public void updateCollision() {
+        normalAttackController.checkCollisions(asteroidController.getAsteroidList());
+    }
+
     public void update() {
         playerShipController.update();
         normalAttackController.update();
         asteroidController.update();
+
+        updateCollision();
+
 //        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
     }
@@ -88,7 +95,6 @@ public class GameStageController {
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(interval), event -> {
             update();
-
         }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();

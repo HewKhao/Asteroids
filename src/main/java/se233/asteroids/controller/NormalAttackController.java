@@ -1,8 +1,11 @@
 package se233.asteroids.controller;
 
+import javafx.scene.Node;
+import se233.asteroids.model.Character;
 import se233.asteroids.model.NormalAttack;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class NormalAttackController {
@@ -32,6 +35,16 @@ public class NormalAttackController {
             attack.getAnimatedSprite().setX(x);
             attack.getAnimatedSprite().setY(y);
             attack.getAnimatedSprite().setRotate(rotation);
+        }
+    }
+
+    public void checkCollisions(List<? extends Character> characters) {
+        Iterator<NormalAttack> attackIterator = normalAttackList.iterator();
+
+        while (attackIterator.hasNext()) {
+            NormalAttack attack = attackIterator.next();
+
+            attack.checkCollision(characters);
         }
     }
 

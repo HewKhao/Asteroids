@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import se233.asteroids.util.ImageUtil;
+import se233.asteroids.util.SpriteUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,11 +29,14 @@ public abstract class Character {
 
     protected int health;
     protected ImageView imageView;
+    protected AnimatedSprite animatedSprite;
 
     protected final List<String> currentAnimations;
     protected final Map<String, AnimatedSprite> animations;
     protected final Map<String, double[]> animationOffsets;
     protected final Map<String, Double> animationRotates;
+
+    protected boolean isCharacter = true;
 
     public Character(String imagePath, double width, double height, double x, double y, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight) {
         this.x = x;
@@ -53,11 +57,17 @@ public abstract class Character {
         this.animationOffsets = new HashMap<>();
         this.animationRotates = new HashMap<>();
 
+        this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, 5, 5, 1, 32, 32, width, height);
+        this.animatedSprite.setFitWidth(width);
+        this.animatedSprite.setFitHeight(height);
+        this.animatedSprite.setPreserveRatio(false);
+
         Image image = ImageUtil.loadImage(imagePath);
         if (image != null) {
             this.imageView = new ImageView(image);
             this.imageView.setFitWidth(width);
             this.imageView.setFitHeight(height);
+            this.imageView.setPreserveRatio(false);
             setX(x);
             setY(y);
             logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
@@ -69,6 +79,10 @@ public abstract class Character {
     public void updatePosition() {
         this.imageView.setX(x - imageView.getFitWidth() / 2.0);
         this.imageView.setY(y - imageView.getFitHeight() / 2.0);
+    }
+
+    public boolean isCharacter() {
+        return this.isCharacter;
     }
 
     public void setX(double x) {

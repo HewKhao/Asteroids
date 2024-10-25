@@ -1,5 +1,10 @@
 package se233.asteroids.model;
 
+import javafx.geometry.Bounds;
+
+import java.util.Iterator;
+import java.util.List;
+
 public class NormalAttack extends Projectile {
     private static final String LASER_SPRITE = "/se233/asteroids/assets/projectile/Fireball.png";
     private final double MAX_LIFE_TIME = 0.75;
@@ -19,6 +24,30 @@ public class NormalAttack extends Projectile {
     public boolean isMarkForRemove() {
         return isMarkForRemove;
     }
+
+    public boolean checkCharacterCollision(Character character) {
+        Bounds projectileBounds = this.getAnimatedSprite().getBoundsInParent();
+        Bounds characterBounds = character.getImageView().getBoundsInParent();
+        System.out.println("Projectile bounds: " + projectileBounds);
+        System.out.println("Character bounds: " + characterBounds);
+
+        return projectileBounds.intersects(characterBounds);
+    }
+
+   public void checkCollision(List<? extends Character> characters) {
+        if (isMarkForRemove) {
+            return;
+        }
+
+       for (Character character : characters) {
+           System.out.println("Checking collision: " + character);
+           if (checkCharacterCollision(character)) {
+               System.out.println("Collision Detected");
+               markForRemoval();
+               break;
+           }
+       }
+   }
 
     public void update() {
         super.update();

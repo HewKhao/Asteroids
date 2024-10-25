@@ -1,5 +1,7 @@
 package se233.asteroids.model;
 
+import se233.asteroids.view.GameStage;
+
 import java.util.Random;
 
 public class Asteroid extends Character{
