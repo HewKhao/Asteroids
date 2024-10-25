@@ -2,11 +2,9 @@ package se233.asteroids.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import se233.asteroids.model.AnimatedSprite;
-import se233.asteroids.model.Asteroid;
 import se233.asteroids.model.NormalAttack;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;
@@ -35,19 +33,10 @@ public class GameStageController {
 
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
-
-//        gameStage.getChildren().addAll(
-//                playerShip.getAnimations().get("idle"),
-//                playerShip.getAnimations().get("boost"),
-//                playerShip.getAnimations().get("shoot"),
-//                playerShip.getAnimations().get("fire")
-//        );
-
     }
 
     public void addNormalAttack(NormalAttack attack) {
         normalAttackController.getNormalAttackList().add(attack);
-//        gameStage.getChildren().add(attack.getImageView());
         gameStage.getChildren().add(attack.getAnimatedSprite());
     }
 
@@ -88,7 +77,7 @@ public class GameStageController {
     public void update() {
         playerShipController.update();
         normalAttackController.update();
-        asteroidController.updateAsteroids();
+        asteroidController.update();
 //        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
     }
@@ -99,9 +88,7 @@ public class GameStageController {
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(interval), event -> {
             update();
-            if (Math.random() < 0.01) {
-                asteroidController.spawnAsteroids();
-            }
+
         }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
