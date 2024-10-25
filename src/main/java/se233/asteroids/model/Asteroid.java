@@ -12,18 +12,26 @@ public class Asteroid extends Character{
     public Asteroid(double width, double height, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight){
         super(ASTEROID_IDLE,width,height,0,0, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, gameWidth, gameHeight);
         random = new Random();
-        randomSpawn();
-        initializeRandomDirection();
     }
 
-    private void randomSpawn() {
-        this.x = random.nextDouble() * gameWidth;
-        this.y = random.nextDouble() * gameHeight;
+    public void randomSpawn() {
+        boolean spawnHorizontally = random.nextBoolean();
+
+        if (spawnHorizontally) {
+            // Spawn to the left or right of the screen
+            this.x = random.nextBoolean() ? -random.nextDouble() * 100 : gameWidth + random.nextDouble() * 100;
+            this.y = random.nextDouble() * gameHeight;
+        } else {
+            // Spawn above or below the screen
+            this.y = random.nextBoolean() ? -random.nextDouble() * 100 : gameHeight + random.nextDouble() * 100;
+            this.x = random.nextDouble() * gameWidth;
+        }
+
         setX(x);
         setY(y);
     }
 
-    private void initializeRandomDirection() {
+    public void initializeRandomDirection() {
         // Random velocity in all directions (up, down, left, right)
         velocityX = (random.nextDouble() - 0.5) * 2 * maxSpeed;
         velocityY = (random.nextDouble() - 0.5) * 2 * maxSpeed;
