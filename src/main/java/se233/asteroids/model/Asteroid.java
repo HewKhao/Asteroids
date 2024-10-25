@@ -1,5 +1,8 @@
 package se233.asteroids.model;
 
+import javafx.geometry.Bounds;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import se233.asteroids.util.SpriteUtil;
 
 import java.util.Random;
@@ -11,23 +14,29 @@ public class Asteroid extends Character{
 
     private Random random = new Random();
 
+    public Rectangle outline;
+
     public Asteroid(double width, double height, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight){
         super(ASTEROID_IDLE, width, height,0,0, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, gameWidth, gameHeight);
 
         loadAnimations();
 
-        currentAnimations.add("Idle");
-        this.imageView.setImage(animations.get("Idle").getImage());
+        currentAnimations.add("idle");
+        this.imageView.setImage(animations.get("idle").getImage());
 
         double radian = random.nextDouble() * 2 * Math.PI;
         this.imageView.setRotate(radian);
     }
 
-    public void loadAnimations(){
-        animations.put("Idle", SpriteUtil.createAnimatedSpriteWithOffset(ASTEROID_IDLE, 1, 1, 1, 29, 34, 38, 38, 38, 38));
-        animations.put("Explode", SpriteUtil.createAnimatedSprite(ASTEROID_EXPLODE, 8, 8, 1, 96, 96, 96, 96));
+    public Rectangle getOutline(){
+        return outline;
+    }
 
-        animations.get("Explode").setPlayOnce(true);
+    public void loadAnimations(){
+        animations.put("idle", SpriteUtil.createAnimatedSpriteWithOffset(ASTEROID_IDLE, 1, 1, 1, 29, 34, 38, 38, 38, 38));
+        animations.put("explode", SpriteUtil.createAnimatedSprite(ASTEROID_EXPLODE, 8, 8, 1, 96, 96, 96, 96));
+
+        animations.get("explode").setPlayOnce(true);
     }
 
     public void randomSpawn() {
@@ -50,11 +59,6 @@ public class Asteroid extends Character{
         velocityY = (random.nextDouble() - 0.5) * 2 * maxSpeed;
         double randomAngle = random.nextDouble() * 360;
         setRotate(randomAngle);
-    }
-
-    public void moveRandomly() {
-        velocityX += (random.nextDouble() - 0.5) * 0.1;
-        velocityY += (random.nextDouble() - 0.5) * 0.1;
     }
 
     @Override

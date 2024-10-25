@@ -28,6 +28,7 @@ public class SpriteUtil {
             AnimatedSprite sprite = new AnimatedSprite(spriteSheet, count, columns, rows, offsetX, offsetY, frameWidth, frameHeight);
             sprite.setFitWidth(imageWidth);
             sprite.setFitHeight(imageHeight);
+            sprite.setPreserveRatio(false);
             logger.info("Image successfully loaded: {}", imagePath);
             return sprite;
         } else {

@@ -1,5 +1,6 @@
 package se233.asteroids.controller;
 
+import javafx.geometry.Bounds;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import se233.asteroids.model.AnimatedSprite;
@@ -19,6 +20,9 @@ public class PlayerShipController {
         this.playerShip = playerShip;
         this.gameStageController = gameStageController;
         this.pressedKeys = new HashSet<>();
+
+        // Uncomment code below to show hitbox
+//        gameStageController.getGameStage().getChildren().add(playerShip.outline);
     }
 
     public void handleKeyPressed(KeyEvent event) {
@@ -76,6 +80,17 @@ public class PlayerShipController {
                 }
             }
         }
+
+        Bounds bound = playerShip.getImageView().getBoundsInParent();
+        double Bx = bound.getMinX();
+        double By = bound.getMinY();
+        double width = bound.getWidth();
+        double height = bound.getHeight();
+
+        playerShip.outline.setX(Bx);
+        playerShip.outline.setY(By);
+        playerShip.outline.setWidth(width);
+        playerShip.outline.setHeight(height);
     }
 
     private void updateAnimationPositions() {

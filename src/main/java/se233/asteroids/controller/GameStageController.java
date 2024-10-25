@@ -43,7 +43,7 @@ public class GameStageController {
 
         this.normalAttackController = new NormalAttackController(this);
 
-        this.asteroidController = new AsteroidController(gameStage);
+        this.asteroidController = new AsteroidController(this);
 
         this.explosionController = new ExplosionController(this);
 

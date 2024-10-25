@@ -143,6 +143,10 @@ public abstract class Character {
         this.maxSpeed = maxSpeed;
     }
 
+    public void collided() {
+        this.maxSpeed = 0;
+    }
+
     public void moveForward() {
         double angle = Math.toRadians(this.getRotate());
         velocityX += Math.cos(angle) * acceleration;
