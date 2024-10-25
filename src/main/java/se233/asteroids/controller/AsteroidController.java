@@ -8,10 +8,13 @@ import se233.asteroids.view.GameStage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class AsteroidController {
     private final List<Asteroid> asteroidList;
     private final GameStage gameStage;
+
+    private Random random = new Random();
 
     public AsteroidController(GameStage gameStage) {
         asteroidList = new ArrayList<>();
@@ -20,7 +23,8 @@ public class AsteroidController {
 
     public void spawnAsteroids() {
         if (asteroidList.size() < 15) {
-            Asteroid asteroid = new Asteroid(38, 38, 1, 1.5, 0.05, 2, 0.98, 100, gameStage.getWidth(), gameStage.getHeight());
+            double maxSpeed = 0.1 + (random.nextDouble() * 1.9);
+            Asteroid asteroid = new Asteroid(38, 38, 1, maxSpeed, 0.05, 2, 0.98, 100, gameStage.getWidth(), gameStage.getHeight());
 
             asteroid.randomSpawn();
             asteroid.initializeRandomDirection();

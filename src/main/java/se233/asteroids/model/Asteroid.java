@@ -9,16 +9,18 @@ public class Asteroid extends Character{
     private static final String ASTEROID_IDLE = "/se233/asteroids/assets/asteroids/Asteroid_Idle.png";
     private static final String ASTEROID_EXPLODE = "/se233/asteroids/assets/asteroids/Asteroid_Explode.png";
 
-    private Random random;
+    private Random random = new Random();
 
     public Asteroid(double width, double height, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight){
         super(ASTEROID_IDLE, width, height,0,0, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, gameWidth, gameHeight);
-        random = new Random();
 
         loadAnimations();
 
         currentAnimations.add("Idle");
         this.imageView.setImage(animations.get("Idle").getImage());
+
+        double radian = random.nextDouble() * 2 * Math.PI;
+        this.imageView.setRotate(radian);
     }
 
     public void loadAnimations(){
@@ -57,9 +59,8 @@ public class Asteroid extends Character{
 
     @Override
     public void update() {
-        moveRandomly();
-        setX(this.getX() + velocityX);
-        setY(this.getY() + velocityY);
+        moveForward();
+        super.update();
         checkWallCollisions();
     }
 }

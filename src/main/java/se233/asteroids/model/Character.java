@@ -139,6 +139,10 @@ public abstract class Character {
 
     public ImageView getImageView() {return this.imageView;}
 
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
     public void moveForward() {
         double angle = Math.toRadians(this.getRotate());
         velocityX += Math.cos(angle) * acceleration;
