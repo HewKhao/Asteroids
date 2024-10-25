@@ -6,12 +6,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import se233.asteroids.model.AnimatedSprite;
+import se233.asteroids.model.Asteroid;
 import se233.asteroids.model.NormalAttack;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class GameStageController {
     private GameStage gameStage;
@@ -19,6 +19,7 @@ public class GameStageController {
     private PlayerShipController playerShipController;
     private NormalAttack normalAttack;
     private NormalAttackController normalAttackController;
+    private AsteroidController asteroidController;
 
     public GameStageController(GameStage gameStage) {
         this.gameStage = gameStage;
@@ -30,6 +31,7 @@ public class GameStageController {
         this.playerShipController = new PlayerShipController(playerShip, this);
 
         this.normalAttackController = new NormalAttackController(gameStage.getWidth(), gameStage.getHeight());
+        this.asteroidController = new AsteroidController(gameStage);
 
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
@@ -83,10 +85,10 @@ public class GameStageController {
         playerShipController.handleKeyReleased(event);
     }
 
-
     public void update() {
         playerShipController.update();
         normalAttackController.update();
+        asteroidController.updateAsteroids();
 //        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
     }
@@ -97,6 +99,9 @@ public class GameStageController {
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(interval), event -> {
             update();
+            if (Math.random() < 0.01) {
+                asteroidController.spawnAsteroids();
+            }
         }));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();

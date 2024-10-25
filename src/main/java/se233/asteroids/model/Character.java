@@ -121,9 +121,9 @@ public abstract class Character {
         return animationOffsets;
     }
 
-    public Map<String, Double> getAnimationRotates() {
-        return animationRotates;
-    }
+    public Map<String, Double> getAnimationRotates() {return animationRotates;}
+
+    public ImageView getImageView() {return this.imageView;}
 
     public void moveForward() {
         double angle = Math.toRadians(this.getRotate());
