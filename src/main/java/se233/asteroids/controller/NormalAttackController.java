@@ -95,7 +95,18 @@ public class NormalAttackController {
             NormalAttack attack = attackIterator.next();
 
             if (attack.checkCollision(characters)) {
-                gameStageController.getExplosionController().addExplosion(attack.getX(), attack.getY());
+                double projX = attack.getX();
+                double projY = attack.getY();
+                double rotation = attack.getRotate();
+
+                double offsetX = 30;
+                double offsetY = 0;
+
+                double radians = Math.toRadians(rotation);
+                double spawnX = projX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
+                double spawnY = projY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
+
+                gameStageController.getExplosionController().addExplosion(spawnX, spawnY);
             }
         }
     }
