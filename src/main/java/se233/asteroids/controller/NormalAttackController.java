@@ -1,6 +1,5 @@
 package se233.asteroids.controller;
 
-import javafx.scene.Node;
 import se233.asteroids.model.Character;
 import se233.asteroids.model.NormalAttack;
 
@@ -24,6 +23,19 @@ public class NormalAttackController {
     public void addNormalAttack(NormalAttack attack) {
         normalAttackList.add(attack);
         gameStageController.getGameStage().getChildren().add(attack.getAnimatedSprite());
+    }
+
+    public void removeMarkedNormalAttack() {
+        Iterator<NormalAttack> iterator = normalAttackList.iterator();
+
+        while (iterator.hasNext()) {
+            NormalAttack attack = iterator.next();
+
+            if (attack.isMarkForRemove()) {
+                iterator.remove();
+                gameStageController.getGameStage().getChildren().remove(attack.getAnimatedSprite());
+            }
+        }
     }
 
     public void updateAnimaton() {
@@ -51,12 +63,29 @@ public class NormalAttackController {
         while (attackIterator.hasNext()) {
             NormalAttack attack = attackIterator.next();
 
-            attack.checkCollision(characters);
+            if (attack.checkCollision(characters)) {
+                gameStageController.getExplosionController().addExplosion(attack.getX(), attack.getY());
+            }
         }
     }
+
+
+//    public void checkCollisions(List<? extends Character> characters) {
+//        for (NormalAttack attack : normalAttackList) {
+//
+//            if (attack.checkCollision(characters)) {
+//                normalAttackList.remove(attack);
+//                gameStageController.getGameStage().getChildren().remove(attack.getAnimatedSprite());
+//                attack.explode();
+//                gameStageController.getGameStage().getChildren().add(attack.getAnimatedSprite());
+////                attack.markForRemoval();
+//            }
+//        }
+//    }
 
     public void update() {
         updateAnimaton();
         updateAnimationPositions();
+        removeMarkedNormalAttack();
     }
 }

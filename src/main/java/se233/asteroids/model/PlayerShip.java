@@ -72,7 +72,7 @@ public class PlayerShip extends Character {
 
             NormalAttack normalAttack = new NormalAttack(spawnX, spawnY, rotation, 10, 10, 1, 1, gameWidth, gameHeight);
 
-            gameStageController.addNormalAttack(normalAttack);
+            gameStageController.getNormalAttackController().addNormalAttack(normalAttack);
         }
     }
 

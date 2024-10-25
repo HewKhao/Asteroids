@@ -10,10 +10,6 @@ public class AsteroidController {
     private final List<Asteroid> asteroidList;
     private final GameStage gameStage;
 
-    public List<Asteroid> getAsteroidList() {
-        return asteroidList;
-    }
-
     public AsteroidController(GameStage gameStage) {
         asteroidList = new ArrayList<>();
         this.gameStage = gameStage;
@@ -29,6 +25,10 @@ public class AsteroidController {
             asteroidList.add(asteroid);
             gameStage.getChildren().add(asteroid.getImageView());
         }
+    }
+
+    public List<Asteroid> getAsteroidList() {
+        return asteroidList;
     }
 
     public void update() {

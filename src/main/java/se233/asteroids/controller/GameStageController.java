@@ -18,9 +18,14 @@ public class GameStageController {
     private NormalAttack normalAttack;
     private NormalAttackController normalAttackController;
     private AsteroidController asteroidController;
+    private ExplosionController explosionController;
 
     public NormalAttackController getNormalAttackController() {
         return normalAttackController;
+    }
+
+    public ExplosionController getExplosionController() {
+        return explosionController;
     }
 
     public GameStage getGameStage() {
@@ -37,7 +42,10 @@ public class GameStageController {
         this.playerShipController = new PlayerShipController(playerShip, this);
 
         this.normalAttackController = new NormalAttackController(this);
+
         this.asteroidController = new AsteroidController(gameStage);
+
+        this.explosionController = new ExplosionController(this);
 
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
@@ -85,6 +93,7 @@ public class GameStageController {
         playerShipController.update();
         normalAttackController.update();
         asteroidController.update();
+        explosionController.update();
 
         updateCollision();
 

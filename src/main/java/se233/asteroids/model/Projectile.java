@@ -38,6 +38,7 @@ public abstract class Projectile {
 
         this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, 5, 5, 1, 64, 32, width, height);
         this.animatedSprite.setRotate(angle);
+        this.animatedSprite.setPreserveRatio(false);
 
 //        Image image = ImageUtil.loadImage(imagePath);
 //        if (image != null) {
