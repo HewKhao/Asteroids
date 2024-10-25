@@ -7,8 +7,12 @@ import javafx.scene.image.ImageView;
 public class AnimatedSprite extends ImageView {
     int count, columns, rows, offsetX, offsetY, width, height, curIndex, curColumnIndex = 0, curRowIndex = 0;
 
-    boolean isPlayOnce = false;
-    int playFrameCount = 0;
+    private boolean isPlayOnce = false;
+    private int playFrameCount = 0;
+
+    // gameLoop fps / fps that animation should run at
+    private int frameDelay = 60/24;
+    private int frameCounter = 0;
 
     public AnimatedSprite(Image image, int count, int columns, int rows, int offsetX, int offsetY, int width, int height) {
         this.setImage(image);
@@ -23,17 +27,23 @@ public class AnimatedSprite extends ImageView {
     }
 
     public void tick() {
-        curColumnIndex = curIndex % columns;
-        curRowIndex = curIndex / columns;
+        frameCounter++;
 
-        interpolate();
+        if (frameCounter >= frameDelay) {
+            curColumnIndex = curIndex % columns;
+            curRowIndex = curIndex / columns;
 
-        curIndex = (curIndex + 1) % (columns * rows);
-        curIndex = curIndex < count ? curIndex : 0;
-        if (playFrameCount == count) {
-            playFrameCount = 0;
-        } else {
-            playFrameCount++;
+            interpolate();
+
+            curIndex = (curIndex + 1) % (columns * rows);
+            curIndex = curIndex < count ? curIndex : 0;
+            if (playFrameCount == count) {
+                playFrameCount = 0;
+            } else {
+                playFrameCount++;
+            }
+
+            frameCounter = 0;
         }
     }
 
