@@ -11,7 +11,7 @@ public class AnimatedSprite extends ImageView {
     private int playFrameCount = 0;
 
     // gameLoop fps / fps that animation should run at
-    private int frameDelay = 60/24;
+    private int frameDelay = 60/20;
     private int frameCounter = 0;
 
     public AnimatedSprite(Image image, int count, int columns, int rows, int offsetX, int offsetY, int width, int height) {
