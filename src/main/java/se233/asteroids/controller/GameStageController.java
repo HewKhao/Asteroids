@@ -113,18 +113,16 @@ public class GameStageController {
     public void startGameLoop() {
         final double frameRate = 60.0;
         final double interval = 1000 / frameRate;
+        final double buffer = 50;
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(interval), event -> {
             update();
 
             //random spawn asteroid
-            if (Math.random() < 0.01){
-                double ranX = random.nextDouble()* gameStage.getWidth();
-                double ranY = random.nextDouble()* gameStage.getHeight();
-                this.asteroid = new Asteroid(96,96,1,3,0.05,2,0.98,100,gameStage.getWidth(),gameStage.getHeight());
-                asteroid.setX(ranX);
-                asteroid.setY(ranY);
-
+            if (Math.random() < 0.01 && asteroidList.size() < 20){ // limit spawn
+                this.asteroid = new Asteroid(96,96,1,1.5,0.05,2,0.98,100,gameStage.getWidth(),gameStage.getHeight());
+                asteroid.randomSpawn(50);
+                asteroid.initializeRandomDirection();
                 addAsteroid(asteroid);
             }
         }));

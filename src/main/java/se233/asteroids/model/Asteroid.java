@@ -12,23 +12,45 @@ public class Asteroid extends Character{
     public Asteroid(double width, double height, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight){
         super(ASTEROID_IDLE,width,height,0,0, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, gameWidth, gameHeight);
         random = new Random();
-        randomSpawn();
-        initializeRandomDirection();
     }
 
-    private void randomSpawn() {
-        this.x = random.nextDouble() * gameWidth;
-        this.y = random.nextDouble() * gameHeight;
+    public void randomSpawn(double buffer) {
+        double[] xPositions = {
+                random.nextDouble() * gameWidth,  // Random X along the top or bottom edge
+                random.nextDouble() * gameWidth,  // Random X along the top or bottom edge
+                -buffer,  // Left edge (spawn off the left side)
+                gameWidth + buffer  // Right edge (spawn off the right side)
+        };
+
+        double[] yPositions = {
+                -buffer,  // Top edge (spawn above the screen)
+                gameHeight + buffer,  // Bottom edge (spawn below the screen)
+                random.nextDouble() * gameHeight,  // Random Y along the left or right edge
+                random.nextDouble() * gameHeight   // Random Y along the left or right edge
+        };
+
+        // Randomly select one of the four borders (0 = top, 1 = bottom, 2 = left, 3 = right)
+        int borderIndex = random.nextInt(4);
+        this.x = xPositions[borderIndex];
+        this.y = yPositions[borderIndex];
+
         setX(x);
         setY(y);
     }
 
-    private void initializeRandomDirection() {
-        // Random velocity in all directions (up, down, left, right)
-        velocityX = (random.nextDouble() - 0.5) * 2 * maxSpeed;
-        velocityY = (random.nextDouble() - 0.5) * 2 * maxSpeed;
-        double randomAngle = random.nextDouble() * 360;
-        setRotate(randomAngle);
+    public void initializeRandomDirection() {
+        double targetX = random.nextDouble() * gameWidth;  // Random target point inside the screen
+        double targetY = random.nextDouble() * gameHeight;
+
+        // Calculate direction towards the target point
+        double angleToTarget = Math.atan2(targetY - this.y, targetX - this.x);
+
+        // Set velocity based on the direction towards the target
+        velocityX = Math.cos(angleToTarget) * maxSpeed;
+        velocityY = Math.sin(angleToTarget) * maxSpeed;
+
+        // Optionally set random rotation for the asteroid
+        setRotate(random.nextDouble() * 360);
     }
 
     public void moveRandomly() {

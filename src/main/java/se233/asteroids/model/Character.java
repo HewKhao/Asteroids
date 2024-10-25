@@ -125,6 +125,78 @@ public abstract class Character {
 
     public ImageView getImageView() {return this.imageView;}
 
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    public void setVelocityX(double velocityX) {
+        this.velocityX = velocityX;
+    }
+
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public void setVelocityY(double velocityY) {
+        this.velocityY = velocityY;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void setRotationSpeed(double rotationSpeed) {
+        this.rotationSpeed = rotationSpeed;
+    }
+
+    public double getFriction() {
+        return friction;
+    }
+
+    public void setFriction(double friction) {
+        this.friction = friction;
+    }
+
+    public double getGameWidth() {
+        return gameWidth;
+    }
+
+    public void setGameWidth(double gameWidth) {
+        this.gameWidth = gameWidth;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public double getGameHeight() {
+        return gameHeight;
+    }
+
+    public void setGameHeight(double gameHeight) {
+        this.gameHeight = gameHeight;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
     public void moveForward() {
         double angle = Math.toRadians(this.getRotate());
         velocityX += Math.cos(angle) * acceleration;
