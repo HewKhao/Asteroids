@@ -19,6 +19,14 @@ public class GameStageController {
     private NormalAttackController normalAttackController;
     private AsteroidController asteroidController;
 
+    public NormalAttackController getNormalAttackController() {
+        return normalAttackController;
+    }
+
+    public GameStage getGameStage() {
+        return gameStage;
+    }
+
     public GameStageController(GameStage gameStage) {
         this.gameStage = gameStage;
         double centerX = (double) gameStage.getWidthValue() / 2;
@@ -28,16 +36,11 @@ public class GameStageController {
         this.playerShip.setRotate(-90);
         this.playerShipController = new PlayerShipController(playerShip, this);
 
-        this.normalAttackController = new NormalAttackController(gameStage.getWidth(), gameStage.getHeight());
+        this.normalAttackController = new NormalAttackController(this);
         this.asteroidController = new AsteroidController(gameStage);
 
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
-    }
-
-    public void addNormalAttack(NormalAttack attack) {
-        normalAttackController.getNormalAttackList().add(attack);
-        gameStage.getChildren().add(attack.getAnimatedSprite());
     }
 
 //    public void removeOutOfBoundsNormalAttack() {

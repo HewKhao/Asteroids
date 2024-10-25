@@ -10,13 +10,20 @@ import java.util.List;
 
 public class NormalAttackController {
     private List<NormalAttack> normalAttackList;
+    private GameStageController gameStageController;
 
-    public NormalAttackController(double gameWidth, double gameHeight) {
+    public NormalAttackController(GameStageController gameStageController) {
         this.normalAttackList = new ArrayList<NormalAttack>();
+        this.gameStageController = gameStageController;
     }
 
     public List<NormalAttack> getNormalAttackList() {
         return this.normalAttackList;
+    }
+
+    public void addNormalAttack(NormalAttack attack) {
+        normalAttackList.add(attack);
+        gameStageController.getGameStage().getChildren().add(attack.getAnimatedSprite());
     }
 
     public void updateAnimaton() {
