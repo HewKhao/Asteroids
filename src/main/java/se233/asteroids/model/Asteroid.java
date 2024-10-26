@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import se233.asteroids.util.SpriteUtil;
 
+import java.util.List;
 import java.util.Random;
 
 public class Asteroid extends Character{
@@ -30,7 +31,6 @@ public class Asteroid extends Character{
     }
 
     public void loadAnimations(){
-//        animations.put("idle", SpriteUtil.createAnimatedSpriteWithOffset(ASTEROID_IDLE, 1, 1, 1, 29, 34, 38, 38, 38, 38));
         animations.put("idle", SpriteUtil.createAnimatedSprite(ASTEROID_IDLE, 1, 1, 1, 96, 96, 96, 96));
         animations.put("explode", SpriteUtil.createAnimatedSprite(ASTEROID_EXPLODE, 8, 8, 1, 96, 96, 96, 96));
 
@@ -65,6 +65,40 @@ public class Asteroid extends Character{
 
     public boolean isMarkForRemove() {
         return isMarkForRemove;
+    }
+
+    public boolean checkCharacterCollision(Character character) {
+        if (character == this) {
+            return false;
+        }
+
+        Bounds asteroidBounds = this.getImageView().getBoundsInParent();
+        Bounds characterBounds = character.getImageView().getBoundsInParent();
+
+        return asteroidBounds.intersects(characterBounds);
+    }
+
+    public Boolean checkPlayerShipCollision(PlayerShip playerShip) {
+        Bounds asteroidBounds = this.getImageView().getBoundsInParent();
+        Bounds playerShipBounds = playerShip.getImageView().getBoundsInParent();
+
+        if (asteroidBounds.intersects(playerShipBounds)) {
+            playerShip.collided();
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkCollision(List<? extends Character> characters) {
+        for (Character character : characters) {
+            if (checkCharacterCollision(character)) {
+                character.collided();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

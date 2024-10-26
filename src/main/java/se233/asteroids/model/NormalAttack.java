@@ -35,7 +35,6 @@ public class NormalAttack extends Projectile {
     }
 
     public boolean checkCollision(List<? extends Character> characters) {
-
        for (Character character : characters) {
            if (checkCharacterCollision(character)) {
                character.collided();

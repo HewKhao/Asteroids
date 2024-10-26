@@ -14,9 +14,16 @@ public class PlayerShip extends Character {
     private static final String BOOST_SPRITE = "/se233/asteroids/assets/playerShip/Boost.png";
     private static final String SHOOT_SPRITE = "/se233/asteroids/assets/playerShip/Attack_1.png";
     private static final String FIRE_SPRITE = "/se233/asteroids/assets/playerShip/Burn.png";
+    private static final String DESTROYED_SPRITE = "/se233/asteroids/assets/playerShip/Destroyed.png";
+    private static final String SHIELD_SPRITE = "/se233/asteroids/assets/playerShip/Shield.png";
 
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
+
+    private final double shieldDuration = 1.0;
+    private double timeSinceShield = 0;
+
+    private Boolean isDestroyed = false;
 
     public Rectangle outline = new Rectangle();
 
@@ -39,14 +46,21 @@ public class PlayerShip extends Character {
         outline.setStrokeWidth(2);
     }
 
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
     private void loadAnimations() {
         animations.put("idle", SpriteUtil.createAnimatedSprite(IDLE_SPRITE, 1, 1, 1, 192, 192, 100, 100));
         animations.put("boost", SpriteUtil.createAnimatedSprite(BOOST_SPRITE, 5, 5, 1, 192, 192, 100, 100));
         animations.put("shoot", SpriteUtil.createAnimatedSprite(SHOOT_SPRITE, 4, 4, 1, 192, 192, 100, 100));
         animations.put("fire", SpriteUtil.createAnimatedSprite(FIRE_SPRITE, 10, 1, 10, 128, 128, 100, 100));
+        animations.put("destroyed", SpriteUtil.createAnimatedSprite(DESTROYED_SPRITE, 15, 15, 1, 192, 192, 100, 100));
+        animations.put("shield", SpriteUtil.createAnimatedSprite(SHIELD_SPRITE, 1, 1, 1, 269, 269, 100, 100));
 
         animations.get("shoot").setPlayOnce(true);
         animations.get("fire").setPlayOnce(true);
+        animations.get("destroyed").setPlayOnce(true);
 
         animationOffsets.put("shoot", new double[]{0, -2.6});
         animationOffsets.put("fire", new double[]{0, 34});
@@ -84,6 +98,37 @@ public class PlayerShip extends Character {
         }
     }
 
+    public void respawn(double x, double y) {
+        this.setX(x);
+        this.setY(y);
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.isDestroyed = false;
+        this.currentAnimations.add("idle");
+        this.animations.get("destroyed").reset();
+        this.timeSinceLastShot = 0.5;
+        this.timeSinceShield = 0;
+
+        this.currentAnimations.add("shield");
+        logger.info("PlayerShip respawned!");
+    }
+
+    @Override
+    public void collided() {
+        if (isDestroyed) {
+            return;
+        }
+
+        if (timeSinceShield < shieldDuration) {
+            return;
+        }
+
+        this.isDestroyed = true;
+        this.currentAnimations.remove("idle");
+        this.currentAnimations.add("destroyed");
+        logger.info("PlayerShip collided!");
+    }
+
     @Override
     public void update() {
         super.update();
@@ -92,19 +137,13 @@ public class PlayerShip extends Character {
             timeSinceLastShot += 0.016;
         }
 
-//        if (currentAnimations.contains("shoot")) {
-//            AnimatedSprite shootSprite = animations.get("shoot");
-//            if (shootSprite.getCurrentFrame() == shootSprite.getTotalFrames() - 1) {
-//                currentAnimations.remove("shoot");
-//            }
-//        }
-//
-//        if (currentAnimations.contains("fire")) {
-//            AnimatedSprite fireSprite = animations.get("fire");
-//            if (fireSprite.getCurrentFrame() == fireSprite.getTotalFrames() - 1) {
-//                currentAnimations.remove("fire");
-//            }
-//        }
+        if (timeSinceShield < shieldDuration) {
+            timeSinceShield += 0.016;
+        }
+
+        if (timeSinceShield >= shieldDuration) {
+            this.currentAnimations.remove("shield");
+        }
 
         if (Math.abs(velocityX) > 0.1 || Math.abs(velocityY) > 0.1) {
             logger.info("PlayerShip Position - X: {}, Y: {}", getX(), getY());

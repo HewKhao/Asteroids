@@ -4,12 +4,10 @@ import javafx.geometry.Bounds;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import se233.asteroids.model.AnimatedSprite;
+import se233.asteroids.model.Character;
 import se233.asteroids.model.PlayerShip;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PlayerShipController {
     private PlayerShip playerShip;
@@ -36,6 +34,9 @@ public class PlayerShipController {
     }
 
     public void updateShipMovement() {
+        if (playerShip.isDestroyed()) {
+            return;
+        }
         if (pressedKeys.contains(KeyCode.W)) {
             playerShip.moveForward();
         } else {
@@ -75,6 +76,11 @@ public class PlayerShipController {
                     if (animation.getPlayFrameCount() < animation.getTotalFrames()) {
                         animation.tick();
                     } else {
+                        if (playerShip.isDestroyed()) {
+                            double centerX = gameStageController.getGameStage().getWidth() / 2;
+                            double centerY = gameStageController.getGameStage().getHeight() / 2;
+                            playerShip.respawn(centerX, centerY);
+                        }
                         playerShip.getCurrentAnimations().remove(animationKey);
                     }
                 } else {

@@ -4,9 +4,8 @@ import javafx.animation.Animation;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import se233.asteroids.model.AnimatedSprite;
-import se233.asteroids.model.Asteroid;
-import se233.asteroids.model.NormalAttack;
+import se233.asteroids.model.*;
+import se233.asteroids.model.Character;
 import se233.asteroids.view.GameStage;
 
 import java.util.*;
@@ -139,6 +138,17 @@ public class AsteroidController {
 
     public List<Asteroid> getAsteroidList() {
         return asteroidList;
+    }
+
+    public void checkCollisions(List<? extends Character> characters, PlayerShip playerShip) {
+        Iterator<Asteroid> iterator = asteroidList.iterator();
+
+        while (iterator.hasNext()) {
+            Asteroid asteroid = iterator.next();
+
+            asteroid.checkCollision(characters);
+            asteroid.checkPlayerShipCollision(playerShip);
+        }
     }
 
     public void update() {

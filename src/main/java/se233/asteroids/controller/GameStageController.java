@@ -93,6 +93,7 @@ public class GameStageController {
 
     public void updateCollision() {
         normalAttackController.checkCollisions(asteroidController.getAsteroidList());
+        asteroidController.checkCollisions(asteroidController.getAsteroidList(), playerShip);
     }
 
     public void update() {
