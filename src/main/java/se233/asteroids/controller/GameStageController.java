@@ -20,7 +20,7 @@ public class GameStageController {
     private AsteroidController asteroidController;
     private ExplosionController explosionController;
 
-    private boolean showHitbox = true;
+    private boolean showHitbox = false;
 
     public NormalAttackController getNormalAttackController() {
         return normalAttackController;

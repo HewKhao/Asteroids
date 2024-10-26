@@ -14,8 +14,6 @@ public class NormalAttackController {
     private List<NormalAttack> normalAttackList;
     private GameStageController gameStageController;
 
-    Rectangle outline;
-
     public NormalAttackController(GameStageController gameStageController) {
         this.normalAttackList = new ArrayList<NormalAttack>();
         this.gameStageController = gameStageController;
@@ -27,7 +25,6 @@ public class NormalAttackController {
 
     public void addNormalAttack(NormalAttack attack) {
         normalAttackList.add(attack);
-        gameStageController.getGameStage().getChildren().add(attack.getAnimatedSprite());
 
         Bounds bound = attack.getAnimatedSprite().getBoundsInParent();
         double x = bound.getMinX();
@@ -35,14 +32,18 @@ public class NormalAttackController {
         double width = bound.getWidth();
         double height = bound.getHeight();
 
-        outline = new Rectangle(x, y, width, height);
-        outline.setFill(Color.TRANSPARENT); // no fill inside
-        outline.setStroke(Color.RED); // outline color
-        outline.setStrokeWidth(2);
+        attack.outline = new Rectangle(x, y, width, height);
+        attack.outline.setFill(Color.TRANSPARENT);
+        attack.outline.setStroke(Color.RED);
+        attack.outline.setStrokeWidth(2);
+        attack.outline.setVisible(false);
+
+        gameStageController.getGameStage().getChildren().add(attack.getAnimatedSprite());
+        gameStageController.getGameStage().getChildren().add(attack.outline);
 
         // Uncomment code below to show hitbox
         if (gameStageController.isShowHitbox()) {
-            gameStageController.getGameStage().getChildren().add(outline);
+            attack.outline.setVisible(true);
         }
     }
 
@@ -55,6 +56,7 @@ public class NormalAttackController {
             if (attack.isMarkForRemove()) {
                 iterator.remove();
                 gameStageController.getGameStage().getChildren().remove(attack.getAnimatedSprite());
+                gameStageController.getGameStage().getChildren().remove(attack.outline);
             }
         }
     }
@@ -83,10 +85,10 @@ public class NormalAttackController {
             double width = bound.getWidth();
             double height = bound.getHeight();
 
-            outline.setX(Bx);
-            outline.setY(By);
-            outline.setWidth(width);
-            outline.setHeight(height);
+            attack.outline.setX(Bx);
+            attack.outline.setY(By);
+            attack.outline.setWidth(width);
+            attack.outline.setHeight(height);
         }
     }
 

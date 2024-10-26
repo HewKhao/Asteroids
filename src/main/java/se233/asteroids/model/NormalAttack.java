@@ -1,6 +1,7 @@
 package se233.asteroids.model;
 
 import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
@@ -9,6 +10,8 @@ public class NormalAttack extends Projectile {
     private final double MAX_LIFE_TIME = 0.75;
     private double timeAlive;
     private boolean isMarkForRemove;
+
+    public Rectangle outline;
 
     public NormalAttack(double x, double y, double rotation, double initialSpeed, double maxSpeed, double acceleration, double friction, double width, double height) {
         super(FIREBALL_SPRITE, 40, 20, x, y, rotation, initialSpeed, maxSpeed, acceleration, friction, width, height);
@@ -34,9 +37,6 @@ public class NormalAttack extends Projectile {
     }
 
     public boolean checkCollision(List<? extends Character> characters) {
-//        if (isMarkForRemove) {
-//            return;
-//        }
 
        for (Character character : characters) {
            if (checkCharacterCollision(character)) {
