@@ -13,6 +13,7 @@ public class Asteroid extends Character{
     private static final String ASTEROID_EXPLODE = "/se233/asteroids/assets/asteroids/Asteroid_Explode.png";
 
     private Random random = new Random();
+    private boolean isMarkForRemove = false;
 
     public Rectangle outline;
 
@@ -26,10 +27,6 @@ public class Asteroid extends Character{
 
         double radian = random.nextDouble() * 2 * Math.PI;
         this.imageView.setRotate(radian);
-    }
-
-    public Rectangle getOutline(){
-        return outline;
     }
 
     public void loadAnimations(){
@@ -60,6 +57,21 @@ public class Asteroid extends Character{
         velocityY = (random.nextDouble() - 0.5) * 2 * maxSpeed;
         double randomAngle = random.nextDouble() * 360;
         setRotate(randomAngle);
+    }
+
+    public void markForRemove() {
+        this.isMarkForRemove = true;
+    }
+
+    public boolean isMarkForRemove() {
+        return isMarkForRemove;
+    }
+
+    @Override
+    public void collided() {
+        this.maxSpeed = 0;
+        this.currentAnimations.remove("idle");
+        this.currentAnimations.add("explode");
     }
 
     @Override

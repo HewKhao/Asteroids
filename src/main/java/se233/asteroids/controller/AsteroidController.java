@@ -6,12 +6,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import se233.asteroids.model.AnimatedSprite;
 import se233.asteroids.model.Asteroid;
+import se233.asteroids.model.NormalAttack;
 import se233.asteroids.view.GameStage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class AsteroidController {
     private final List<Asteroid> asteroidList;
@@ -33,8 +31,8 @@ public class AsteroidController {
             asteroid.initializeRandomDirection();
 
             asteroidList.add(asteroid);
-            gameStageController.getGameStage().getChildren().add(asteroid.getImageView());
-            gameStageController.getGameStage().getChildren().add(asteroid.getAnimations().get("idle"));
+//            gameStageController.getGameStage().getChildren().add(asteroid.getImageView());
+            gameStageController.getGameStage().getChildren().addAll(asteroid.getAnimations().values());
 
             double animatedSpriteWidth = asteroid.getAnimations().get("idle").getFitWidth();
             double animatedSpriteHeight = asteroid.getAnimations().get("idle").getFitHeight();
@@ -57,10 +55,50 @@ public class AsteroidController {
             asteroid.outline.setFill(Color.TRANSPARENT);
             asteroid.outline.setStroke(Color.RED);
             asteroid.outline.setStrokeWidth(2);
+            asteroid.outline.setVisible(false);
+
+            gameStageController.getGameStage().getChildren().add(asteroid.outline);
 
             // Uncomment code below to show hitbox
             if (gameStageController.isShowHitbox()) {
-                gameStageController.getGameStage().getChildren().add(asteroid.outline);
+                asteroid.outline.setVisible(true);
+            }
+        }
+    }
+
+    public void removeMarkedAsteroids() {
+        Iterator<Asteroid> iterator = asteroidList.iterator();
+
+        while (iterator.hasNext()) {
+            Asteroid asteroid = iterator.next();
+
+            if (asteroid.isMarkForRemove()) {
+                iterator.remove();
+                gameStageController.getGameStage().getChildren().removeAll(asteroid.getAnimations().values());
+                gameStageController.getGameStage().getChildren().remove(asteroid.outline);
+            }
+        }
+    }
+
+    public void updateAnimationVisibility() {
+        for (Asteroid asteroid : asteroidList) {
+            Map<String, AnimatedSprite> animations = asteroid.getAnimations();
+            List<String> currentAnimations = asteroid.getCurrentAnimations();
+
+            for (Map.Entry<String, AnimatedSprite> entry : animations.entrySet()) {
+                String key = entry.getKey();
+                AnimatedSprite animation = entry.getValue();
+                animation.setVisible(currentAnimations.contains(key));
+
+                if (animation.isVisible()) {
+                    if (animation.isPlayOnce()) {
+                        if (animation.getPlayFrameCount() < animation.getTotalFrames()) {
+                            animation.tick();
+                        } else {
+                            asteroid.markForRemove();
+                        }
+                    }
+                }
             }
         }
     }
@@ -110,7 +148,9 @@ public class AsteroidController {
         for (Asteroid asteroid : asteroidList) {
             asteroid.update();
         }
+        updateAnimationVisibility();
         updateAnimationPositions();
+        removeMarkedAsteroids();
     }
 
 }
