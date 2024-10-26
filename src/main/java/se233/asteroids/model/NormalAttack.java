@@ -20,7 +20,7 @@ public class NormalAttack extends Projectile {
     }
 
     public void markForRemoval() {
-        isMarkForRemove = true;
+        this.isMarkForRemove = true;
     }
 
     public boolean isMarkForRemove() {
@@ -28,10 +28,8 @@ public class NormalAttack extends Projectile {
     }
 
     public boolean checkCharacterCollision(Character character) {
-        AnimatedSprite characterSprite = character.getAnimations().values().iterator().next();
-        Bounds projectileBounds = this.getAnimatedSprite().getBoundsInParent();
+        Bounds projectileBounds = this.outline.getBoundsInParent();
         Bounds characterBounds = character.getImageView().getBoundsInParent();
-//        Bounds characterBounds = characterSprite.getBoundsInParent();
 
         return projectileBounds.intersects(characterBounds);
     }
@@ -40,7 +38,6 @@ public class NormalAttack extends Projectile {
 
        for (Character character : characters) {
            if (checkCharacterCollision(character)) {
-               markForRemoval();
                character.collided();
                return true;
            }

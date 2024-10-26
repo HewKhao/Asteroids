@@ -27,12 +27,12 @@ public class NormalAttackController {
         normalAttackList.add(attack);
 
         Bounds bound = attack.getAnimatedSprite().getBoundsInParent();
-        double x = bound.getMinX();
-        double y = bound.getMinY();
+        double centerX = attack.getX() - (bound.getWidth() / 2);
+        double centerY = attack.getY() - (bound.getHeight() / 2);
         double width = bound.getWidth();
         double height = bound.getHeight();
 
-        attack.outline = new Rectangle(x, y, width, height);
+        attack.outline = new Rectangle(centerX, centerY, width, height);
         attack.outline.setFill(Color.TRANSPARENT);
         attack.outline.setStroke(Color.RED);
         attack.outline.setStrokeWidth(2);
@@ -61,6 +61,11 @@ public class NormalAttackController {
         }
     }
 
+    public void removeNormalAttack(NormalAttack attack) {
+        gameStageController.getGameStage().getChildren().remove(attack.getAnimatedSprite());
+        gameStageController.getGameStage().getChildren().remove(attack.outline);
+    }
+
     public void updateAnimaton() {
         for (NormalAttack attack : normalAttackList) {
             attack.getAnimatedSprite().tick();
@@ -78,15 +83,14 @@ public class NormalAttackController {
             attack.getAnimatedSprite().setY(y);
             attack.getAnimatedSprite().setRotate(rotation);
 
-
             Bounds bound = attack.getAnimatedSprite().getBoundsInParent();
-            double Bx = bound.getMinX();
-            double By = bound.getMinY();
+            double centerX = attack.getX() - (bound.getWidth() / 2);
+            double centerY = attack.getY() - (bound.getHeight() / 2);
             double width = bound.getWidth();
             double height = bound.getHeight();
 
-            attack.outline.setX(Bx);
-            attack.outline.setY(By);
+            attack.outline.setX(centerX);
+            attack.outline.setY(centerY);
             attack.outline.setWidth(width);
             attack.outline.setHeight(height);
         }
@@ -99,6 +103,10 @@ public class NormalAttackController {
             NormalAttack attack = attackIterator.next();
 
             if (attack.checkCollision(characters)) {
+                attack.setMaxSpeed(0);
+                removeNormalAttack(attack);
+                attack.markForRemoval();
+
                 double projX = attack.getX();
                 double projY = attack.getY();
                 double rotation = attack.getRotate();

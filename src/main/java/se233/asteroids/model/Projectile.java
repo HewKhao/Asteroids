@@ -40,18 +40,18 @@ public abstract class Projectile {
         this.animatedSprite.setRotate(angle);
         this.animatedSprite.setPreserveRatio(false);
 
-//        Image image = ImageUtil.loadImage(imagePath);
-//        if (image != null) {
-//            this.imageView = new ImageView(image);
-//            this.imageView.setFitWidth(width);
-//            this.imageView.setFitHeight(height);
-//            this.imageView.setRotate(angle);
-//            setX(x);
-//            setY(y);
-//            logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
-//        } else {
-//            logger.error("Failed to load image: {}", imagePath);
-//        }
+        Image image = ImageUtil.loadImage(imagePath);
+        if (image != null) {
+            this.imageView = new ImageView(image);
+            this.imageView.setFitWidth(width);
+            this.imageView.setFitHeight(height);
+            this.imageView.setRotate(angle);
+            setX(x);
+            setY(y);
+            logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
+        } else {
+            logger.error("Failed to load image: {}", imagePath);
+        }
     }
 
     public ImageView getImageView() {
@@ -91,6 +91,10 @@ public abstract class Projectile {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
     }
 
     public double getSpeed() {
