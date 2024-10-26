@@ -59,7 +59,9 @@ public class AsteroidController {
             asteroid.outline.setStrokeWidth(2);
 
             // Uncomment code below to show hitbox
-//            gameStageController.getGameStage().getChildren().add(asteroid.outline);
+            if (gameStageController.isShowHitbox()) {
+                gameStageController.getGameStage().getChildren().add(asteroid.outline);
+            }
         }
     }
 

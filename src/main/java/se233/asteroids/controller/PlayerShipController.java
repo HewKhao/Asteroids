@@ -22,7 +22,9 @@ public class PlayerShipController {
         this.pressedKeys = new HashSet<>();
 
         // Uncomment code below to show hitbox
-//        gameStageController.getGameStage().getChildren().add(playerShip.outline);
+        if (gameStageController.isShowHitbox()) {
+            gameStageController.getGameStage().getChildren().add(playerShip.outline);
+        }
     }
 
     public void handleKeyPressed(KeyEvent event) {

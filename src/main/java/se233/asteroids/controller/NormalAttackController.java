@@ -41,7 +41,9 @@ public class NormalAttackController {
         outline.setStrokeWidth(2);
 
         // Uncomment code below to show hitbox
-//        gameStageController.getGameStage().getChildren().add(outline);
+        if (gameStageController.isShowHitbox()) {
+            gameStageController.getGameStage().getChildren().add(outline);
+        }
     }
 
     public void removeMarkedNormalAttack() {
@@ -110,20 +112,6 @@ public class NormalAttackController {
             }
         }
     }
-
-
-//    public void checkCollisions(List<? extends Character> characters) {
-//        for (NormalAttack attack : normalAttackList) {
-//
-//            if (attack.checkCollision(characters)) {
-//                normalAttackList.remove(attack);
-//                gameStageController.getGameStage().getChildren().remove(attack.getAnimatedSprite());
-//                attack.explode();
-//                gameStageController.getGameStage().getChildren().add(attack.getAnimatedSprite());
-////                attack.markForRemoval();
-//            }
-//        }
-//    }
 
     public void update() {
         updateAnimaton();

@@ -33,7 +33,8 @@ public class Asteroid extends Character{
     }
 
     public void loadAnimations(){
-        animations.put("idle", SpriteUtil.createAnimatedSpriteWithOffset(ASTEROID_IDLE, 1, 1, 1, 29, 34, 38, 38, 38, 38));
+//        animations.put("idle", SpriteUtil.createAnimatedSpriteWithOffset(ASTEROID_IDLE, 1, 1, 1, 29, 34, 38, 38, 38, 38));
+        animations.put("idle", SpriteUtil.createAnimatedSprite(ASTEROID_IDLE, 1, 1, 1, 96, 96, 96, 96));
         animations.put("explode", SpriteUtil.createAnimatedSprite(ASTEROID_EXPLODE, 8, 8, 1, 96, 96, 96, 96));
 
         animations.get("explode").setPlayOnce(true);
