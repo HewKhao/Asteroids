@@ -102,7 +102,7 @@ public class NormalAttackController {
         while (attackIterator.hasNext()) {
             NormalAttack attack = attackIterator.next();
 
-            if (attack.checkCollision(characters)) {
+            if (attack.checkCollision(characters,gameStageController)) {
                 attack.setMaxSpeed(0);
                 removeNormalAttack(attack);
                 attack.markForRemoval();
