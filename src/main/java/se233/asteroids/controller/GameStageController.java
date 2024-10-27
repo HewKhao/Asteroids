@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import se233.asteroids.model.AnimatedSprite;
+import se233.asteroids.model.Character;
 import se233.asteroids.model.NormalAttack;
 import se233.asteroids.model.PlayerShip;
 import se233.asteroids.view.GameStage;
@@ -19,6 +20,7 @@ public class GameStageController {
     private NormalAttackController normalAttackController;
     private AsteroidController asteroidController;
     private ExplosionController explosionController;
+    private NormalEnemiesController normalEnemiesController;
 
     private boolean showHitbox = true;
 
@@ -52,6 +54,8 @@ public class GameStageController {
         this.asteroidController = new AsteroidController(this);
 
         this.explosionController = new ExplosionController(this);
+
+        this.normalEnemiesController = new NormalEnemiesController(this);
 
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
@@ -92,8 +96,13 @@ public class GameStageController {
     }
 
     public void updateCollision() {
-        normalAttackController.checkCollisions(asteroidController.getAsteroidList());
-        asteroidController.checkCollisions(asteroidController.getAsteroidList(), playerShip);
+        List<Character> characterList = new ArrayList<>();
+        characterList.addAll(asteroidController.getAsteroidList());
+        characterList.addAll(normalEnemiesController.getEnemiesList());
+
+        normalAttackController.checkCollisions(characterList);
+        asteroidController.checkCollisions(characterList, playerShip);
+        normalEnemiesController.checkCollisions(playerShip);
     }
 
     public void update() {
@@ -101,6 +110,7 @@ public class GameStageController {
         normalAttackController.update();
         asteroidController.update();
         explosionController.update();
+        normalEnemiesController.update();
 
         updateCollision();
 
