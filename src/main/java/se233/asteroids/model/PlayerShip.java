@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import se233.asteroids.controller.GameStageController;
 import se233.asteroids.util.SpriteUtil;
+import se233.asteroids.view.GameStage;
 
 public class PlayerShip extends Character {
     private static final Logger logger = LogManager.getLogger(PlayerShip.class);
@@ -16,9 +17,12 @@ public class PlayerShip extends Character {
     private static final String FIRE_SPRITE = "/se233/asteroids/assets/playerShip/Burn.png";
     private static final String DESTROYED_SPRITE = "/se233/asteroids/assets/playerShip/Destroyed.png";
     private static final String SHIELD_SPRITE = "/se233/asteroids/assets/playerShip/Shield.png";
+    private GameStageController gameStageController;
+    private GameStage gameStage;
 
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
+    private int lives = 3;
 
     private final double shieldDuration = 1.0;
     private double timeSinceShield = 0;
@@ -27,8 +31,9 @@ public class PlayerShip extends Character {
 
     public Rectangle outline = new Rectangle();
 
-    public PlayerShip(double x, double y, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double width, double height) {
+    public PlayerShip(double x, double y, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double width, double height,GameStageController gameStageController) {
         super(IDLE_SPRITE,50 ,50, x, y, initialSpeed, maxSpeed, acceleration, rotationSpeed, friction, health, width, height);
+        this.gameStageController = gameStageController;
         logger.info("PlayerShip created at X: {}, Y: {}", x, y);
         this.velocityX = 0;
         this.velocityY = 0;
@@ -98,6 +103,9 @@ public class PlayerShip extends Character {
         }
     }
 
+    public int getLives(){ return lives; }
+
+
     public void respawn(double x, double y) {
         this.setX(x);
         this.setY(y);
@@ -108,7 +116,6 @@ public class PlayerShip extends Character {
         this.animations.get("destroyed").reset();
         this.timeSinceLastShot = 0.5;
         this.timeSinceShield = 0;
-
         this.currentAnimations.add("shield");
         logger.info("PlayerShip respawned!");
     }
@@ -124,8 +131,16 @@ public class PlayerShip extends Character {
         }
 
         this.isDestroyed = true;
-        this.currentAnimations.remove("idle");
-        this.currentAnimations.add("destroyed");
+        lives --;
+
+        gameStageController.decrementLives();
+
+        if (lives > 0) {
+            this.currentAnimations.remove("idle");
+            this.currentAnimations.add("destroyed");
+        } else {
+            gameStageController.showGameOverScreen();
+        }
         logger.info("PlayerShip collided!");
     }
 

@@ -21,8 +21,9 @@ public class GameStageController {
     private AsteroidController asteroidController;
     private ExplosionController explosionController;
     private NormalEnemiesController normalEnemiesController;
+    private int score = 0;
 
-    private boolean showHitbox = true;
+    private boolean showHitbox = false;
 
     public NormalAttackController getNormalAttackController() {
         return normalAttackController;
@@ -45,7 +46,8 @@ public class GameStageController {
         double centerX = (double) gameStage.getWidthValue() / 2;
         double centerY = (double) gameStage.getHeightValue() / 2;
 
-        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue());
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),this);
+        this.score = 0;
         this.playerShip.setRotate(-90);
         this.playerShipController = new PlayerShipController(playerShip, this);
 
@@ -85,6 +87,28 @@ public class GameStageController {
                 gameStage.getChildren().remove(attack.getAnimatedSprite());
             }
         }
+    }
+    public int getScore(){
+        return score;
+    }
+
+
+    public void showGameOverScreen(){
+        gameStage.showGameOverScreen(score);
+    }
+
+    public void decrementLives() {
+        // Update lives label in GameStage
+        gameStage.updateLives(playerShip.getLives());
+
+        if (playerShip.getLives() == 0) {
+            showGameOverScreen();
+        }
+    }
+
+    public void incrementScore(int point) {
+        score += point;
+        gameStage.getScoreLabel().setText("Score: "+ score);
     }
 
     public void handleKeyPressed(KeyEvent event) {
