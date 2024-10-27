@@ -2,6 +2,7 @@ package se233.asteroids.model;
 
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
+import se233.asteroids.controller.GameStageController;
 
 import java.util.List;
 
@@ -34,10 +35,19 @@ public class NormalAttack extends Projectile {
         return projectileBounds.intersects(characterBounds);
     }
 
-    public boolean checkCollision(List<? extends Character> characters) {
+    public boolean checkCollision(List<? extends Character> characters, GameStageController gameStageController) {
        for (Character character : characters) {
-           if (checkCharacterCollision(character)) {
-               character.collided();
+           if (checkCharacterCollision(character) && character instanceof Asteroid) {
+               Asteroid asteroid = (Asteroid) character;
+               gameStageController.incrementScore(1);
+               asteroid.collided();
+               markForRemoval();
+               return true;
+           } else if (character instanceof NormalEnemies && checkCharacterCollision(character)) {
+               NormalEnemies normalEnemies = (NormalEnemies) character;
+               gameStageController.incrementScore(1);
+               normalEnemies.collided();
+               markForRemoval();
                return true;
            }
        }
