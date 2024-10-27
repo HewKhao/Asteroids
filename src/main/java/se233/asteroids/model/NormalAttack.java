@@ -14,7 +14,7 @@ public class NormalAttack extends Projectile {
     public Rectangle outline;
 
     public NormalAttack(double x, double y, double rotation, double initialSpeed, double maxSpeed, double acceleration, double friction, double width, double height) {
-        super(FIREBALL_SPRITE, 40, 20, x, y, rotation, initialSpeed, maxSpeed, acceleration, friction, width, height);
+        super(FIREBALL_SPRITE, 5, 5, 1, 64, 32, 40, 20, x, y, rotation, initialSpeed, maxSpeed, acceleration, friction, width, height);
         this.timeAlive = 0;
         this.isMarkForRemove = false;
     }

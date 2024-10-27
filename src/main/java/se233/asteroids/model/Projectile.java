@@ -24,7 +24,7 @@ public abstract class Projectile {
     protected ImageView imageView;
     protected AnimatedSprite animatedSprite;
 
-    public Projectile(String imagePath, double width, double height, double x, double y, double angle, double initialSpeed, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
+    public Projectile(String imagePath, int count, int columns, int rows, int frameWidth, int frameHeight, double width, double height, double x, double y, double angle, double initialSpeed, double maxSpeed, double acceleration, double friction, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
         this.speed = initialSpeed;
@@ -36,7 +36,7 @@ public abstract class Projectile {
         this.velocityX = 0;
         this.velocityY = 0;
 
-        this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, 5, 5, 1, 64, 32, width, height);
+        this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, count, columns, rows, frameWidth, frameHeight, width, height);
         this.animatedSprite.setRotate(angle);
         this.animatedSprite.setPreserveRatio(false);
 

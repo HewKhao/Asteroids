@@ -2,14 +2,17 @@ package se233.asteroids.model;
 
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
+import se233.asteroids.controller.GameStageController;
 import se233.asteroids.util.SpriteUtil;
 
-import java.util.List;
 import java.util.Random;
 
 public class NormalEnemies extends Character {
     private static final String SLIME_IDLE = "/se233/asteroids/assets/slime/SlimeIdle.png";
     private static final String SLIME_DIE = "/se233/asteroids/assets/slime/SlimeDie.png";
+
+    private final double shootCooldown = 0.5;
+    private double timeSinceLastShot = 0;
 
     private Random random = new Random();
     private boolean isMarkForRemove = false;
@@ -77,6 +80,28 @@ public class NormalEnemies extends Character {
         return false;
     }
 
+    public void shoot(GameStageController gameStageController) {
+        if (timeSinceLastShot >= shootCooldown) {
+            timeSinceLastShot = 0;
+
+            double enemyX = this.getX() + (this.getImageView().getFitWidth() / 2);
+            double enemyY = this.getY() + (this.getImageView().getFitHeight() / 2);
+            double rotation = random.nextDouble() * 360;
+
+            double offsetX = 0;
+            double offsetY = 0;
+
+            double radians = Math.toRadians(rotation);
+            double spawnX = enemyX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
+            double spawnY = enemyY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
+
+            EnemiesAttack attack = new EnemiesAttack(spawnX, spawnY, rotation, 5, 5, 1, 1, gameWidth, gameHeight);
+            attack.setFather(this);
+
+            gameStageController.getEnemiesAttackController().addEnemiesAttack(attack);
+        }
+    }
+
     @Override
     public void collided() {
         this.maxSpeed = 0;
@@ -88,6 +113,11 @@ public class NormalEnemies extends Character {
     public void update() {
         moveForward();
         super.update();
+
+        if (timeSinceLastShot < shootCooldown) {
+            timeSinceLastShot += 0.016;
+        }
+
         checkWallCollisions();
     }
 
