@@ -15,7 +15,7 @@ public class EliteAttack extends Projectile {
     public Rectangle outline;
 
     public EliteAttack(double x, double y, double rotation, double initialSpeed, double maxSpeed, double acceleration, double friction, double width, double height) {
-        super(ATTACK_SPRITE, 30, 30, 1, 100, 100, 100, 50, x, y, rotation, initialSpeed, maxSpeed, acceleration, friction, width, height);
+        super(ATTACK_SPRITE, 30, 30, 1, 100, 100, 50, 25, x, y, rotation, initialSpeed, maxSpeed, acceleration, friction, width, height);
         this.isMarkForRemove = false;
     }
 
