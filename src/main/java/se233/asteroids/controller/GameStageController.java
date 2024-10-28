@@ -21,31 +21,11 @@ public class GameStageController {
     private NormalEnemiesController normalEnemiesController;
     private EnemiesAttackController enemiesAttackController;
     private SpecialAttackController specialAttackController;
+    private EliteEnemiesController eliteEnemiesController;
     private int score = 0;
 
     private boolean showHitbox = true;
-
-    public NormalAttackController getNormalAttackController() {
-        return normalAttackController;
-    }
-
-    public ExplosionController getExplosionController() {
-        return explosionController;
-    }
-
-    public EnemiesAttackController getEnemiesAttackController() {
-        return enemiesAttackController;
-    }
-
-    public SpecialAttackController getSpecialAttackController() { return specialAttackController; }
-
-    public GameStage getGameStage() {
-        return gameStage;
-    }
-
-    public boolean isShowHitbox() {
-        return showHitbox;
-    }
+    private int eliteRequirement = 3;
 
     public GameStageController(GameStage gameStage) {
         this.gameStage = gameStage;
@@ -68,8 +48,42 @@ public class GameStageController {
 
         this.specialAttackController = new SpecialAttackController(this);
 
+        this.eliteEnemiesController = new EliteEnemiesController(this);
+
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
+    }
+
+    public NormalAttackController getNormalAttackController() {
+        return normalAttackController;
+    }
+
+    public ExplosionController getExplosionController() {
+        return explosionController;
+    }
+
+    public EnemiesAttackController getEnemiesAttackController() {
+        return enemiesAttackController;
+    }
+
+    public SpecialAttackController getSpecialAttackController() { return specialAttackController; }
+
+    public NormalEnemiesController getNormalEnemiesController() { return normalEnemiesController; }
+
+    public EliteEnemiesController getEliteEnemiesController() {
+        return eliteEnemiesController;
+    }
+
+    public GameStage getGameStage() {
+        return gameStage;
+    }
+
+    public boolean isShowHitbox() {
+        return showHitbox;
+    }
+
+    public int getEliteRequirement() {
+        return eliteRequirement;
     }
 
     public void removeMarkedNormalAttack() {
@@ -151,6 +165,7 @@ public class GameStageController {
         List<Character> characterList = new ArrayList<>();
         characterList.addAll(asteroidController.getAsteroidList());
         characterList.addAll(normalEnemiesController.getEnemiesList());
+        characterList.addAll(eliteEnemiesController.getEnemiesList());
 
         normalAttackController.checkCollisions(characterList);
         asteroidController.checkCollisions(characterList, playerShip);
@@ -158,6 +173,7 @@ public class GameStageController {
         enemiesAttackController.checkCollisions(characterList);
         enemiesAttackController.checkPlayerShipCollision(playerShip);
         specialAttackController.checkCollisions(characterList);
+        eliteEnemiesController.checkCollisions(playerShip);
     }
 
     public void update() {
@@ -168,6 +184,7 @@ public class GameStageController {
         normalEnemiesController.update();
         enemiesAttackController.update();
         specialAttackController.update();
+        eliteEnemiesController.update();
 
         updateCollision();
 

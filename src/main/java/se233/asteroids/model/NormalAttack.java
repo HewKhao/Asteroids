@@ -40,13 +40,23 @@ public class NormalAttack extends Projectile {
             if (checkCharacterCollision(character) && character instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid) character;
                 gameStageController.incrementScore(1);
-                asteroid.collided();
+                asteroid.collided(true);
                 markForRemoval();
                 return true;
-            } else if (character instanceof NormalEnemies && checkCharacterCollision(character)) {
+            }
+            if (character instanceof NormalEnemies && checkCharacterCollision(character)) {
                 NormalEnemies normalEnemies = (NormalEnemies) character;
-                gameStageController.incrementScore(1);
-                normalEnemies.collided();
+                gameStageController.incrementScore(2);
+                normalEnemies.collided(true);
+                markForRemoval();
+                return true;
+            }
+            if (character instanceof EliteEnemies && checkCharacterCollision(character)) {
+                EliteEnemies eliteEnemies = (EliteEnemies) character;
+                if (eliteEnemies.isDead()) {
+                    gameStageController.incrementScore(5);
+                }
+                eliteEnemies.collided(true);
                 markForRemoval();
                 return true;
             }

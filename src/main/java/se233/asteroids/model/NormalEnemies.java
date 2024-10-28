@@ -11,11 +11,15 @@ public class NormalEnemies extends Character {
     private static final String SLIME_IDLE = "/se233/asteroids/assets/slime/SlimeIdle.png";
     private static final String SLIME_DIE = "/se233/asteroids/assets/slime/SlimeDie.png";
 
+    private static int amountDeath = 0;
+
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0;
 
     private Random random = new Random();
     private boolean isMarkForRemove = false;
+
+    private boolean isDead = false;
 
     public Rectangle outline;
 
@@ -29,6 +33,14 @@ public class NormalEnemies extends Character {
 
         double radian = random.nextDouble() * 2 * Math.PI;
         this.imageView.setRotate(radian);
+    }
+
+    public static int getAmountDeath() {
+        return amountDeath;
+    }
+
+    public static void setAmountDeath(int death) {
+        amountDeath = death;
     }
 
     public void loadAnimation() {
@@ -73,7 +85,7 @@ public class NormalEnemies extends Character {
         Bounds playerShipBounds = playerShip.getImageView().getBoundsInParent();
 
         if (slimeBounds.intersects(playerShipBounds)) {
-            playerShip.collided();
+            playerShip.collided(false);
             return true;
         }
 
@@ -103,10 +115,14 @@ public class NormalEnemies extends Character {
     }
 
     @Override
-    public void collided() {
+    public void collided(boolean player) {
         this.maxSpeed = 0;
         this.currentAnimations.remove("idle");
         this.currentAnimations.add("die");
+        if (player && !isDead) {
+            amountDeath++;
+            isDead = true;
+        }
     }
 
     @Override

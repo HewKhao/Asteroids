@@ -38,6 +38,8 @@ public abstract class Character {
 
     protected boolean isCharacter = true;
 
+    protected boolean isCollided = false;
+
     public Character(String imagePath, double width, double height, double x, double y, double initialSpeed, double maxSpeed, double acceleration, double rotationSpeed, double friction, int health, double gameWidth, double gameHeight) {
         this.x = x;
         this.y = y;
@@ -83,6 +85,10 @@ public abstract class Character {
 
     public boolean isCharacter() {
         return this.isCharacter;
+    }
+
+    public int getHealth() {
+        return this.health;
     }
 
     public void setX(double x) {
@@ -143,7 +149,7 @@ public abstract class Character {
         this.maxSpeed = maxSpeed;
     }
 
-    public void collided() {
+    public void collided(boolean player) {
         this.maxSpeed = 0;
     }
 

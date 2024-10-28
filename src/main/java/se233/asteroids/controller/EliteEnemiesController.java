@@ -4,91 +4,80 @@ import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import se233.asteroids.model.AnimatedSprite;
-import se233.asteroids.model.Asteroid;
-import se233.asteroids.model.NormalEnemies;
+import se233.asteroids.model.EliteEnemies;
 import se233.asteroids.model.PlayerShip;
 
 import java.util.*;
 
-public class NormalEnemiesController {
-    private final List<NormalEnemies> enemiesList;
+public class EliteEnemiesController {
+    private final List<EliteEnemies> enemiesList;
     private final GameStageController gameStageController;
 
     private Random random = new Random();
 
-    public NormalEnemiesController(GameStageController gameStageController) {
+    public EliteEnemiesController(GameStageController gameStageController) {
         enemiesList = new ArrayList<>();
         this.gameStageController = gameStageController;
     }
 
-    public int getDeath() {
-        System.out.println(NormalEnemies.getAmountDeath());
-        return  NormalEnemies.getAmountDeath();
-    }
-
-    public void setDeath(int death) {
-        NormalEnemies.setAmountDeath(death);
-    }
-
     public void spawnEnemies() {
-        if (enemiesList.size() < 7) {
-            double maxSpeed = 0.1 + (random.nextDouble() * 2.9);
-            NormalEnemies normalEnemies = new NormalEnemies(30, 30, 1, maxSpeed, 0.07, 3, 0.98, 1, gameStageController.getGameStage().getWidth(), gameStageController.getGameStage().getHeight());
+        if (enemiesList.size() < 1) {
+            EliteEnemies eliteEnemies = new EliteEnemies(50, 50, 1, 1, 0.07, 3, 0.98 , 3, gameStageController.getGameStage().getWidth(), gameStageController.getGameStage().getHeight());
 
-            normalEnemies.randomSpawn();
-            normalEnemies.initializeRandomDirection();
+            eliteEnemies.spawn();
+            eliteEnemies.initializeRandomDirection();
 
-            enemiesList.add(normalEnemies);
-            gameStageController.getGameStage().getChildren().addAll(normalEnemies.getAnimations().values());
+            enemiesList.add(eliteEnemies);
+            gameStageController.getGameStage().getChildren().addAll(eliteEnemies.getAnimations().values());
 
-            double animatedSpriteWidth = normalEnemies.getAnimations().get("idle").getFitWidth();
-            double animatedSpriteHeight = normalEnemies.getAnimations().get("idle").getFitHeight();
-            double imageViewWidth = normalEnemies.getImageView().getFitWidth();
-            double imageViewHeight = normalEnemies.getImageView().getFitHeight();
+            double animatedSpriteWidth = eliteEnemies.getAnimations().get("flying").getFitWidth();
+            double animatedSpriteHeight = eliteEnemies.getAnimations().get("flying").getFitHeight();
+            double imageViewWidth = eliteEnemies.getImageView().getFitWidth();
+            double imageViewHeight = eliteEnemies.getImageView().getFitHeight();
 
-            double centerX = normalEnemies.getX() + (animatedSpriteWidth / 2) - (imageViewWidth / 2);
-            double centerY = normalEnemies.getY() + (animatedSpriteHeight / 2) - (imageViewHeight / 2);
+            double centerX = eliteEnemies.getX() + (animatedSpriteWidth / 2) - (imageViewWidth / 2);
+            double centerY = eliteEnemies.getY() + (animatedSpriteHeight / 2) - (imageViewHeight / 2);
 
-            normalEnemies.getImageView().setX(centerX);
-            normalEnemies.getImageView().setY(centerY);
+            eliteEnemies.getImageView().setX(centerX);
+            eliteEnemies.getImageView().setY(centerY);
 
-            Bounds bound = normalEnemies.getImageView().getBoundsInLocal();
+            Bounds bound = eliteEnemies.getImageView().getBoundsInLocal();
             double x = bound.getMinX();
             double y = bound.getMinY();
             double width = bound.getWidth();
             double height = bound.getHeight();
 
-            normalEnemies.outline = new Rectangle(x, y, width, height);
-            normalEnemies.outline.setFill(Color.TRANSPARENT);
-            normalEnemies.outline.setStroke(Color.RED);
-            normalEnemies.outline.setStrokeWidth(2);
-            normalEnemies.outline.setVisible(false);
+            eliteEnemies.outline = new Rectangle(x, y, width, height);
+            eliteEnemies.outline.setFill(Color.TRANSPARENT);
+            eliteEnemies.outline.setStroke(Color.RED);
+            eliteEnemies.outline.setStrokeWidth(2);
+            eliteEnemies.outline.setVisible(false);
 
-            gameStageController.getGameStage().getChildren().add(normalEnemies.outline);
+            gameStageController.getGameStage().getChildren().add(eliteEnemies.outline);
 
             // Uncomment code below to show hitbox
             if (gameStageController.isShowHitbox()) {
-                normalEnemies.outline.setVisible(true);
+                eliteEnemies.outline.setVisible(true);
             }
         }
     }
 
     public void removeMarkedEnemies() {
-        Iterator<NormalEnemies> iterator = enemiesList.iterator();
+        Iterator<EliteEnemies> iterator = enemiesList.iterator();
 
         while (iterator.hasNext()) {
-            NormalEnemies normalEnemies = iterator.next();
+            EliteEnemies eliteEnemies = iterator.next();
 
-            if (normalEnemies.isMarkForRemove()) {
+            if (eliteEnemies.isMarkForRemove()) {
                 iterator.remove();
-                gameStageController.getGameStage().getChildren().removeAll(normalEnemies.getAnimations().values());
-                gameStageController.getGameStage().getChildren().remove(normalEnemies.outline);
+                gameStageController.getGameStage().getChildren().removeAll(eliteEnemies.getAnimations().values());
+                gameStageController.getGameStage().getChildren().remove(eliteEnemies.outline);
             }
         }
     }
 
     public void updateAnimationVisibility() {
-        for (NormalEnemies enemies : enemiesList) {
+        for (EliteEnemies enemies : enemiesList) {
             Map<String, AnimatedSprite> animations = enemies.getAnimations();
             List<String> currentAnimations = enemies.getCurrentAnimations();
 
@@ -102,7 +91,12 @@ public class NormalEnemiesController {
                         if (animation.getPlayFrameCount() < animation.getTotalFrames()) {
                             animation.tick();
                         } else {
-                            enemies.markForRemove();
+                            if (enemies.isDead()) {
+                                enemies.markForRemove();
+                                gameStageController.incrementScore(5);
+                            }
+                            currentAnimations.remove(key);
+                            animation.reset();
                         }
                     } else {
                         animation.tick();
@@ -113,9 +107,9 @@ public class NormalEnemiesController {
     }
 
     public void updateAnimationPositions() {
-        for (NormalEnemies enemies : enemiesList) {
-            double animatedSpriteWidth = enemies.getAnimations().get("idle").getFitWidth();
-            double animatedSpriteHeight = enemies.getAnimations().get("idle").getFitHeight();
+        for (EliteEnemies enemies : enemiesList) {
+            double animatedSpriteWidth = enemies.getAnimations().get("flying").getFitWidth();
+            double animatedSpriteHeight = enemies.getAnimations().get("flying").getFitHeight();
             double imageViewWidth = enemies.getImageView().getFitWidth();
             double imageViewHeight = enemies.getImageView().getFitHeight();
 
@@ -146,28 +140,29 @@ public class NormalEnemiesController {
         }
     }
 
-    public List<NormalEnemies> getEnemiesList() {
+    public List<EliteEnemies> getEnemiesList() {
         return enemiesList;
     }
 
     public void checkCollisions(PlayerShip playerShip) {
-        Iterator<NormalEnemies> iterator = enemiesList.iterator();
+        Iterator<EliteEnemies> iterator = enemiesList.iterator();
 
         while (iterator.hasNext()) {
-            NormalEnemies enemies = iterator.next();
+            EliteEnemies enemies = iterator.next();
 
             enemies.checkPlayerShipCollision(playerShip);
         }
     }
 
     public void update() {
-        if (Math.random() < 0.003) {
+        if (gameStageController.getNormalEnemiesController().getDeath() >= gameStageController.getEliteRequirement()) {
             spawnEnemies();
+            gameStageController.getNormalEnemiesController().setDeath(0);
         }
-        for (NormalEnemies enemies : enemiesList) {
+        for (EliteEnemies enemies : enemiesList) {
             enemies.update();
-            if (random.nextBoolean()) {
-                enemies.shoot(gameStageController);
+            if (Math.random() < 0.005) {
+                enemies.initializeRandomDirection();
             }
         }
         updateAnimationVisibility();

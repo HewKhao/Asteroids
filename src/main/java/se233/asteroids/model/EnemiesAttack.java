@@ -45,7 +45,7 @@ public class EnemiesAttack extends Projectile {
         Bounds playerShipBounds = playerShip.getImageView().getBoundsInParent();
 
         if (asteroidBounds.intersects(playerShipBounds)) {
-            playerShip.collided();
+            playerShip.collided(false);
             return true;
         }
 
@@ -58,7 +58,7 @@ public class EnemiesAttack extends Projectile {
                 return false;
             }
             if (checkCharacterCollision(character)) {
-                character.collided();
+                character.collided(false);
                 return true;
             }
         }

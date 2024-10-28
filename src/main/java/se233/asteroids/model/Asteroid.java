@@ -83,7 +83,7 @@ public class Asteroid extends Character{
         Bounds playerShipBounds = playerShip.getImageView().getBoundsInParent();
 
         if (asteroidBounds.intersects(playerShipBounds)) {
-            playerShip.collided();
+            playerShip.collided(false);
             return true;
         }
 
@@ -93,7 +93,7 @@ public class Asteroid extends Character{
     public boolean checkCollision(List<? extends Character> characters) {
         for (Character character : characters) {
             if (checkCharacterCollision(character)) {
-                character.collided();
+                character.collided(false);
                 return true;
             }
         }
@@ -102,7 +102,7 @@ public class Asteroid extends Character{
     }
 
     @Override
-    public void collided() {
+    public void collided(boolean player) {
         this.maxSpeed = 0;
         this.currentAnimations.remove("idle");
         this.currentAnimations.add("explode");
