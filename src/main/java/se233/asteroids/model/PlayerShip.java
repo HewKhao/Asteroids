@@ -32,7 +32,7 @@ public class PlayerShip extends Character {
     private final double warpCooldown = 6.0;
     private double timeSinceLastWarp = 0;
 
-    private int lives = 30000;
+    private int lives = 3;
 
     private Boolean isDestroyed = false;
 

@@ -26,7 +26,7 @@ public class GameStageController {
     private int score = 0;
 
     private boolean showHitbox = true;
-    private int eliteRequirement = 0;
+    private int eliteRequirement = 3;
 
     public GameStageController(GameStage gameStage) {
         this.gameStage = gameStage;

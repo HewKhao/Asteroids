@@ -21,19 +21,4 @@ public class SpriteUtil {
         }
         return null;
     }
-
-    public static AnimatedSprite createAnimatedSpriteWithOffset(String imagePath, int count, int columns, int rows, int offsetX, int offsetY, int frameWidth, int frameHeight, double imageWidth, double imageHeight) {
-        Image spriteSheet = ImageUtil.loadImage(imagePath);
-        if (spriteSheet != null) {
-            AnimatedSprite sprite = new AnimatedSprite(spriteSheet, count, columns, rows, offsetX, offsetY, frameWidth, frameHeight);
-            sprite.setFitWidth(imageWidth);
-            sprite.setFitHeight(imageHeight);
-            sprite.setPreserveRatio(false);
-            logger.info("Image successfully loaded: {}", imagePath);
-            return sprite;
-        } else {
-            logger.error("Image could not be loaded: {}", imagePath);
-        }
-        return null;
-    }
 }

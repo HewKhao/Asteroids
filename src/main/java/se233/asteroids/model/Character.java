@@ -59,20 +59,27 @@ public abstract class Character {
         this.animationOffsets = new HashMap<>();
         this.animationRotates = new HashMap<>();
 
-        this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, 5, 5, 1, 32, 32, width, height);
-        this.animatedSprite.setFitWidth(width);
-        this.animatedSprite.setFitHeight(height);
-        this.animatedSprite.setPreserveRatio(false);
-
         Image image = ImageUtil.loadImage(imagePath);
         if (image != null) {
-            this.imageView = new ImageView(image);
-            this.imageView.setFitWidth(width);
-            this.imageView.setFitHeight(height);
-            this.imageView.setPreserveRatio(false);
-            setX(x);
-            setY(y);
-            logger.info("Image successfully loaded: {} (Width = {}, Height = {})", imagePath, width, height);
+            this.animatedSprite = SpriteUtil.createAnimatedSprite(imagePath, 5, 5, 1, 32, 32, width, height);
+            if (this.animatedSprite != null) {
+                this.animatedSprite.setFitWidth(width);
+                this.animatedSprite.setFitHeight(height);
+                this.animatedSprite.setPreserveRatio(false);
+            } else {
+                logger.error("Failed to create animatedSprite for path: {}", imagePath);
+            }
+
+            try {
+                this.imageView = new ImageView(image);
+                this.imageView.setFitWidth(width);
+                this.imageView.setFitHeight(height);
+                this.imageView.setPreserveRatio(false);
+                setX(x);
+                setY(y);
+            } catch (Exception e) {
+                logger.error("Error while setting up ImageView: {}", e.getMessage());
+            }
         } else {
             logger.error("Failed to load image: {}", imagePath);
         }
