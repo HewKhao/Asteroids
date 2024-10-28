@@ -60,6 +60,12 @@ public class PlayerShipController {
         if (pressedKeys.contains(KeyCode.SPACE)) {
             playerShip.shoot(gameStageController);
         }
+        if (pressedKeys.contains(KeyCode.R)) {
+            playerShip.specialShoot(gameStageController);
+        }
+        if (pressedKeys.contains(KeyCode.SHIFT)) {
+            playerShip.randomWarp();
+        }
     }
 
     public void updateAnimationVisibility() {
@@ -79,9 +85,13 @@ public class PlayerShipController {
                         if (playerShip.isDestroyed()) {
                             double centerX = gameStageController.getGameStage().getWidth() / 2;
                             double centerY = gameStageController.getGameStage().getHeight() / 2;
-                            playerShip.respawn(centerX, centerY);
+                            if (playerShip.getLives() > 0) {
+                                playerShip.respawn(centerX, centerY);
+                            }
                         }
-                        playerShip.getCurrentAnimations().remove(animationKey);
+                        if (playerShip.getLives() > 0) {
+                            playerShip.getCurrentAnimations().remove(animationKey);
+                        }
                     }
                 } else {
                     animation.tick();

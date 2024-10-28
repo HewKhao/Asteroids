@@ -23,11 +23,20 @@ public class PlayerShip extends Character {
     private final double shootCooldown = 0.5;
     private double timeSinceLastShot = 0.5;
 
+    private final double specialShootCooldown = 2.0;
+    private double timeSinceLastSpecialShot = 0;
+
     private final double shieldDuration = 1.0;
     private double timeSinceShield = 0;
+
+    private final double warpCooldown = 6.0;
+    private double timeSinceLastWarp = 0;
+
     private int lives = 3;
 
     private Boolean isDestroyed = false;
+
+    private Boolean isWarp;
 
     public Rectangle outline = new Rectangle();
 
@@ -105,6 +114,46 @@ public class PlayerShip extends Character {
         }
     }
 
+    public void specialShoot(GameStageController gameStageController) {
+        if (timeSinceLastSpecialShot >= specialShootCooldown) {
+            currentAnimations.add("shoot");
+            AnimatedSprite shootSprite = animations.get("shoot");
+            shootSprite.reset();
+
+            logger.info("PlayerShip is shooting special shot!");
+
+            timeSinceLastSpecialShot = 0;
+
+            double playerX = this.getX();
+            double playerY = this.getY();
+            double rotation = this.getRotate();
+
+            double offsetX = 50;
+            double offsetY = 0;
+
+            double radians = Math.toRadians(rotation);
+            double spawnX = playerX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
+            double spawnY = playerY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
+
+            SpecialAttack specialAttack = new SpecialAttack(spawnX, spawnY, rotation, 10, 10, 1, 1, gameWidth, gameHeight);
+
+            gameStageController.getSpecialAttackController().addSpecialAttack(specialAttack);
+        }
+    }
+
+    public void randomWarp() {
+        if (timeSinceLastWarp < warpCooldown) {
+            return;
+        }
+        double x = Math.random() * gameStageController.getGameStage().getWidth();
+        double y = Math.random() * gameStageController.getGameStage().getHeight();
+        this.timeSinceShield = 0;
+        this.timeSinceLastWarp = 0;
+        this.currentAnimations.add("shield");
+        this.setX(x);
+        this.setY(y);
+    }
+
     public void respawn(double x, double y) {
         this.setX(x);
         this.setY(y);
@@ -139,6 +188,8 @@ public class PlayerShip extends Character {
             this.currentAnimations.remove("idle");
             this.currentAnimations.add("destroyed");
         } else {
+            this.currentAnimations.remove("idle");
+            this.currentAnimations.add("destroyed");
             gameStageController.showGameOverScreen();
         }
         logger.info("PlayerShip collided!");
@@ -152,8 +203,16 @@ public class PlayerShip extends Character {
             timeSinceLastShot += 0.016;
         }
 
+        if (timeSinceLastSpecialShot < specialShootCooldown) {
+            timeSinceLastSpecialShot += 0.016;
+        }
+
         if (timeSinceShield < shieldDuration) {
             timeSinceShield += 0.016;
+        }
+
+        if (timeSinceLastWarp < warpCooldown) {
+            timeSinceLastWarp += 0.016;
         }
 
         if (timeSinceShield >= shieldDuration) {
