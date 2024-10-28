@@ -28,9 +28,15 @@ public class PlayerShip extends Character {
 
     private final double shieldDuration = 1.0;
     private double timeSinceShield = 0;
+
+    private final double warpCooldown = 6.0;
+    private double timeSinceLastWarp = 0;
+
     private int lives = 3;
 
     private Boolean isDestroyed = false;
+
+    private Boolean isWarp;
 
     public Rectangle outline = new Rectangle();
 
@@ -135,6 +141,19 @@ public class PlayerShip extends Character {
         }
     }
 
+    public void randomWarp() {
+        if (timeSinceLastWarp < warpCooldown) {
+            return;
+        }
+        double x = Math.random() * gameStageController.getGameStage().getWidth();
+        double y = Math.random() * gameStageController.getGameStage().getHeight();
+        this.timeSinceShield = 0;
+        this.timeSinceLastWarp = 0;
+        this.currentAnimations.add("shield");
+        this.setX(x);
+        this.setY(y);
+    }
+
     public void respawn(double x, double y) {
         this.setX(x);
         this.setY(y);
@@ -190,6 +209,10 @@ public class PlayerShip extends Character {
 
         if (timeSinceShield < shieldDuration) {
             timeSinceShield += 0.016;
+        }
+
+        if (timeSinceLastWarp < warpCooldown) {
+            timeSinceLastWarp += 0.016;
         }
 
         if (timeSinceShield >= shieldDuration) {

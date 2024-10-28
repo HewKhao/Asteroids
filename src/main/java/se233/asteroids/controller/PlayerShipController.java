@@ -63,6 +63,9 @@ public class PlayerShipController {
         if (pressedKeys.contains(KeyCode.R)) {
             playerShip.specialShoot(gameStageController);
         }
+        if (pressedKeys.contains(KeyCode.SHIFT)) {
+            playerShip.randomWarp();
+        }
     }
 
     public void updateAnimationVisibility() {
