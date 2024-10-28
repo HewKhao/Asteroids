@@ -60,6 +60,9 @@ public class PlayerShipController {
         if (pressedKeys.contains(KeyCode.SPACE)) {
             playerShip.shoot(gameStageController);
         }
+        if (pressedKeys.contains(KeyCode.R)) {
+            playerShip.specialShoot(gameStageController);
+        }
     }
 
     public void updateAnimationVisibility() {

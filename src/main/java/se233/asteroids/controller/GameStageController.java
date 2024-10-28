@@ -20,9 +20,10 @@ public class GameStageController {
     private ExplosionController explosionController;
     private NormalEnemiesController normalEnemiesController;
     private EnemiesAttackController enemiesAttackController;
+    private SpecialAttackController specialAttackController;
     private int score = 0;
 
-    private boolean showHitbox = false;
+    private boolean showHitbox = true;
 
     public NormalAttackController getNormalAttackController() {
         return normalAttackController;
@@ -35,6 +36,8 @@ public class GameStageController {
     public EnemiesAttackController getEnemiesAttackController() {
         return enemiesAttackController;
     }
+
+    public SpecialAttackController getSpecialAttackController() { return specialAttackController; }
 
     public GameStage getGameStage() {
         return gameStage;
@@ -63,21 +66,11 @@ public class GameStageController {
 
         this.enemiesAttackController = new EnemiesAttackController(this);
 
+        this.specialAttackController = new SpecialAttackController(this);
+
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
     }
-
-//    public void removeOutOfBoundsNormalAttack() {
-//        Iterator<NormalAttack> iterator = normalAttackController.getNormalAttackList().iterator();
-//
-//        while (iterator.hasNext()) {
-//            NormalAttack attack = iterator.next();
-//            if (attack.checkWallCollisions()) {
-//                iterator.remove();
-//                gameStage.getChildren().remove(attack.getImageView());
-//            }
-//        }
-//    }
 
     public void removeMarkedNormalAttack() {
         Iterator<NormalAttack> iterator = normalAttackController.getNormalAttackList().iterator();
@@ -98,6 +91,21 @@ public class GameStageController {
 
         while (iterator.hasNext()) {
             EnemiesAttack attack = iterator.next();
+            attack.update();
+
+            if (attack.isMarkForRemove()) {
+                iterator.remove();
+                gameStage.getChildren().remove(attack.getAnimatedSprite());
+                gameStage.getChildren().remove(attack.outline);
+            }
+        }
+    }
+
+    public void removeMarkedSpecialAttack() {
+        Iterator<SpecialAttack> iterator = specialAttackController.getSpecialAttacksList().iterator();
+
+        while (iterator.hasNext()) {
+            SpecialAttack attack = iterator.next();
             attack.update();
 
             if (attack.isMarkForRemove()) {
@@ -149,6 +157,7 @@ public class GameStageController {
         normalEnemiesController.checkCollisions(playerShip);
         enemiesAttackController.checkCollisions(characterList);
         enemiesAttackController.checkPlayerShipCollision(playerShip);
+        specialAttackController.checkCollisions(characterList);
     }
 
     public void update() {
@@ -158,12 +167,14 @@ public class GameStageController {
         explosionController.update();
         normalEnemiesController.update();
         enemiesAttackController.update();
+        specialAttackController.update();
 
         updateCollision();
 
 //        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
         removeMarkedEnemiesAttack();
+        removeMarkedSpecialAttack();
     }
 
     public void startGameLoop() {
