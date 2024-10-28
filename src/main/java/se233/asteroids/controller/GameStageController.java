@@ -22,6 +22,7 @@ public class GameStageController {
     private EnemiesAttackController enemiesAttackController;
     private SpecialAttackController specialAttackController;
     private EliteEnemiesController eliteEnemiesController;
+    private EliteAttackController eliteAttackController;
     private int score = 0;
 
     private boolean showHitbox = true;
@@ -50,6 +51,8 @@ public class GameStageController {
 
         this.eliteEnemiesController = new EliteEnemiesController(this);
 
+        this.eliteAttackController = new EliteAttackController(this);
+
         Map<String, AnimatedSprite> playerShipAnimations = playerShip.getAnimations();
         gameStage.getChildren().addAll(playerShipAnimations.values());
     }
@@ -72,6 +75,10 @@ public class GameStageController {
 
     public EliteEnemiesController getEliteEnemiesController() {
         return eliteEnemiesController;
+    }
+
+    public EliteAttackController getEliteAttackController() {
+        return eliteAttackController;
     }
 
     public GameStage getGameStage() {
@@ -130,6 +137,21 @@ public class GameStageController {
         }
     }
 
+    public void removeMarkedEliteAttack() {
+        Iterator<EliteAttack> iterator = eliteAttackController.getEliteAttackList().iterator();
+
+        while (iterator.hasNext()) {
+            EliteAttack attack = iterator.next();
+            attack.update();
+
+            if (attack.isMarkForRemove()) {
+                iterator.remove();
+                gameStage.getChildren().remove(attack.getAnimatedSprite());
+                gameStage.getChildren().remove(attack.outline);
+            }
+        }
+    }
+
     public int getScore(){
         return score;
     }
@@ -174,6 +196,8 @@ public class GameStageController {
         enemiesAttackController.checkPlayerShipCollision(playerShip);
         specialAttackController.checkCollisions(characterList);
         eliteEnemiesController.checkCollisions(playerShip);
+        eliteAttackController.checkCollisions(characterList);
+        eliteAttackController.checkPlayerShipCollision(playerShip);
     }
 
     public void update() {
@@ -185,13 +209,14 @@ public class GameStageController {
         enemiesAttackController.update();
         specialAttackController.update();
         eliteEnemiesController.update();
+        eliteAttackController.update();
 
         updateCollision();
 
-//        removeOutOfBoundsNormalAttack();
         removeMarkedNormalAttack();
         removeMarkedEnemiesAttack();
         removeMarkedSpecialAttack();
+        removeMarkedEliteAttack();
     }
 
     public void startGameLoop() {

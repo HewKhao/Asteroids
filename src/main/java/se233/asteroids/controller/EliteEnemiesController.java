@@ -161,6 +161,7 @@ public class EliteEnemiesController {
         }
         for (EliteEnemies enemies : enemiesList) {
             enemies.update();
+            enemies.shoot(gameStageController);
             if (Math.random() < 0.005) {
                 enemies.initializeRandomDirection();
             }

@@ -2,6 +2,7 @@ package se233.asteroids.model;
 
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
+import se233.asteroids.controller.GameStageController;
 import se233.asteroids.util.SpriteUtil;
 
 import java.util.Random;
@@ -95,6 +96,50 @@ public class EliteEnemies extends Character {
         this.setY(y);
     }
 
+    public void shoot(GameStageController gameStageController) {
+        if (timeSinceLastShot < shootCooldown) {
+            return;
+        }
+        int numberOfObjects = random.nextInt(3) + 1;
+
+        int edge = random.nextInt(4);
+
+        for (int i = 0; i < numberOfObjects; i++) {
+            double x = 0;
+            double y = 0;
+            double angle = 0;
+
+            switch (edge) {
+                case 0: // Top
+                    x = random.nextDouble() * gameWidth;
+                    y = 0;
+                    angle = 90;
+                    break;
+                case 1: // Bottom
+                    x = random.nextDouble() * gameWidth;
+                    y = gameHeight;
+                    angle = -90;
+                    break;
+                case 2: // Left
+                    x = 0;
+                    y = random.nextDouble() * gameHeight;
+                    angle = 0;
+                    break;
+                case 3: // Right
+                    x = gameWidth;
+                    y = random.nextDouble() * gameHeight;
+                    angle = 180;
+                    break;
+            }
+
+            EliteAttack attack = new EliteAttack(x, y, angle, 1, 1,1 ,1, gameWidth, gameHeight);
+            attack.setFather(this);
+
+            gameStageController.getEliteAttackController().addEliteAttack(attack);
+        }
+        this.timeSinceLastShot = 0;
+    }
+
     @Override
     public void collided(boolean player) {
         if (!player) {
@@ -123,6 +168,10 @@ public class EliteEnemies extends Character {
 
         if (timeSinceLastHit < iframe) {
             timeSinceLastHit += 0.016;
+        }
+
+        if (timeSinceLastShot < shootCooldown) {
+            timeSinceLastShot += 0.016;
         }
     }
 }

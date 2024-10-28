@@ -116,10 +116,6 @@ public abstract class Projectile {
         limitSpeed();
     }
 
-//    public boolean checkWallCollisions() {
-//        return getX() < 0 || getX() > gameWidth || getY() < 0 || getY() > gameHeight;
-//    }
-
     public void checkWallCollisions() {
         if (getX() < 0) setX(gameWidth);
         if (getX() > gameWidth) setX(0);
