@@ -64,18 +64,11 @@ public class EliteAttack extends Projectile {
         return false;
     }
 
-//    public void checkWallCollisions() {
-//        if (getX() < 0) markForRemove();
-//        if (getX() > gameWidth) markForRemove();
-//        if (getY() < 0) markForRemove();
-//        if (getY() > gameHeight) markForRemove();
-//    }
-
     public void checkWallCollisions() {
-        if (getX() < 0) setX(gameWidth);
-        if (getX() > gameWidth) setX(0);
-        if (getY() < 0) setY(gameHeight);
-        if (getY() > gameHeight) setY(0);
+        if (getX() < 0) markForRemove();
+        if (getX() > gameWidth) markForRemove();
+        if (getY() < 0) markForRemove();
+        if (getY() > gameHeight) markForRemove();
     }
 
     public void update() {
