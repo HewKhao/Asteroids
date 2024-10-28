@@ -135,7 +135,7 @@ public class PlayerShip extends Character {
             double spawnX = playerX + (offsetX * Math.cos(radians)) - (offsetY * Math.sin(radians));
             double spawnY = playerY + (offsetX * Math.sin(radians)) + (offsetY * Math.cos(radians));
 
-            SpecialAttack specialAttack = new SpecialAttack(spawnX, spawnY, rotation, 10, 10, 1, 1, gameWidth, gameHeight);
+            SpecialAttack specialAttack = new SpecialAttack(spawnX, spawnY, rotation, 3, 3, 1, 1, gameWidth, gameHeight);
 
             gameStageController.getSpecialAttackController().addSpecialAttack(specialAttack);
         }

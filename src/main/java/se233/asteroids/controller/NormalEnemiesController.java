@@ -22,7 +22,6 @@ public class NormalEnemiesController {
     }
 
     public int getDeath() {
-        System.out.println(NormalEnemies.getAmountDeath());
         return  NormalEnemies.getAmountDeath();
     }
 
