@@ -152,6 +152,7 @@ public class PlayerShip extends Character {
         this.currentAnimations.add("shield");
         this.setX(x);
         this.setY(y);
+        logger.info("PlayerShip is warping!");
     }
 
     public void respawn(double x, double y) {
