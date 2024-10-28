@@ -169,6 +169,8 @@ public class PlayerShip extends Character {
             this.currentAnimations.remove("idle");
             this.currentAnimations.add("destroyed");
         } else {
+            this.currentAnimations.remove("idle");
+            this.currentAnimations.add("destroyed");
             gameStageController.showGameOverScreen();
         }
         logger.info("PlayerShip collided!");
