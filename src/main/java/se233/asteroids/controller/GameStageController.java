@@ -23,7 +23,7 @@ public class GameStageController {
     private SpecialAttackController specialAttackController;
     private int score = 0;
 
-    private boolean showHitbox = true;
+    private boolean showHitbox = false;
 
     public NormalAttackController getNormalAttackController() {
         return normalAttackController;
@@ -40,6 +40,8 @@ public class GameStageController {
     public SpecialAttackController getSpecialAttackController() { return specialAttackController; }
 
     public PlayerShip getPlayerShip() {return playerShip;}
+
+    public int setScore(int score) { this.score = score; return score; }
 
     public GameStage getGameStage() {
         return gameStage;
