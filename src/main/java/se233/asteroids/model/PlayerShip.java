@@ -197,6 +197,11 @@ public class PlayerShip extends Character {
     }
 
     @Override
+    public boolean isDead() {
+        return true;
+    }
+
+    @Override
     public void update() {
         super.update();
 

@@ -114,4 +114,9 @@ public class Asteroid extends Character{
         super.update();
         checkWallCollisions();
     }
+
+    @Override
+    public boolean isDead() {
+        return true;
+    }
 }

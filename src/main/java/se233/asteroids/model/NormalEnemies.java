@@ -13,8 +13,8 @@ public class NormalEnemies extends Character {
 
     private static int amountDeath = 0;
 
-    private final double shootCooldown = 0.5;
-    private double timeSinceLastShot = 0;
+    public final double shootCooldown = 0.5;
+    public double timeSinceLastShot = 0;
 
     private Random random = new Random();
     private boolean isMarkForRemove = false;
@@ -38,6 +38,8 @@ public class NormalEnemies extends Character {
     public static int getAmountDeath() {
         return amountDeath;
     }
+
+    public double getTimeSinceLastShot() {return timeSinceLastShot;}
 
     public static void setAmountDeath(int death) {
         amountDeath = death;
@@ -137,4 +139,8 @@ public class NormalEnemies extends Character {
         checkWallCollisions();
     }
 
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
 }

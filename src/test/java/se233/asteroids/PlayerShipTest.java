@@ -3,6 +3,7 @@ package se233.asteroids;
 import javafx.collections.FXCollections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import se233.asteroids.controller.GameStageController;
 import se233.asteroids.controller.NormalAttackController;
@@ -18,22 +19,25 @@ import static org.mockito.Mockito.verify;
 
 public class PlayerShipTest {
     private PlayerShip playerShip;
+    @Mock
     private GameStage gameStage;
+    @Mock
     private GameStageController gameStageController;
+    @Mock
     private NormalAttackController normalAttackController;
+    @Mock
     private SpecialAttackController specialAttackController;
 
     @BeforeEach
     public void setUp() {
-
-        gameStage = Mockito.mock(GameStage.class);
+        this.gameStage = Mockito.mock(GameStage.class);
         Mockito.when(gameStage.getWidthValue()).thenReturn(800);
         Mockito.when(gameStage.getHeightValue()).thenReturn(600);
         Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
 
-        gameStageController = Mockito.mock(GameStageController.class);
-        normalAttackController = Mockito.mock(NormalAttackController.class);
-        specialAttackController = Mockito.mock(SpecialAttackController.class);
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
 
         Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
         Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
@@ -42,12 +46,31 @@ public class PlayerShipTest {
         double centerX = (double) gameStage.getWidthValue() / 2;
         double centerY = (double) gameStage.getHeightValue() / 2;
 
-        playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
-        playerShip.setRotate(-90);
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
     }
 
     @Test
     public void testMoveForward(){
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         double initialY = playerShip.getY();
 
         playerShip.moveForward();
@@ -58,6 +81,25 @@ public class PlayerShipTest {
 
     @Test
     public void testMoveBackward(){
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         double initialY = playerShip.getY();
 
         playerShip.moveBackward();
@@ -68,6 +110,25 @@ public class PlayerShipTest {
 
     @Test
     public void testMoveLeft(){
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         double initialX = playerShip.getX();
 
         playerShip.moveLeft();
@@ -78,6 +139,25 @@ public class PlayerShipTest {
 
     @Test
     public void testMoveRight(){
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         double initialX = playerShip.getX();
 
         playerShip.moveRight();
@@ -88,6 +168,25 @@ public class PlayerShipTest {
 
     @Test
     public void testRotateLeft() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         double initialRotation = playerShip.getRotate();
 
         playerShip.rotate(-15);
@@ -97,6 +196,25 @@ public class PlayerShipTest {
 
     @Test
     public void testRotateRight() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         double initialRotation = playerShip.getRotate();
 
         playerShip.rotate(15);
@@ -105,6 +223,25 @@ public class PlayerShipTest {
     }
     @Test
     public void testShoot() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         playerShip.timeSinceLastShot = 0.5;
 
         playerShip.shoot(gameStageController);
@@ -115,6 +252,25 @@ public class PlayerShipTest {
 
     @Test
     public void testSpecialShoot() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         playerShip.timeSinceLastSpecialShot = 2.0;
 
         playerShip.specialShoot(gameStageController);
@@ -125,6 +281,25 @@ public class PlayerShipTest {
 
     @Test
     public void testRandomWarp() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         playerShip.timeSinceLastWarp = 6.0;
 
         double initialX = playerShip.getX();
@@ -141,6 +316,25 @@ public class PlayerShipTest {
 
     @Test
     public void testCollided() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         playerShip.timeSinceShield = 1.0;
         playerShip.isDestroyed = false;
         int initialLives = playerShip.getLives();
@@ -153,6 +347,25 @@ public class PlayerShipTest {
 
     @Test
     public void testRespawn() {
+        this.gameStage = Mockito.mock(GameStage.class);
+        Mockito.when(gameStage.getWidthValue()).thenReturn(800);
+        Mockito.when(gameStage.getHeightValue()).thenReturn(600);
+        Mockito.when(gameStage.getChildren()).thenReturn(FXCollections.observableArrayList());
+
+        this.gameStageController = Mockito.mock(GameStageController.class);
+        this.normalAttackController = Mockito.mock(NormalAttackController.class);
+        this.specialAttackController = Mockito.mock(SpecialAttackController.class);
+
+        Mockito.when(gameStageController.getGameStage()).thenReturn(gameStage);
+        Mockito.when(gameStageController.getNormalAttackController()).thenReturn(normalAttackController);
+        Mockito.when(gameStageController.getSpecialAttackController()).thenReturn(specialAttackController);
+
+        double centerX = (double) gameStage.getWidthValue() / 2;
+        double centerY = (double) gameStage.getHeightValue() / 2;
+
+        this.playerShip = new PlayerShip(centerX, centerY, 1, 5,  0.2, 3.0, 0.99, 1, gameStage.getWidthValue(), gameStage.getHeightValue(),gameStageController);
+        this.playerShip.setRotate(-90);
+
         playerShip.respawn(100, 100);
 
         assertEquals(100, playerShip.getX(), "Player X should reset to respawn point.");

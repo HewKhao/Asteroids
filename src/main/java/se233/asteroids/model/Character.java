@@ -136,6 +136,18 @@ public abstract class Character {
         return this.imageView.getRotate();
     }
 
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
     public List<String> getCurrentAnimations() {
         return currentAnimations;
     }
@@ -226,4 +238,6 @@ public abstract class Character {
         applyFriction();
         checkWallCollisions();
     }
+
+    public abstract boolean isDead();
 }
