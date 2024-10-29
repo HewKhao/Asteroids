@@ -121,37 +121,6 @@ public class EliteEnemiesTest {
         assertTrue(eliteEnemy.isDead(), "EliteEnemies should be dead after health depletion");
     }
 
-
-    @Test
-    public void testMarkForRemoveWhenDead() {
-        // Mock dependencies
-        gameStageController = mock(GameStageController.class);
-
-        // Initialize PlayerShip at the center
-        double centerX = GAME_WIDTH / 2;
-        double centerY = GAME_HEIGHT / 2;
-        playerShip = new PlayerShip(centerX, centerY, 1, 5, 0.2, 3.0, 0.99, 1, GAME_WIDTH, GAME_HEIGHT, gameStageController);
-        playerShip.setRotate(-90);
-
-        // Initialize EliteEnemies with health and outline for collision detection
-        eliteEnemy = new EliteEnemies(WIDTH, HEIGHT, INITIAL_SPEED, MAX_SPEED, ACCELERATION, ROTATION_SPEED, FRICTION, HEALTH, GAME_WIDTH, GAME_HEIGHT);
-        eliteEnemy.outline = new Rectangle(WIDTH, HEIGHT);
-
-        // Iterate to deplete health and check health decrement at each step
-        for (int i = 0; i < HEALTH; i++) {  // Changed to i < HEALTH
-            eliteEnemy.timeSinceLastHit = 1; // Bypass iframe
-            eliteEnemy.collided(true);
-
-            int expectedHealth = HEALTH - i - 1;
-            assertEquals(expectedHealth, eliteEnemy.getHealth(), "Health should decrease by 1 after each collision, expected: " + expectedHealth);
-        }
-
-        // Verify that the enemy is dead and marked for removal after all health is depleted
-        assertTrue(eliteEnemy.isDead(), "EliteEnemies should be dead after health is depleted");
-        assertTrue(eliteEnemy.isMarkForRemove(), "EliteEnemies should be marked for removal when dead");
-    }
-
-
     @Test
     public void testSpawnPosition() {
         gameStageController = mock(GameStageController.class);

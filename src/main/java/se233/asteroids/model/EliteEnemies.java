@@ -149,16 +149,18 @@ public class EliteEnemies extends Character {
             return;
         }
         if (health > 0) {
-           currentAnimations.add("hurting");
-           health--;
-           randomWarp();
+            currentAnimations.add("hurting");
+            health--;
             if (health == 0) {
                 this.maxSpeed = 0;
                 this.currentAnimations.remove("flying");
                 this.currentAnimations.add("death");
                 this.isDead = true;
-                this.isMarkForRemove = true;
             }
+            if (!isDead) {
+                randomWarp();
+            }
+            timeSinceLastHit = 0;
         }
     }
 
