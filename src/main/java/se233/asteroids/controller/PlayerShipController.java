@@ -111,7 +111,7 @@ public class PlayerShipController {
         playerShip.outline.setHeight(height);
     }
 
-    private void updateAnimationPositions() {
+    public void updateAnimationPositions() {
         double x = playerShip.getX() - 50;
         double y = playerShip.getY() - 50;
         double rotation = playerShip.getRotate();

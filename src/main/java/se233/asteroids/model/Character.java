@@ -22,8 +22,8 @@ public abstract class Character {
     protected double acceleration;
     protected double rotationSpeed;
     protected double friction;
-    protected double velocityX;
-    protected double velocityY;
+    public double velocityX;
+    public double velocityY;
     protected double gameWidth;
     protected double gameHeight;
 

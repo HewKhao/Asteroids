@@ -21,20 +21,20 @@ public class PlayerShip extends Character {
     private GameStage gameStage;
 
     private final double shootCooldown = 0.5;
-    private double timeSinceLastShot = 0.5;
+    public double timeSinceLastShot = 0.5;
 
     private final double specialShootCooldown = 2.0;
-    private double timeSinceLastSpecialShot = 0;
+    public double timeSinceLastSpecialShot = 0;
 
     private final double shieldDuration = 1.0;
-    private double timeSinceShield = 0;
+    public double timeSinceShield = 0;
 
     private final double warpCooldown = 6.0;
-    private double timeSinceLastWarp = 0;
+    public double timeSinceLastWarp = 0;
 
     private int lives = 3;
 
-    private Boolean isDestroyed = false;
+    public Boolean isDestroyed = false;
 
     private Boolean isWarp;
 
