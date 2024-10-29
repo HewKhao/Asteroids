@@ -39,6 +39,8 @@ public class GameStageController {
 
     public SpecialAttackController getSpecialAttackController() { return specialAttackController; }
 
+    public PlayerShip getPlayerShip() {return playerShip;}
+
     public GameStage getGameStage() {
         return gameStage;
     }
