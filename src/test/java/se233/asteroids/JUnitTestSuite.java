@@ -6,7 +6,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@SelectClasses({PlayerShipTest.class})
+@SelectClasses({PlayerShipTest.class,AsteroidTest.class, NormalEnemiesTest.class, EliteEnemiesTest.class, NormalAttackTest.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
 public class JUnitTestSuite {

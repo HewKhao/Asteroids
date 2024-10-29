@@ -13,10 +13,10 @@ public class EliteEnemies extends Character {
     private static final String ELITE_DEATH = "/se233/asteroids/assets/elite/Death.png";
 
     private final double shootCooldown = 0.5;
-    private double timeSinceLastShot = 0;
+    public double timeSinceLastShot = 0;
 
     private final double iframe = 1.0;
-    private double timeSinceLastHit = 0;
+    public double timeSinceLastHit = 0;
 
     private Random random = new Random();
     private boolean isMarkForRemove = false;
@@ -152,11 +152,13 @@ public class EliteEnemies extends Character {
            currentAnimations.add("hurting");
            health--;
            randomWarp();
-        } else {
-            this.maxSpeed = 0;
-            this.currentAnimations.remove("flying");
-            this.currentAnimations.add("death");
-            this.isDead = true;
+            if (health == 0) {
+                this.maxSpeed = 0;
+                this.currentAnimations.remove("flying");
+                this.currentAnimations.add("death");
+                this.isDead = true;
+                this.isMarkForRemove = true;
+            }
         }
     }
 

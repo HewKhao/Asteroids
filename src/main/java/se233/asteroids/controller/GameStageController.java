@@ -25,7 +25,7 @@ public class GameStageController {
     private EliteAttackController eliteAttackController;
     private int score = 0;
 
-    private boolean showHitbox = true;
+    private boolean showHitbox = false;
     private int eliteRequirement = 3;
 
     public GameStageController(GameStage gameStage) {
