@@ -145,7 +145,7 @@ public class PlayerShipTest {
         playerShip.isDestroyed = false;
         int initialLives = playerShip.getLives();
 
-        playerShip.collided();
+        playerShip.collided(false);
 
         assertEquals(initialLives - 1, playerShip.getLives(), "Lives should decrease after collision.");
         assertTrue(playerShip.isDestroyed(), "PlayerShip should be marked as destroyed after collision.");
