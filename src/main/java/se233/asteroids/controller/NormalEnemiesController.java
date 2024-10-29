@@ -165,7 +165,7 @@ public class NormalEnemiesController {
         }
         for (NormalEnemies enemies : enemiesList) {
             enemies.update();
-            if (random.nextBoolean()) {
+            if (Math.random() < 0.01) {
                 enemies.shoot(gameStageController);
             }
         }
